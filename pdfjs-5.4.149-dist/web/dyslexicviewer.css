@@ -38,7 +38,9 @@
 .textLayer span.dyslexic {
   font-family: 'OpenDyslexic', sans-serif !important;
   color: black !important;
+  letter-spacing: -0.25em !important;
 }
+
 .textLayer span.dyslexicBold {
   font-family: 'OpenDyslexic Bold', sans-serif !important;
   color: black !important;
@@ -46,4 +48,9 @@
 .textLayer span.dyslexicItalic {
   font-family: 'OpenDyslexic Italic', monospace !important;
   color: black !important;
+}
+
+.page .textLayer.dyslexicFix {
+  transform-origin: 0 0;
+  transform: scale(1);
 }
