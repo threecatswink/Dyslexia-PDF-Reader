@@ -1,5 +1,5 @@
 Changes to PDF.js:
 
 - Added OpenDyslexic fonts (.otf) into the standard_fonts folder
-
+- textLayerMode in viewer.mjs switched to 2
 - 

@@ -33,12 +33,11 @@ function reapplyFontAndOpacity() {
 
     if (textLayer) {
       textLayer.querySelectorAll("span").forEach(span => {
-        span.classList.remove("dyslexic", "dyslexicBold", "dyslexicItalic", "dyslexicFix");
+        span.classList.remove("dyslexic", "dyslexicBold", "dyslexicItalic", "dyslexicTransform");
         if (selectedFont) {
           span.classList.add(selectedFont);
-          textLayer.classList.add("dyslexicFix");
+          textLayer.classList.add("dyslexicTransform");
         }
-        // ✨ No font-size overrides here
       });
 
       textLayer.style.display = selectedFont ? "block" : "none";
