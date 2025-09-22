@@ -10,7 +10,5 @@ Features:
   - OpenDyslexic Italic
 
 TO USE:
-- Extract the .zip
-- pdfjs-5.4.149-dist -> web -> viewer.html
-- There you will be able to open a file through the options tab
-- The font change is a dropdown at the top toolbar
+- The website link on the github page
+- Open the PDF by selecting open on the right hand side of the toolbar
