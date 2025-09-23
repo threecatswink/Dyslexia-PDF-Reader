@@ -1,59 +1,31 @@
+/* OpenDyslexic Regular */
 @font-face {
   font-family: 'OpenDyslexic';
-  src: url('standard_fonts/OpenDyslexic-Regular.otf') format('opentype'),
+  src: url('standard_fonts/OpenDyslexic-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
 }
 
+/* OpenDyslexic Bold */
 @font-face {
-  font-family: 'OpenDyslexic Bold';
-  src: url('standard_fonts/OpenDyslexic-Bold.otf') format('opentype');
+  font-family: 'OpenDyslexic';
+  src: url('standard_fonts/OpenDyslexic-Bold.woff2') format('woff2');
+  font-weight: bold;
+  font-style: normal;
 }
 
+/* OpenDyslexic Italic */
 @font-face {
-  font-family: 'OpenDyslexic Italic';
-  src: url('standard_fonts/OpenDyslexic-Italic.otf') format('opentype');
+  font-family: 'OpenDyslexic';
+  src: url('standard_fonts/OpenDyslexic-Italic.woff2') format('woff2');
+  font-weight: normal;
+  font-style: italic;
 }
 
-/* Optional: make all text use chosen font when applied */
-.viewerDyslexic {
-  font-family: 'OpenDyslexic', sans-serif !important;
-}
-.viewerDyslexicBold {
-  font-family: 'OpenDyslexic Bold', sans-serif !important;
-}
-.viewerDyslexicMono {
-  font-family: 'OpenDyslexic Italic', sans-serif !important;
-}
-
-.textLayer {
-  opacity: 1 !important;
-  color: black !important;
-  mix-blend-mode: normal !important;
-  pointer-events: auto;
-}
-
-.textLayer span.defaultFont {
-  font-family: inherit !important;
-}
-
-.textLayer span.dyslexic {
-  font-family: 'OpenDyslexic', sans-serif !important;
-  color: black !important;
-  letter-spacing: -0.25em !important;
-}
-
-.textLayer span.dyslexicBold {
-  font-family: 'OpenDyslexic Bold', sans-serif !important;
-  color: black !important;
-  letter-spacing: -0.3em !important;
-}
-.textLayer span.dyslexicItalic {
-  font-family: 'OpenDyslexic Italic', monospace !important;
-  color: black !important;
-  letter-spacing: -0.22em !important;
-}
-
-.page .textLayer.dyslexicTransform {
-  position: absolute;
-  transform-origin: 50%, 50%;
-  transform: translate(0, 0);
+/* OpenDyslexic Bold Italic */
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('standard_fonts/OpenDyslexic-Bold-Italic.woff2') format('woff2');
+  font-weight: bold;
+  font-style: italic;
 }
