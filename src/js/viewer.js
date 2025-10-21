@@ -1,6 +1,6 @@
-import { getDocument, GlobalWorkerOptions } from '../pdfjs/build/pdf.mjs';
+import { getDocument, GlobalWorkerOptions } from '../../pdfjs/build/pdf.mjs';
 import { renderTextOverlay } from './dyslexia.js';
-GlobalWorkerOptions.workerSrc = '../pdfjs/build/pdf.worker.mjs';
+GlobalWorkerOptions.workerSrc = '../../pdfjs/build/pdf.worker.mjs';
 // PDF.js objects
 let pdfDoc = null;
 let page = null;
