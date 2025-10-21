@@ -1,0 +1,11 @@
+#pdf-overlay {
+  pointer-events: none; /* so clicks go through to canvas if needed */
+  font-family: 'OpenDyslexic', Arial, sans-serif;
+  white-space: pre; /* preserve spaces */
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.dyslexia-mode #pdf-overlay {
+  font-family: 'OpenDyslexic', Arial, sans-serif;
+}

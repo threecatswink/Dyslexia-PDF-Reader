@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dyslexia PDF Reader</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/opendyslexicfont.css">
+</head>
+<body>
+
+  <div id="toolbar">
+    <input type="file" id="file-input">
+    <button id="prev-page">Prev</button>
+    <button id="next-page">Next</button>
+    <span id="page-counter">0 / 0</span>
+    <button id="zoom-in">Zoom +</button>
+    <button id="zoom-out">Zoom -</button>
+    <button id="toggle-dyslexia">Dyslexia Mode</button>
+    <button id="toggle-bg">Toggle Background</button>
+  </div>
+
+  <canvas id="pdf-canvas"></canvas>
+
+  <script type="module" src="js/viewer.js"></script>
+  <script type="module" src="js/dyslexia.js"></script>
+</body>
+</html>
