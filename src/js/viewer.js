@@ -11,7 +11,14 @@ let scale = 1.5;
 // Canvas setup
 const canvas = document.getElementById('pdf-canvas');
 const ctx = canvas.getContext('2d');
-const pageCounter = document.getElementById('page-counter');
+//-----Toolbar-----//
+//File Select//
+const fileButton = document.getElementById("select-file");
+const fileInput = document.getElementById("file-input");
+const filePath = document.getElementById("file-path");
+//Page Numbers//
+const pageTotal = document.getElementById('page-total');
+const currentPage = document.getElementById('page-number');
 // Render a page
 async function renderPage(num) {
     if (!pdfDoc)
@@ -36,22 +43,34 @@ async function renderPage(num) {
     }
     renderTask = null;
     await renderTextOverlay(page, scale);
-    updatePageCounter();
+    updatePageTotal();
 }
 // Update page counter
-function updatePageCounter() {
+function updatePageTotal() {
     if (!pdfDoc)
         return;
-    pageCounter.textContent = `${pageNum} / ${pdfDoc.numPages}`;
+    pageTotal.textContent = `/ ${pdfDoc.numPages}`;
 }
+currentPage.addEventListener("change", () => {
+    let page = parseInt(currentPage.value);
+    if (page < 1)
+        page = 1;
+    if (page > pdfDoc.numPages)
+        page = pdfDoc.numPages;
+    currentPage.value = page.toString();
+});
 // File input
-const fileInput = document.getElementById('file-input');
+fileButton.addEventListener("click", () => {
+    console.log("pressed");
+    fileInput.click();
+});
 fileInput.addEventListener('change', async (e) => {
     const target = e.target;
     if (!target.files || target.files.length === 0)
         return;
     const arrayBuffer = await target.files[0].arrayBuffer();
     pdfDoc = await getDocument({ data: arrayBuffer }).promise;
+    filePath.textContent = pdfDoc.name;
     pageNum = 1;
     renderPage(pageNum);
 });

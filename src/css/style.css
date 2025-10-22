@@ -9,3 +9,181 @@
 .dyslexia-mode #pdf-overlay {
   font-family: 'OpenDyslexic', Arial, sans-serif;
 }
+
+#pdf-canvas {
+  position: absolute;
+}
+
+
+
+/* ----- Toolbar ----- */
+
+
+
+#toolbar {
+  font-family: 'OpenDyslexic';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  background-color: rgb(50, 50, 50);
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 0 0px;
+  gap: 2px;
+  z-index: 1000;
+}
+
+/* --- Left of the Toolbar --- */
+
+.toolbar-left {
+  position: absolute;
+  padding-left: 15px;
+  left: 0%;
+  display: flex;
+  vertical-align: middle;
+  font-family: 'OpenDyslexic';
+  font-size: medium;
+}
+
+.toolbar-left button {
+  width: 30px;
+  height: 40px;
+  min-width: 25px;
+  min-height: 20px;
+
+  background-image: url("../icons/folder-open.svg");
+  background-size: 20px 20px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color:rgba(0, 0, 0, 0);
+
+  filter: invert(55%);
+  border: none;
+  cursor: pointer;
+  transition: filter 0.1s ease-in-out;
+}
+
+#file-path {
+  color: white;
+  font-size: 14px;
+  margin-left: 8px;
+  
+  display: flex;
+  align-items: center;
+  
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.toolbar-left button:hover {
+  filter: invert(45%);
+  transition: filter 0.1s ease-in-out;
+}
+
+.toolbar-left button:active {
+  filter: invert(30%);
+  transition: filter 0.05s ease-in-out;
+}
+
+/* --- Center of the Toolbar --- */
+
+.toolbar-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  vertical-align: middle;
+}
+
+.toolbar-center button {
+  width: 30px;
+  height: 40px;
+  min-width: 25px;
+  min-height: 20px;
+
+  background-size: 20px 20px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color:rgba(0, 0, 0, 0);
+
+  filter: invert(55%);
+  border: none;
+  cursor: pointer;
+  transition: filter 0.1s ease-in-out;
+}
+
+.toolbar-center button:hover {
+  filter: invert(45%);
+  transition: filter 0.1s ease-in-out;
+}
+
+.toolbar-center button:active {
+  filter: invert(30%);
+  transition: filter 0.05s ease-in-out;
+}
+
+/* Previous Page Button */
+
+#prev-page {
+  background-image: url('../icons/angle-left.svg');
+}
+
+/* Page Counter */
+
+.page-counter {
+  width: auto;
+  height: 35px;
+  padding: 5px;
+  align-items: center;
+}
+
+.page-counter input {
+  width: 40px;
+  height: 28px;
+  text-align: center;
+  border: none;
+  border-radius: 4px;
+  outline: none;
+  font-family: 'OpenDyslexic';
+  font-size: 16px;
+  background-color: #444;
+  color: white;
+}
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.page-counter input:hover {
+  background-color: #525252;
+  transition: background-color 0.1s ease-in-out;
+}
+
+.page-counter input:focus {
+  background-color: #474747;
+  transition: background-color 0.1s ease-in-out;
+}
+
+/* Next Page Button */
+
+#next-page {
+  background-image: url('../icons/angle-right.svg');
+}
+
+/* --- Right of Toolbar --- */
+
+.toolbar-right {
+  position: absolute;
+  left: 100%;
+  transform: translateX(-100%);
+  padding-right: 15px;
+  display: flex;
+  vertical-align: middle;
+}
