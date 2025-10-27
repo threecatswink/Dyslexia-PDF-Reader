@@ -1,17 +1,60 @@
 #pdf-overlay {
-  pointer-events: none; /* so clicks go through to canvas if needed */
+  pointer-events: none;
   font-family: 'OpenDyslexic', Arial, sans-serif;
-  white-space: pre; /* preserve spaces */
+  white-space: pre;
   position: absolute;
   top: 0;
   left: 0;
+  z-index: 20;
 }
+
 .dyslexia-mode #pdf-overlay {
   font-family: 'OpenDyslexic', Arial, sans-serif;
 }
 
-#pdf-canvas {
+body {
+  background-color:#272727;
+  overflow: hidden;
+}
+
+.body-canvas {
   position: absolute;
+  top: 50px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #555 #333;
+  z-index: 10;
+}
+
+.body-canvas::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.body-canvas::-webkit-scrollbar-thumb {
+  background-color: rgba(100, 100, 100, 0.5);
+  border-radius: 4px;
+}
+
+.body-canvas::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(130, 130, 130, 0.8);
+}
+
+#pdf-canvas {
+  position: relative;
+  min-width: 0px;
+  min-height: 0px;
+  display: flex;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.4);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  overflow: auto;
 }
 
 
@@ -20,7 +63,7 @@
 
 
 
-#toolbar {
+.toolbar {
   font-family: 'OpenDyslexic';
   position: fixed;
   top: 0;
@@ -28,131 +71,133 @@
   width: 100%;
   height: 50px;
   background-color: rgb(50, 50, 50);
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
   color: white;
   display: flex;
+  justify-content: space-between;
   align-items: center;
   padding: 0 0px;
+  overflow: hidden;
   gap: 2px;
   z-index: 1000;
 }
 
-/* --- Left of the Toolbar --- */
+/* -- Toolbar Button -- */
 
-.toolbar-left {
-  position: absolute;
-  padding-left: 15px;
-  left: 0%;
-  display: flex;
-  vertical-align: middle;
-  font-family: 'OpenDyslexic';
-  font-size: medium;
-}
-
-.toolbar-left button {
-  width: 30px;
+.toolbar button {
+  width: 40px;
   height: 40px;
-  min-width: 25px;
-  min-height: 20px;
-
-  background-image: url("../icons/folder-open.svg");
-  background-size: 20px 20px;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-color:rgba(0, 0, 0, 0);
-
-  filter: invert(55%);
+  background: none;
   border: none;
   cursor: pointer;
-  transition: filter 0.1s ease-in-out;
-}
-
-#file-path {
-  color: white;
-  font-size: 14px;
-  margin-left: 8px;
-  
   display: flex;
+  justify-content: center;
   align-items: center;
-  
-  max-width: 200px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.toolbar-left button:hover {
-  filter: invert(45%);
+  filter: invert(55%);
   transition: filter 0.1s ease-in-out;
 }
 
-.toolbar-left button:active {
+.toolbar button img {
+  width: 20px;
+  height: 20px;
+}
+
+.toolbar button:hover {
+  filter: invert(45%);
+}
+
+.toolbar button:active {
   filter: invert(30%);
   transition: filter 0.05s ease-in-out;
 }
 
-/* --- Center of the Toolbar --- */
+/* -- Toolbar Input -- */
+
+.toolbar input {
+  width: 40px;
+  height: 28px;
+  text-align: center;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+  font-family: 'OpenDyslexic';
+  font-size: 16px;
+  justify-content: center;
+  background-color: #444;
+  color: white;
+}
+
+.toolbar input:hover {
+  background-color: #525252;
+  transition: background-color 0.1s ease-in-out;
+}
+
+.toolbar input:focus {
+  background-color: #474747;
+  transition: background-color 0.1s ease-in-out;
+}
+
+/* -- Toolbar Select -- */
+
+.toolbar select {
+  height: 28px;
+  min-width: 60px;
+  padding: 0 5px;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+  font-family: 'OpenDyslexic';
+  font-size: 16px;
+  background-color: #444;
+  color: white;
+  text-align: center;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+}
+
+/* --- Toolbar Separation --- */
+
+.toolbar-left,
+.toolbar-right {
+  display: flex;
+  align-items: center;
+  padding-left: 15px;
+  padding-right: 15px;
+  overflow: visible;
+}
 
 .toolbar-center {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  vertical-align: middle;
-}
-
-.toolbar-center button {
-  width: 30px;
-  height: 40px;
-  min-width: 25px;
-  min-height: 20px;
-
-  background-size: 20px 20px;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-color:rgba(0, 0, 0, 0);
-
-  filter: invert(55%);
-  border: none;
-  cursor: pointer;
-  transition: filter 0.1s ease-in-out;
-}
-
-.toolbar-center button:hover {
-  filter: invert(45%);
-  transition: filter 0.1s ease-in-out;
-}
-
-.toolbar-center button:active {
-  filter: invert(30%);
-  transition: filter 0.05s ease-in-out;
-}
-
-/* Previous Page Button */
-
-#prev-page {
-  background-image: url('../icons/angle-left.svg');
-}
-
-/* Page Counter */
-
-.page-counter {
-  width: auto;
-  height: 35px;
-  padding: 5px;
   align-items: center;
 }
 
-.page-counter input {
-  width: 40px;
-  height: 28px;
-  text-align: center;
-  border: none;
-  border-radius: 4px;
-  outline: none;
-  font-family: 'OpenDyslexic';
-  font-size: 16px;
-  background-color: #444;
+#file-path {
   color: white;
+  font-size: 12px;
+  margin-left: 10px;
+  
+  display: flex;
+  align-items: center;
+  
+  max-width: 750px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+}
+
+.page-counter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  height: 35px;
+  padding: 5px;
 }
 
 input[type=number]::-webkit-outer-spin-button,
@@ -161,29 +206,36 @@ input[type=number]::-webkit-inner-spin-button {
   margin: 0;
 }
 
-.page-counter input:hover {
-  background-color: #525252;
-  transition: background-color 0.1s ease-in-out;
+.settings-container {
+  position: relative;
+  display: inline-block;
 }
 
-.page-counter input:focus {
-  background-color: #474747;
-  transition: background-color 0.1s ease-in-out;
-}
-
-/* Next Page Button */
-
-#next-page {
-  background-image: url('../icons/angle-right.svg');
-}
-
-/* --- Right of Toolbar --- */
-
-.toolbar-right {
+.settings-dropdown {
   position: absolute;
-  left: 100%;
-  transform: translateX(-100%);
-  padding-right: 15px;
+  background-color: #444;
+  border: 1px solid #555;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  padding: 10px;
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+  width: 180px;
+  z-index: 2000;
+}
+
+.settings-dropdown label {
   display: flex;
-  vertical-align: middle;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'OpenDyslexic';
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.settings-dropdown input[type="checkbox"] {
+  accent-color: #888;
+  transform: scale(1.1);
 }
