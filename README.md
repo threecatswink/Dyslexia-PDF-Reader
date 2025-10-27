@@ -27,4 +27,4 @@ These include the following (combination of alt, shift, and option may depend on
 | Alt + = | Presses the _zoom in_ button |
 | Alt + s | Presses the _viewer settings_ button |
 | Alt + Shift + d | Toggles _dyslexia font_ mode |
-| Alt + b | Toggles _canvas_ mode |
+| Alt + b | Toggles _half bold_ mode (coming soon) |
