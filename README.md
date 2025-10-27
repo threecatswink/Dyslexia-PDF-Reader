@@ -2,7 +2,7 @@
 A free, web-based PDF reader that makes reading PDFs less straining for people with reading disabilities.
 
 ## Get Started
-1. Open the [website](https://threecatswink.github.io/Dyslexia-PDF-Reader/web/viewer.html)
+1. Open the [website](https://threecatswink.github.io/Dyslexia-PDF-Reader/index.html)
 2. Press the _file select_ button
 3. Select the PDF you wish to view
 4. Select your preferred readability settings
