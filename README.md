@@ -1,9 +1,6 @@
 # Dyslexia-PDF-Reader
 A free, web-based PDF reader that makes reading PDFs less straining for people with reading disabilities.
 
-> [!WARNING]
-> This is not the version on github pages. The branch currently deployed is `Button-Activated`.
-
 ## Get Started
 1. Open the [website](https://threecatswink.github.io/Dyslexia-PDF-Reader/web/viewer.html)
 2. Press the _file select_ button
