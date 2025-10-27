@@ -1,14 +1,18 @@
 # Dyslexia-PDF-Reader
-PDF Reader for Dyslexia
+A free, web-based PDF reader that makes reading PDFs less straining for people with reading disabilities.
 
 ## NOT YET DEPLOYED
-This is not the version on github pages.
-## WORK IN PROGRESS
-The branch currently deployed is Button-Activated.
+This is not the version on github pages.  
+The branch currently deployed is `Button-Activated`.
 
+## Get Started
+1. Open the website at the link
+2. Open the file you want to read
+3. Select your preferred readability settings
+4. Enjoy
 
 ## Documentation
-Documentation on how to use will be provided below and expanded upon when the features are implimented
+How-to-use documentation will be provided below and expanded upon when features are implimented.
 ### Hotkeys
 The toolbar uses a variety of `accesskeys` that allow for quick use of the viewer by the user.
 These include the following (combination of alt, shift, and option may depend on device or browser)
