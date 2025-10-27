@@ -152,12 +152,6 @@ document.addEventListener("click", () => {
 dropdown.addEventListener("click", (event) => {
     event.stopPropagation();
 });
-// Background Toggle
-let bgToggled = false;
-document.getElementById('toggle-bg').addEventListener('click', () => {
-    bgToggled = !bgToggled;
-    canvas.style.display = bgToggled ? 'none' : 'block';
-});
 function updatePageTotal() {
     if (!pdfDoc)
         return;
