@@ -152,6 +152,16 @@ document.addEventListener("click", () => {
 dropdown.addEventListener("click", (event) => {
     event.stopPropagation();
 });
+// Dyslexia Mode
+const toggleCheckbox = document.getElementById('toggle-dyslexia');
+toggleCheckbox.addEventListener('change', () => {
+    renderPage(pageNum);
+});
+// Half Bold
+const toggleHalfBold = document.getElementById("toggle-half-bold");
+toggleHalfBold.addEventListener("click", () => {
+    renderPage(pageNum);
+});
 function updatePageTotal() {
     if (!pdfDoc)
         return;

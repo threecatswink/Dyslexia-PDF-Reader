@@ -1,4 +1,5 @@
 let dyslexiaEnabled = false;
+let halfBoldEnabled = false;
 
 // Elements
 const overlay = document.createElement('div');
@@ -14,10 +15,17 @@ document.querySelector('.body-canvas')!.appendChild(overlay);
 const canvas = document.getElementById('pdf-canvas') as HTMLCanvasElement;
 const bodyCanvas = document.querySelector('.body-canvas') as HTMLElement;
 
+// Dyslexia Mode
 const toggleCheckbox = document.getElementById('toggle-dyslexia') as HTMLInputElement;
 toggleCheckbox.addEventListener('change', () => {
   dyslexiaEnabled = toggleCheckbox.checked;
   applyDyslexiaMode(dyslexiaEnabled);
+});
+
+// Half Bold
+const toggleHalfBold = document.getElementById("toggle-half-bold") as HTMLInputElement;
+toggleHalfBold.addEventListener("click", () => {
+  halfBoldEnabled = toggleHalfBold.checked;
 });
 
 function applyDyslexiaMode(enabled: boolean) {
@@ -62,8 +70,6 @@ export async function renderTextOverlay(page: any, scale: number) {
 
   for (const item of textContent.items) {
     const span = document.createElement('span');
-    span.textContent = item.str;
-
     const tx = item.transform[4];
     const ty = item.transform[5];
     const fontSize = Math.abs(item.transform[3]) * scale / 1.8;
@@ -74,11 +80,23 @@ export async function renderTextOverlay(page: any, scale: number) {
     span.style.left = `${x}px`;
     span.style.top = `${y - fontSize}px`;
     span.style.fontSize = `${fontSize}px`;
-    span.style.fontFamily = "'OpenDyslexic', Arial, sans-serif";
+    span.style.fontFamily = "OpenDyslexic";
     span.style.lineHeight = '1.5';
     span.style.color = '#000';
     span.style.whiteSpace = 'pre';
-
+    
+    
+    if (halfBoldEnabled) {
+      const words = item.str.split(" ").map((word: string) => {
+          const half = Math.floor(word.length / 2);
+          const firstHalf = word.slice(0, half);
+          const secondHalf = word.slice(half);
+          return `<span style="font-weight: bold">${firstHalf}</span>${secondHalf}`;
+      });
+      span.innerHTML = words.join(" ");
+    } else {
+      span.textContent = item.str;
+    }
     overlay.appendChild(span);
   }
 }
