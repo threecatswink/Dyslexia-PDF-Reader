@@ -162,6 +162,11 @@ const toggleHalfBold = document.getElementById("toggle-half-bold");
 toggleHalfBold.addEventListener("click", () => {
     renderPage(pageNum);
 });
+// Accent Letter
+const toggleAccent = document.getElementById("toggle-letter-accent");
+toggleAccent.addEventListener("click", () => {
+    renderPage(pageNum);
+});
 function updatePageTotal() {
     if (!pdfDoc)
         return;

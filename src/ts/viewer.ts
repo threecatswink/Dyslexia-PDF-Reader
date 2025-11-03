@@ -199,6 +199,12 @@ toggleHalfBold.addEventListener("click", () => {
   renderPage(pageNum);
 });
 
+// Accent Letter
+const toggleAccent = document.getElementById("toggle-letter-accent") as HTMLInputElement;
+toggleAccent.addEventListener("click", () => {
+  renderPage(pageNum);
+});
+
 function updatePageTotal() {
   if (!pdfDoc) return;
   pageTotal.textContent = `/ ${pdfDoc.numPages}`;

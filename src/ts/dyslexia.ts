@@ -1,5 +1,6 @@
 let dyslexiaEnabled = false;
 let halfBoldEnabled = false;
+let accentLetterEnabled = false;
 
 // Elements
 const overlay = document.createElement('div');
@@ -26,6 +27,11 @@ toggleCheckbox.addEventListener('change', () => {
 const toggleHalfBold = document.getElementById("toggle-half-bold") as HTMLInputElement;
 toggleHalfBold.addEventListener("click", () => {
   halfBoldEnabled = toggleHalfBold.checked;
+});
+
+const toggleAccent = document.getElementById("toggle-letter-accent") as HTMLInputElement;
+toggleAccent.addEventListener("click", () => {
+  accentLetterEnabled = toggleAccent.checked;
 });
 
 function applyDyslexiaMode(enabled: boolean) {
@@ -65,14 +71,11 @@ export async function renderTextOverlay(page: any, scale: number) {
   overlay.style.top = `${canvasRect.top + window.scrollY}px`;
   overlay.style.left = `${canvasRect.left + window.scrollX}px`;
 
-  // Track spans per line to detect overlaps
-  const lineMap: Record<number, HTMLElement[]> = {};
-
   for (const item of textContent.items) {
     const span = document.createElement('span');
     const tx = item.transform[4];
     const ty = item.transform[5];
-    const fontSize = Math.abs(item.transform[3]) * scale / 1.8;
+    const fontSize = Math.abs(item.transform[3]) * scale / 1.9;
     const x = tx * scale;
     const y = viewport.height - ty * scale;
 
@@ -84,19 +87,73 @@ export async function renderTextOverlay(page: any, scale: number) {
     span.style.lineHeight = '1.5';
     span.style.color = '#000';
     span.style.whiteSpace = 'pre';
-    
-    
-    if (halfBoldEnabled) {
-      const words = item.str.split(" ").map((word: string) => {
-          const half = Math.floor(word.length / 2);
-          const firstHalf = word.slice(0, half);
-          const secondHalf = word.slice(half);
-          return `<span style="font-weight: bold">${firstHalf}</span>${secondHalf}`;
-      });
-      span.innerHTML = words.join(" ");
-    } else {
-      span.textContent = item.str;
+
+    const a = item.transform[0];
+    const b = item.transform[1];
+    const c = item.transform[2];
+    const d = item.transform[3];
+
+    const isVertical = Math.abs(b) > 0.01 || Math.abs(c) > 0.01;
+    if (isVertical) {
+      span.innerText = item.str;
+      overlay.appendChild(span);
+      continue;
     }
+
+    const accentSize = 4;
+    const tokens = item.str.split(/(\s+)/);
+    const words = tokens.map((token: string) => {
+      if (/^\s+$/.test(token) || token.length === 0) return token;
+      const isLetter = /\p{L}/u.test(token[0]);
+
+      const len = token.length;
+      const half = Math.floor(len / 2);
+
+      // Neither
+      if (!halfBoldEnabled && !accentLetterEnabled) return token;
+
+      // Accent
+      if (!halfBoldEnabled && accentLetterEnabled) {
+        if (len === 1 || !isLetter) {
+          return `<span style="font-size:${fontSize + accentSize}px">${escapeHtml(token)}</span>`;
+        }
+        return `<span style="font-size:${fontSize + accentSize}px">${escapeHtml(token[0])}</span>${escapeHtml(token.slice(1))}`;
+      }
+
+      // Half-bold
+      if (halfBoldEnabled && !accentLetterEnabled) {
+        if (len <= 2 || !isLetter) {
+          return `<span style="font-weight:bold">${escapeHtml(token)}</span>`;
+        }
+        return `<span style="font-weight:bold">${escapeHtml(token.slice(0, half))}</span>${escapeHtml(token.slice(half))}`;
+      }
+
+      // Both
+      if (len === 1 || !isLetter) {
+        return `<span style="font-size:${fontSize + accentSize}px; font-weight:bold">${escapeHtml(token)}</span>`;
+      }
+
+      if (len === 2) {
+        return `<span style="font-size:${fontSize + accentSize}px; font-weight:bold">${escapeHtml(token[0])}</span>` +
+         `${escapeHtml(token[1])}`;
+      }
+
+      const accented = `<span style="font-size:${fontSize + accentSize}px">${escapeHtml(token[0])}</span>`;
+      const boldPart = `<span style="font-weight:bold">${escapeHtml(token.slice(1, half))}</span>`;
+      const rest = escapeHtml(token.slice(half));
+      return accented + boldPart + rest;
+    });
+
+    span.innerHTML = words.join('');
     overlay.appendChild(span);
   }
+}
+
+function escapeHtml(str: string) {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
