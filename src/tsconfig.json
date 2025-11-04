@@ -13,7 +13,8 @@
     "resolveJsonModule": true           // Allow importing JSON files if needed
   },
   "include": [
-    "ts/**/*.ts"                    // Include all TypeScript files in /src/ts
+    "ts/**/*.ts",                   // Include all TypeScript files in /src/ts
+    "ts/**/*.d.ts"
   ],
   "exclude": [
     "node_modules"

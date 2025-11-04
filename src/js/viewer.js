@@ -1,13 +1,17 @@
 import { getDocument, GlobalWorkerOptions } from '../../pdfjs/build/pdf.mjs';
-import { renderTextOverlay } from './dyslexia.js';
+import { renderTextOverlay, isDyslexiaEnabled } from './dyslexia.js';
 GlobalWorkerOptions.workerSrc = '../../pdfjs/build/pdf.worker.mjs';
 // PDF.js objects
 let pdfDoc = null;
 let page = null;
 let viewport = null;
 let renderTask = null;
-let pageNum = 1;
-let scale = 1.5;
+let pageNum = 0;
+let scale = 1.0;
+// Zoom limits and step
+const MIN_SCALE = 0.25;
+const MAX_SCALE = 6.0;
+const ZOOM_STEP = 0.25;
 // Canvas Setup
 const canvas = document.getElementById('pdf-canvas');
 canvas.style.display = "none";
@@ -19,7 +23,12 @@ const currentPage = document.getElementById('page-number');
 async function renderPage(num) {
     if (!pdfDoc)
         return;
-    canvas.style.display = "block";
+    if (!isDyslexiaEnabled()) {
+        canvas.style.display = "inline-block";
+    }
+    else {
+        canvas.style.display = "none";
+    }
     page = await pdfDoc.getPage(num);
     viewport = page.getViewport({ scale });
     canvas.width = viewport.width;
@@ -60,6 +69,7 @@ fileInput.addEventListener('change', async (e) => {
     const arrayBuffer = await file.arrayBuffer();
     pdfDoc = await getDocument({ data: arrayBuffer }).promise;
     pageNum = 1;
+    updateZoomDisplay(scale);
     renderPage(pageNum);
     updatePageInput();
 });
@@ -92,33 +102,39 @@ document.getElementById('next-page').addEventListener('click', () => {
 // Page Number Selector
 currentPage.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
-        let desiredPage = parseInt(currentPage.value, pdfDoc.numPages);
-        if (isNaN(desiredPage)) {
+        const desiredPage = parseInt(currentPage.value, 10);
+        if (isNaN(desiredPage) || !pdfDoc) {
             updatePageInput();
             return;
         }
-        // Clamp to valid range
-        desiredPage = Math.max(1, Math.min(desiredPage, parseInt(currentPage.value)));
-        pageNum = desiredPage;
+        const clamped = Math.max(1, Math.min(desiredPage, pdfDoc.numPages));
+        pageNum = clamped;
         renderPage(pageNum);
     }
 });
 // Left Toolbar
 // Zoom In Button
 document.getElementById('zoom-in').addEventListener('click', () => {
-    scale += 0.25;
+    scale = Math.min(MAX_SCALE, scale + ZOOM_STEP);
+    updateZoomDisplay(scale);
     if (pdfDoc)
         renderPage(pageNum);
 });
 // Change Zoom Selector
 const zoomSelect = document.getElementById("zoom-select");
 zoomSelect.addEventListener("change", () => {
-    const scale = parseFloat(zoomSelect.value);
-    pdfDoc.currentScale = scale;
+    const parsed = parseFloat(zoomSelect.value);
+    if (isNaN(parsed))
+        return;
+    scale = Math.max(MIN_SCALE, Math.min(parsed, MAX_SCALE));
+    updateZoomDisplay(scale);
+    if (pdfDoc)
+        renderPage(pageNum);
 });
 // Zoom Out Button
 document.getElementById('zoom-out').addEventListener('click', () => {
-    scale = Math.max(0.25, scale - 0.25);
+    scale = Math.max(MIN_SCALE, scale - ZOOM_STEP);
+    updateZoomDisplay(scale);
     if (pdfDoc)
         renderPage(pageNum);
 });
@@ -176,6 +192,24 @@ function updatePageInput() {
     currentPage.value = pageNum.toString();
 }
 function updateZoomDisplay(scale) {
-    zoomSelect.value = scale.toString();
+    const val = scale.toString();
+    zoomSelect.value = val;
+    if (zoomSelect.value !== val) {
+        let dyn = zoomSelect.querySelector('option[data-dynamic]');
+        const label = `${Math.round(scale * 100)}%`;
+        if (!dyn) {
+            dyn = document.createElement('option');
+            dyn.setAttribute('data-dynamic', 'true');
+            zoomSelect.appendChild(dyn);
+        }
+        dyn.value = val;
+        dyn.text = label;
+        dyn.selected = true;
+    }
+    else {
+        const prev = zoomSelect.querySelector('option[data-dynamic]');
+        if (prev)
+            prev.remove();
+    }
 }
 //# sourceMappingURL=viewer.js.map

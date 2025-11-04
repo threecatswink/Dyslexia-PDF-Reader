@@ -23,9 +23,8 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  display: block;
+  text-align: center;
   overflow: auto;
   scrollbar-width: thin;
   scrollbar-color: #555 #333;
@@ -48,13 +47,12 @@ body {
 
 #pdf-canvas {
   position: relative;
-  min-width: 0px;
-  min-height: 0px;
-  display: flex;
+  display: inline-block;
+  vertical-align: top;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.4);
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  overflow: auto;
+  max-width: none;
+  width: auto;
+  height: auto;
 }
 
 
@@ -180,11 +178,10 @@ body {
   color: white;
   font-size: 12px;
   margin-left: 10px;
-  
+
   display: flex;
   align-items: center;
-  
-  max-width: 750px;
+  max-width: calc(50vw - 175px);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

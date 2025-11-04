@@ -7,9 +7,12 @@ overlay.id = 'pdf-overlay';
 overlay.style.position = 'absolute';
 overlay.style.top = '0';
 overlay.style.left = '0';
-overlay.style.justifyContent = 'Center';
+overlay.style.justifyContent = 'center';
 overlay.style.pointerEvents = 'none';
 overlay.style.whiteSpace = 'pre';
+overlay.style.backgroundColor = 'white';
+overlay.style.zIndex = '10000';
+overlay.style.display = 'none';
 document.querySelector('.body-canvas').appendChild(overlay);
 const canvas = document.getElementById('pdf-canvas');
 const bodyCanvas = document.querySelector('.body-canvas');
@@ -34,13 +37,14 @@ function applyDyslexiaMode(enabled) {
         document.body.style.backgroundColor = 'white';
         bodyCanvas.style.backgroundColor = 'white';
         canvas.style.display = 'none';
-        overlay.style.display = 'block';
+        overlay.style.display = 'inline-block';
+        overlay.style.position = 'relative';
     }
     else {
         document.body.classList.remove('dyslexia-mode');
         document.body.style.backgroundColor = '#272727';
         bodyCanvas.style.backgroundColor = '#272727';
-        canvas.style.display = 'block';
+        canvas.style.display = 'inline-block';
         overlay.style.display = 'none';
     }
 }
@@ -57,7 +61,6 @@ export async function renderTextOverlay(page, scale) {
     // Match overlay to canvas
     overlay.style.width = `${viewport.width}px`;
     overlay.style.height = `${viewport.height}px`;
-    overlay.style.position = 'relative';
     const canvasRect = canvas.getBoundingClientRect();
     overlay.style.top = `${canvasRect.top + window.scrollY}px`;
     overlay.style.left = `${canvasRect.left + window.scrollX}px`;
@@ -135,5 +138,8 @@ function escapeHtml(str) {
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#39;');
+}
+export function isDyslexiaEnabled() {
+    return dyslexiaEnabled;
 }
 //# sourceMappingURL=dyslexia.js.map
