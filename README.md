@@ -1,31 +1,73 @@
-# Dyslexia-PDF-Reader
-A free, web-based PDF reader that makes reading PDFs less straining for people with reading disabilities.
+# React + TypeScript + Vite
 
-## Get Started
-1. Open the [website](https://threecatswink.github.io/Dyslexia-PDF-Reader/index.html)
-2. Press the _file select_ button
-3. Select the PDF you wish to view
-4. Select your preferred readability settings
-5. Enjoy
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## Documentation
-> [!NOTE]
-> How-to-use documentation will be provided below and expanded upon when the features are implimented.
+Currently, two official plugins are available:
 
-### Hotkeys
-The toolbar uses a variety of `accesskeys` that allow for quick use of the viewer by the user.
-These include the following (combination of alt, shift, and option may depend on device or browser)
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-#### For Chrome Browser in Windows
-| Keybind | Description |
-| :------ | :---------- |
-| Alt + Shift + f | Presses the _file select_ button |
-| Alt + [ | Presses the _previous page_ button |
-| Alt + p | Lets you enter a _page number_ to travel to in your document |
-| Alt + ] | Presses the _next page_ button |
-| Alt + - | Presses the _zoom out_ button |
-| Alt + = | Presses the _zoom in_ button |
-| Alt + s | Presses the _viewer settings_ button |
-| Alt + Shift + d | Toggles _dyslexia font_ mode |
-| Alt + b | Toggles _half bold_ mode |
-| Alt + a | Toggles _letter accent_ mode |
+## React Compiler
+
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+
+## Expanding the ESLint configuration
+
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
+
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
+
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
+
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```

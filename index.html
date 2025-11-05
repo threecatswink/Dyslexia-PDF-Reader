@@ -1,66 +1,13 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Dyslexia PDF Reader</title>
-  <link rel="stylesheet" href="src/css/style.css">
-  <link rel="stylesheet" href="src/css/opendyslexicfont.css">
-</head>
-<body>
-  <!-- Toolbar -->
-  <div class="toolbar">
-    <!-- Left -->
-    <div class="toolbar-left">
-      <button id="select-file" title="Select file | Alt + Shift + f" accesskey="F"><img src="src/icons/folder-open.svg" alt="Select a file" width="20px" height="20px"></button>
-      <span id="file-path">No file selected</span>
-      <input type="file" id="file-input" style="display: none;">
-    </div>
-    <!-- Center -->
-    <div class="toolbar-center">
-      <button id="prev-page" title="Previous Page | Alt + [" accesskey="["><img src="src/icons/page-left.svg" alt="Previous page" width="20px" height="20px"></button>
-      <div class="page-counter">
-        <input type="number" id="page-number" title="Enter page number | Alt + p" value="0" min="0" accesskey="p">
-        <span id="page-total">/ 0</span>
-      </div>
-      <button id="next-page" title="Next Page | Alt + ]" accesskey="]"><img src="src/icons/page-right.svg" alt="Next page" width="20px" height="20px"></button>
-    </div>
-    <!-- Right -->
-    <div class="toolbar-right">
-      <button id="zoom-out" title="Zoom Out | Alt + -" accesskey="-"><img src="src/icons/zoom-out.svg" alt="Zoom out" width="20px" height="20px"></button>
-      <select id="zoom-select" title="Zoom Amount">
-        <option value="0.25">25%</option>
-        <option value="0.5">50%</option>
-        <option value="0.75">75%</option>
-        <option value="1" selected>100%</option>
-        <option value="1.25">125%</option>
-        <option value="1.5">150%</option>
-        <option value="2">200%</option>
-        <option value="2.5">250%</option>
-        <option value="3">300%</option>
-        <option value="3.5">350%</option>
-        <option value="4">400%</option>
-        <option value="5">500%</option>
-        <option value="6">600%</option>
-      </select>
-      <button id="zoom-in" title="Zoom In | Alt + =" accesskey="="><img src="src/icons/zoom-in.svg" alt="Zoom in" width="20px" height="20px"></button>
-      <button id="settings" title="Viewer Settings | Alt + s" accesskey="s"><img src="src/icons/settings-sliders.svg" alt="Viewer Settings" width="20px" height="20px"></button>
-    </div>
-  </div>
-  <div class="settings-container">
-    <div class="settings-dropdown">
-      <label title="Toggle Dyslexia Font | Alt + Shift + d"><input type="checkbox" id="toggle-dyslexia" accesskey="D">Dyslexia Font</label>
-      <label title="Toggle Half Bold | Alt + b"><input type="checkbox" id="toggle-half-bold" accesskey="b">Half Bold</label>
-      <label title="Toggle First Letter Accent | Alt a"><input type="checkbox" id="toggle-letter-accent" accesskey="a">Accent Letters</label>
-      <!--label title="Toggle Ruler | Alt + r"><input type="checkbox" id="toggle-ruler" accesskey="r">Ruler Mode</label--> <!--Coming soon...-->
-    </div>
-  </div>
-
-  <!-- PDF Canvas -->
-  <div class="body-canvas">
-    <canvas id="pdf-canvas"></canvas>
-  </div>
-
-  <script type="module" src="src/js/viewer.js"></script>
-  <script type="module" src="src/js/dyslexia.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <!--link rel="icon" type="image/svg+xml" href=""/-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dyslexia PDF Reader</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>
