@@ -13,8 +13,8 @@ const PDFViewer = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [scale, setScale] = useState(1);
 
-  const [canPreviousPage, setCanPreviousPage] = useState(true)
-  const [canNextPage, setCanNextPage] = useState(true)
+  const [canPreviousPage, setCanPreviousPage] = useState(false)
+  const [canNextPage, setCanNextPage] = useState(false)
 
   const [canZoomIn, setCanZoomIn] = useState(true);
   const [canZoomOut, setCanZoomOut] = useState(true);

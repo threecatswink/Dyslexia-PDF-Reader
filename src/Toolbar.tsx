@@ -20,7 +20,7 @@ interface ToolbarProps {
     onReadAloud?: () => void;
 }
 
-// Toolbar  presets
+// Toolbar presets
 const toolbarBtnEnabled = `
     px-3 py-3 rounded flex items-center max-w-full min-w-10 justify-center select-none
     transition duration-150 ease-in-out
@@ -32,18 +32,23 @@ const toolbarBtnDisabled = `
     invert-30 transition duration-150 ease-in-out
 `;
 
-// Toolbar settings menu presets
-const toolbarSettingsCheckBox = `
-    flex items-center gap-2 px-2 py-1 hover:bg-zinc-600 rounded cursor-pointer select-none
-    transition duration-150 ease-in-out
-`;
-
 const toolbarImg = `
     w-5 h-5 
     transition
     duration-150
     ease-in-out
 `;
+
+const toolbarSpan = `
+    text-zinc-200 select-text
+`;
+
+const toolbarSettingsCheckBox = `
+    flex items-center gap-2 px-2 py-1 hover:bg-zinc-600 rounded cursor-pointer select-none
+    transition duration-150 ease-in-out
+`;
+
+
 
 const Toolbar: FC<ToolbarProps> = ({
     onFileSelected,
@@ -101,6 +106,7 @@ const Toolbar: FC<ToolbarProps> = ({
                     flex 
                     flex-1 
                     justify-start
+                    items-center
                 "
             >
                 {/* Open File */}
@@ -125,6 +131,8 @@ const Toolbar: FC<ToolbarProps> = ({
                     className="hidden"
                     onChange={handleFileChange}
                 />
+                {/* File name display */}
+                <span className={toolbarSpan}></span>
             </div>
 
             {/* Center of Toolbar */}
@@ -179,7 +187,7 @@ const Toolbar: FC<ToolbarProps> = ({
                         [&::-moz-appearance]:textfield
                     "
                 />
-                <span className="text-zinc-200 select-none">/ {totalPages ?? 0}</span>
+                <span className={toolbarSpan}>/ {totalPages ?? 0}</span>
 
                 {/* Next Page */}
                 <button
@@ -224,7 +232,7 @@ const Toolbar: FC<ToolbarProps> = ({
                 {/* Zoom Selector */}
                 <select
                     title="Zoom Amount"
-                    defaultValue="1"
+                    defaultValue="0"
                     onChange={(e) => onZoomChange?.(parseFloat(e.target.value))}
                     className="bg-zinc-700 text-white border border-zinc-600 rounded px-1 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-500 leading-none h-10"
                 >
