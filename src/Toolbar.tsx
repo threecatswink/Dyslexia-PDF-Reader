@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, type FC, type ChangeEvent } from "react";
 
 interface ToolbarProps {
     onFileSelected?: (file: File) => void;
+    filePathSpan?: string;
     onPreviousPage?: () => void;
     canPreviousPage?: boolean;
     currentPage?: number;
@@ -11,6 +12,7 @@ interface ToolbarProps {
     canNextPage?: boolean;
     onZoomIn?: () => void;
     canZoomIn?: boolean;
+    currentZoom?: number;
     onZoomChange?: (zoom: number) => void;
     onZoomOut?: () => void;
     canZoomOut?: boolean;
@@ -22,13 +24,13 @@ interface ToolbarProps {
 
 // Toolbar presets
 const toolbarBtnEnabled = `
-    px-3 py-3 rounded flex items-center max-w-full min-w-10 justify-center select-none
+    px-3 py-3 rounded flex items-center max-w-full min-w-10 justify-center select-none cursor-pointer
     transition duration-150 ease-in-out
     invert-70 hover:invert-90 hover:scale-110 active:scale-95
 `;
 
 const toolbarBtnDisabled = `
-    px-3 py-3 rounded flex items-center max-w-full min-w-10 justify-center select-none
+    px-3 py-3 rounded flex items-center max-w-full min-w-10 justify-center select-none cursor-not-allowed
     invert-30 transition duration-150 ease-in-out
 `;
 
@@ -39,8 +41,30 @@ const toolbarImg = `
     ease-in-out
 `;
 
-const toolbarSpan = `
+const toolbarInputEnabled = `
+    px-1 py-1 text-sm text-white
+    bg-gray-200 dark:bg-zinc-700
+    border border-gray-400 dark:border-zinc-600
+    rounded
+    focus:outline-none focus:ring-2 focus:ring-zinc-500
+    transition
+`;
+
+const toolbarInputDisabled = `
+    px-1 py-1 text-sm text-gray-400 dark:text-zinc-500
+    bg-gray-300 dark:bg-zinc-800
+    border border-gray-400 dark:border-zinc-700
+    cursor-not-allowed
+    rounded
+    transition
+`;
+
+const toolbarSpanEnabled = `
     text-zinc-200 select-text
+`;
+
+const toolbarSpanDisabled = `
+    text-gray-400 dark:text-zinc-500 select-text
 `;
 
 const toolbarSettingsCheckBox = `
@@ -48,10 +72,9 @@ const toolbarSettingsCheckBox = `
     transition duration-150 ease-in-out
 `;
 
-
-
 const Toolbar: FC<ToolbarProps> = ({
     onFileSelected,
+    filePathSpan,
     onPreviousPage,
     canPreviousPage,
     currentPage,
@@ -61,6 +84,7 @@ const Toolbar: FC<ToolbarProps> = ({
     canNextPage,
     onZoomIn,
     canZoomIn,
+    currentZoom,
     onZoomChange,
     onZoomOut,
     canZoomOut,
@@ -69,11 +93,17 @@ const Toolbar: FC<ToolbarProps> = ({
     onToggleAccent,
 }) => {
     const fileInputRef = useRef<HTMLInputElement | null>(null);
+    const [pageInput, setPageInput] = useState("");
 
     const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file && onFileSelected) onFileSelected(file);
     };
+
+    const zoomOptions = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 2, 2.5, 3, 3.5, 4, 5, 6];
+    const mergedZoomOptions = zoomOptions.includes(currentZoom!)
+        ? zoomOptions
+        : [...zoomOptions, currentZoom!].sort((a, b) => a - b);
 
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
     const settingsRef = useRef<HTMLDivElement | null>(null);
@@ -85,9 +115,10 @@ const Toolbar: FC<ToolbarProps> = ({
                 setIsSettingsOpen(false);
             }
         };
+        setPageInput(currentPage?.toString() ?? "");
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, []);
+    }, [currentPage]);
 
     return (
         <div className="
@@ -132,7 +163,7 @@ const Toolbar: FC<ToolbarProps> = ({
                     onChange={handleFileChange}
                 />
                 {/* File name display */}
-                <span className={toolbarSpan}></span>
+                <span className={toolbarSpanEnabled}>{filePathSpan}</span>
             </div>
 
             {/* Center of Toolbar */}
@@ -150,6 +181,7 @@ const Toolbar: FC<ToolbarProps> = ({
                     title="Previous Page | Alt + ["
                     aria-label="Previous page"
                     accessKey="["
+                    disabled={!canPreviousPage}
                     className={canPreviousPage ? toolbarBtnEnabled : toolbarBtnDisabled}
                 >
                     <img
@@ -162,32 +194,32 @@ const Toolbar: FC<ToolbarProps> = ({
                 {/* Page Selector */}
                 <input
                     type="number"
-                    value={currentPage ?? 1}
-                    onChange={(e) => onPageChange?.(parseInt(e.target.value) || 0)}
+                    defaultValue={1}
+                    value={pageInput}
+                    onChange={(e) => setPageInput(e.target.value)}
                     onKeyDown={(e) => {
                         if (e.key === "Enter") {
-                            const val = parseInt((e.target as HTMLInputElement).value);
-                            if (!isNaN(val)) onPageChange?.(val);
+                            const val = parseInt(pageInput);
+                            if (!isNaN(val)) onPageChange?.(val); else setPageInput(currentPage?.toString() ?? "");
                         }
+                    }}
+                    onBlur={() => {
+                        setPageInput(currentPage?.toString() ?? "");
                     }}
                     title="Enter page number | Alt + p"
                     aria-label="Page number select"
                     min={1}
-                    max={totalPages ?? 1}
+                    max={totalPages || 0}
                     accessKey="p"
-                    className="
-                        w-10 h-10 px-1 py-1 text-sm text-white
-                        bg-gray-200 dark:bg-zinc-700
-                        border border-gray-400 dark:border-zinc-600
-                        rounded
-                        focus:outline-none focus:ring-2 focus:ring-zinc-500
-                        transition
+                    disabled={!totalPages}
+                    className={`w-10 h-10
+                        cursor-text
                         [&::-webkit-outer-spin-button]:appearance-none
                         [&::-webkit-inner-spin-button]:appearance-none
                         [&::-moz-appearance]:textfield
-                    "
+                    ${!totalPages ? toolbarInputDisabled : toolbarInputEnabled}`}
                 />
-                <span className={toolbarSpan}>/ {totalPages ?? 0}</span>
+                <span className={totalPages ? toolbarSpanEnabled : toolbarSpanDisabled}>/ {totalPages ?? 0}</span>
 
                 {/* Next Page */}
                 <button
@@ -195,6 +227,7 @@ const Toolbar: FC<ToolbarProps> = ({
                     title="Next Page | Alt + ]"
                     aria-label="Next page"
                     accessKey="]"
+                    disabled={!canNextPage}
                     className={canNextPage ? toolbarBtnEnabled : toolbarBtnDisabled}
                 >
                     <img
@@ -220,6 +253,7 @@ const Toolbar: FC<ToolbarProps> = ({
                     title="Zoom Out | Alt + -"
                     aria-label="Zoom out"
                     accessKey="-"
+                    disabled={!canZoomOut}
                     className={canZoomOut ? toolbarBtnEnabled : toolbarBtnDisabled}
                 >
                     <img
@@ -232,12 +266,16 @@ const Toolbar: FC<ToolbarProps> = ({
                 {/* Zoom Selector */}
                 <select
                     title="Zoom Amount"
-                    defaultValue="0"
+                    defaultValue={1}
+                    value={currentZoom}
                     onChange={(e) => onZoomChange?.(parseFloat(e.target.value))}
-                    className="bg-zinc-700 text-white border border-zinc-600 rounded px-1 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-500 leading-none h-10"
+                    disabled={!canZoomIn && !canZoomOut}
+                    className={`w-18 h-10 cursor-pointer ${!canZoomIn && !canZoomOut ? toolbarInputDisabled : toolbarInputEnabled}`}
                 >
-                    {[0.25, 0.5, 0.75, 1, 1.25, 1.5, 2, 2.5, 3, 3.5, 4, 5, 6].map(v => (
-                        <option key={v} value={v}>{v * 100}%</option>
+                    {mergedZoomOptions.map(v => (
+                        <option key={v} value={v}>
+                            {Math.round(v * 100)}%
+                        </option>
                     ))}
                 </select>
 
@@ -247,6 +285,7 @@ const Toolbar: FC<ToolbarProps> = ({
                     title="Zoom In | Alt + ="
                     aria-label="Zoom in"
                     accessKey="="
+                    disabled={!canZoomIn}
                     className={canZoomIn ? toolbarBtnEnabled : toolbarBtnDisabled}
                 >
                     <img
@@ -275,7 +314,7 @@ const Toolbar: FC<ToolbarProps> = ({
                             ${isSettingsOpen ? "scale-100 opacity-100" : "scale-95 opacity-0 pointer-events-none"}
                         `}
                     >
-                    <label className={toolbarSettingsCheckBox}>
+                        <label className={toolbarSettingsCheckBox}>
                             <input type="checkbox" onChange={onToggleDyslexiaMode} />
                             <span>Dyslexia Mode</span>
                         </label>

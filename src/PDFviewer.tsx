@@ -12,19 +12,21 @@ const PDFViewer = () => {
   const [pageNum, setPageNum] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [scale, setScale] = useState(1);
+  const [fade, setFade] = useState(false);
 
   const [canPreviousPage, setCanPreviousPage] = useState(false)
   const [canNextPage, setCanNextPage] = useState(false)
 
-  const [canZoomIn, setCanZoomIn] = useState(true);
-  const [canZoomOut, setCanZoomOut] = useState(true);
+  const [canZoomIn, setCanZoomIn] = useState(false);
+  const [canZoomOut, setCanZoomOut] = useState(false);
 
   const minZoom = 0.25;
   const maxZoom = 6;
 
+  const reader = new FileReader();
+
   // Select file
   const handleFileSelected = (file: File) => {
-    const reader = new FileReader();
     reader.onload = async () => {
       const typedArray = new Uint8Array(reader.result as ArrayBuffer);
       const loadedPdf = await pdfjsLib.getDocument(typedArray).promise;
@@ -53,13 +55,20 @@ const PDFViewer = () => {
   };
 
   useEffect(() => {
-    if (pdfDoc) renderPage(pageNum);
+    if (!pdfDoc || !pageNum) return;
+    const doRender = async () => {
+      await renderPage(pageNum);
 
-    setCanPreviousPage(pageNum > 1)
-    setCanNextPage(pageNum < totalPages)
+      setFade(false);
+      requestAnimationFrame(() => setFade(true));
+    };
+    doRender();
 
-    setCanZoomIn(scale < maxZoom);
-    setCanZoomOut(scale > minZoom);
+    setCanPreviousPage(pageNum > 1 && pdfDoc != null);
+    setCanNextPage(pageNum < totalPages && pdfDoc != null);
+
+    setCanZoomIn(scale < maxZoom && pdfDoc != null);
+    setCanZoomOut(scale > minZoom && pdfDoc != null);
   }, [pdfDoc, pageNum, scale]);
 
 
@@ -70,10 +79,13 @@ const PDFViewer = () => {
       <Toolbar
         /* File select handling */
         onFileSelected={handleFileSelected}
-        currentPage={pageNum}
+        currentPage={pageNum ?? 0}
         totalPages={totalPages}
-
-
+        onPageChange={(page) => {
+          if (!pdfDoc) return;
+          const safePage = Math.min(Math.max(page, 1), totalPages);
+          setPageNum(safePage);
+        }}
 
         /* Page select handling */
         onPreviousPage={() => setPageNum(p => Math.max(p - 1, 1))}
@@ -83,6 +95,8 @@ const PDFViewer = () => {
 
         /* Zoom handling */
         onZoomOut={() => setScale(s => Math.max(s - 0.25, minZoom))}
+        onZoomChange={(zoom) => setScale(zoom)}
+        currentZoom={scale}
         onZoomIn={() => setScale(s => Math.min(s + 0.25, maxZoom))}
         canZoomIn={canZoomIn}
         canZoomOut={canZoomOut}
@@ -90,7 +104,7 @@ const PDFViewer = () => {
 
       {/* Handle PDF canvas */}
       <div className="flex-1 overflow-auto p-4 flex justify-center items-start">
-        <canvas ref={canvasRef} />
+        <canvas ref={canvasRef} className={`transition-opacity duration-300 ${fade ? "opacity-100" : "opacity-0"}`}/>
       </div>
     </div>
   );
