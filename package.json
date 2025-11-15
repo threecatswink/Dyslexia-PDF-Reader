@@ -1,7 +1,8 @@
 {
   "name": "dyslexia-pdf-reader",
   "private": true,
-  "version": "2.0.0",
+  "version": "2.0.1",
+  "homepage": "https://threecatswink.github.io/Dyslexia-PDF-Reader/",
   "type": "module",
   "scripts": {
     "dev": "vite",
