@@ -61,6 +61,7 @@ const toolbarInputDisabled = `
 
 const toolbarSpanEnabled = `
     text-zinc-200 select-text
+    max-w-xs md:max-w-sm lg:max-w-md truncate
 `;
 
 const toolbarSpanDisabled = `
@@ -156,6 +157,7 @@ const Toolbar: FC<ToolbarProps> = ({
                 </button>
                 {/* Hidden file input */}
                 <input
+                    name="file-input"
                     ref={fileInputRef}
                     type="file"
                     accept="application/pdf"
@@ -193,9 +195,17 @@ const Toolbar: FC<ToolbarProps> = ({
 
                 {/* Page Selector */}
                 <input
+                    name="page-selector"
                     type="number"
-                    defaultValue={1}
+                    title="Enter page number | Alt + p"
+                    min={1}
+                    max={totalPages || 0}
+                    accessKey="p"
+                    disabled={!totalPages}
                     value={pageInput}
+                    aria-label="Page number select"
+                    aria-valuemin={1}
+                    aria-valuemax={totalPages || 0}
                     onChange={(e) => setPageInput(e.target.value)}
                     onKeyDown={(e) => {
                         if (e.key === "Enter") {
@@ -206,18 +216,12 @@ const Toolbar: FC<ToolbarProps> = ({
                     onBlur={() => {
                         setPageInput(currentPage?.toString() ?? "");
                     }}
-                    title="Enter page number | Alt + p"
-                    aria-label="Page number select"
-                    min={1}
-                    max={totalPages || 0}
-                    accessKey="p"
-                    disabled={!totalPages}
+                    
                     className={`w-10 h-10
-                        cursor-text
                         [&::-webkit-outer-spin-button]:appearance-none
                         [&::-webkit-inner-spin-button]:appearance-none
                         [&::-moz-appearance]:textfield
-                    ${!totalPages ? toolbarInputDisabled : toolbarInputEnabled}`}
+                    ${!totalPages ? (toolbarInputDisabled + "cursor-not-allowed") : (toolbarInputEnabled + "cursor-text")}`}
                 />
                 <span className={totalPages ? toolbarSpanEnabled : toolbarSpanDisabled}>/ {totalPages ?? 0}</span>
 
@@ -266,11 +270,11 @@ const Toolbar: FC<ToolbarProps> = ({
                 {/* Zoom Selector */}
                 <select
                     title="Zoom Amount"
-                    defaultValue={1}
+                    name="zoom-select"
                     value={currentZoom}
                     onChange={(e) => onZoomChange?.(parseFloat(e.target.value))}
                     disabled={!canZoomIn && !canZoomOut}
-                    className={`w-18 h-10 cursor-pointer ${!canZoomIn && !canZoomOut ? toolbarInputDisabled : toolbarInputEnabled}`}
+                    className={`w-18 h-10  ${!canZoomIn && !canZoomOut ? (toolbarInputDisabled + "cursor-not-allowed") : (toolbarInputEnabled + "cursor-pointer")}`}
                 >
                     {mergedZoomOptions.map(v => (
                         <option key={v} value={v}>
@@ -315,17 +319,29 @@ const Toolbar: FC<ToolbarProps> = ({
                         `}
                     >
                         <label className={toolbarSettingsCheckBox}>
-                            <input type="checkbox" onChange={onToggleDyslexiaMode} />
+                            <input
+                                name="dyslexia-mode"
+                                type="checkbox"
+                                onChange={onToggleDyslexiaMode}
+                            />
                             <span>Dyslexia Mode</span>
                         </label>
 
                         <label className={toolbarSettingsCheckBox}>
-                            <input type="checkbox" onChange={onToggleHalfBold} />
+                            <input
+                                name="half-bold"
+                                type="checkbox"
+                                onChange={onToggleHalfBold}
+                            />
                             <span>Half Bold</span>
                         </label>
 
                         <label className={toolbarSettingsCheckBox}>
-                            <input type="checkbox" onChange={onToggleAccent} />
+                            <input
+                                name="accent-letters"
+                                type="checkbox"
+                                onChange={onToggleAccent}
+                            />
                             <span>Accent Letters</span>
                         </label>
                     </div>
