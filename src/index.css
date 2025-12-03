@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* --- Font Declarations --- */
 
@@ -13,7 +13,7 @@
 /* OpenDyslexic Bold */
 @font-face {
   font-family: 'OpenDyslexic';
-  src: url('../public/fonts/OpenDyslexic-Bold.woff2') format('woff2');
+  src: url('/fonts/OpenDyslexic-Bold.woff2') format('woff2');
   font-weight: bold;
   font-style: normal;
 }
@@ -21,7 +21,7 @@
 /* OpenDyslexic Italic */
 @font-face {
   font-family: 'OpenDyslexic';
-  src: url('../public/fonts/OpenDyslexic-Italic.woff2') format('woff2');
+  src: url('/fonts/OpenDyslexic-Italic.woff2') format('woff2');
   font-weight: normal;
   font-style: italic;
 }
@@ -29,12 +29,10 @@
 /* OpenDyslexic Bold Italic */
 @font-face {
   font-family: 'OpenDyslexic';
-  src: url('../public/fonts/OpenDyslexic-Bold-Italic.woff2') format('woff2');
+  src: url('/fonts/OpenDyslexic-Bold-Italic.woff2') format('woff2');
   font-weight: bold;
   font-style: italic;
 }
-
-
 
 :root {
   font-family: 'OpenDyslexic', Arial, sans-serif;

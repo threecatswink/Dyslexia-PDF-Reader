@@ -1,0 +1,24 @@
+% Dependencies Using
+    % Easier to Scale Code
+        - React
+        - TSX (Typescript)
+        - Vite
+        - Zustand
+            x for state management
+        - CLSX
+            x for easier className handling
+        - ESlint
+        - Prettier & prettier-plugin-tailwindcss
+            x for code formatting
+    % UI
+        - Tailwind CSS
+            x for easier styling
+        - Headless UI
+            x for easier UI elements
+        - lucide react
+            x for icon handling
+        - React-hotkeys-hook
+            x for universal keyboard shortcuts used with accesskey system
+    % Misc
+        - PDFjs-dist
+            x for PDF rendering
