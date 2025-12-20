@@ -1,5 +1,14 @@
 import { useState, useEffect, useRef, type FC, type ChangeEvent } from 'react';
-import { Menu, MenuItem, MenuSection } from '@headlessui/react';
+import {
+  Menu,
+  MenuItem,
+  MenuSection,
+  Button,
+  Popover,
+  PopoverButton,
+  PopoverPanel,
+  Switch,
+} from '@headlessui/react';
 import {
   FolderOpen,
   ChevronRight,
@@ -9,7 +18,7 @@ import {
   Speech,
   MenuIcon,
 } from 'lucide-react';
-import { ButtonElement } from './Presets.tsx';
+import { ButtonStyle, InputStyle, SpanStyle } from './Presets.tsx';
 
 interface ToolbarProps {
   onFileSelected?: (file: File) => void;
@@ -33,38 +42,6 @@ interface ToolbarProps {
   onToggleAccent?: () => void;
   onReadAloud?: () => void;
 }
-
-const toolbarInputEnabled = `
-    px-1 py-1 text-sm text-white
-    bg-gray-200 dark:bg-zinc-700
-    border border-gray-400 dark:border-zinc-600
-    rounded
-    focus:outline-none focus:ring-2 focus:ring-zinc-500
-    transition
-`;
-
-const toolbarInputDisabled = `
-    px-1 py-1 text-sm text-gray-400 dark:text-zinc-500
-    bg-gray-300 dark:bg-zinc-800
-    border border-gray-400 dark:border-zinc-700
-    cursor-not-allowed
-    rounded
-    transition
-`;
-
-const toolbarSpanEnabled = `
-    text-zinc-200 select-text
-    max-w-xs md:max-w-sm lg:max-w-md truncate
-`;
-
-const toolbarSpanDisabled = `
-    text-gray-400 dark:text-zinc-500 select-text
-`;
-
-const toolbarSettingsCheckBox = `
-    flex items-center gap-2 px-2 py-1 hover:bg-zinc-600 rounded cursor-pointer select-none
-    transition duration-150 ease-in-out
-`;
 
 const Toolbar: FC<ToolbarProps> = ({
   onFileSelected,
@@ -100,37 +77,29 @@ const Toolbar: FC<ToolbarProps> = ({
     ? zoomOptions
     : [...zoomOptions, currentZoom!].sort((a, b) => a - b);
 
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  const settingsRef = useRef<HTMLDivElement | null>(null);
-
   // close dropdown on outside click
   useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (settingsRef.current && !settingsRef.current.contains(e.target as Node)) {
-        setIsSettingsOpen(false);
-      }
-    };
     setPageInput(currentPage?.toString() ?? '');
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [currentPage]);
 
   return (
     <Menu
       as="div"
-      className="flex w-full items-center gap-2 bg-zinc-800 px-4 py-1 text-white shadow-md"
+      className="flex w-full items-center gap-2 bg-zinc-200 px-4 py-1 text-black shadow-md dark:bg-zinc-800 dark:text-white"
     >
       {/* Left of Toolbar */}
       <MenuSection className="flex flex-1 items-center justify-start gap-2">
         {/* Open File */}
-        <ButtonElement
+        <Button
+          className={ButtonStyle}
           onClick={() => fileInputRef.current?.click()}
-          title="Open File | Alt + Shift + f"
-          ariaLabel="Open file"
-          accessKey="f"
-          disabled={false}
-          icon={FolderOpen}
-        />
+          accessKey="o"
+          title="Open PDF File | Alt + o"
+          aria-label="Open PDF File"
+        >
+          <FolderOpen />
+        </Button>
+
         {/* File Input */}
         <MenuItem as="div">
           <input
@@ -143,21 +112,23 @@ const Toolbar: FC<ToolbarProps> = ({
           />
 
           {/* File name display */}
-          <span className={toolbarSpanEnabled}>{filePathSpan}</span>
+          <span className={SpanStyle}>{filePathSpan}</span>
         </MenuItem>
       </MenuSection>
 
       {/* Center of Toolbar */}
       <MenuSection className="flex flex-1 items-center justify-center gap-2">
         {/* Previous Page */}
-        <ButtonElement
-          onClick={onPreviousPage!}
-          title="Previous Page | Alt + ["
-          ariaLabel="Previous page"
-          accessKey="["
+        <Button
+          className={ButtonStyle}
           disabled={!canPreviousPage}
-          icon={ChevronLeft}
-        />
+          onClick={onPreviousPage}
+          accessKey="["
+          title="Previous Page | Alt + ["
+          aria-label="Previous Page"
+        >
+          <ChevronLeft />
+        </Button>
 
         {/* Page Selector */}
         <MenuItem as="div" className="flex items-center gap-1">
@@ -184,35 +155,37 @@ const Toolbar: FC<ToolbarProps> = ({
             onBlur={() => {
               setPageInput(currentPage?.toString() ?? '');
             }}
-            className={`[&::-moz-appearance]:textfield h-10 w-10 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none ${!totalPages ? toolbarInputDisabled + 'cursor-not-allowed' : toolbarInputEnabled + 'cursor-text'}`}
+            className={`[&::-moz-appearance]:textfield h-10 w-10 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none ${InputStyle}`}
           />
-          <span className={totalPages ? toolbarSpanEnabled : toolbarSpanDisabled}>
-            / {totalPages ?? 0}
-          </span>
+          <span className={SpanStyle}>/ {totalPages ?? 0}</span>
         </MenuItem>
 
         {/* Next Page */}
-        <ButtonElement
-          onClick={onNextPage!}
-          title="Next Page | Alt + ]"
-          ariaLabel="Next page"
-          accessKey="]"
+        <Button
+          className={ButtonStyle}
           disabled={!canNextPage}
-          icon={ChevronRight}
-        />
+          onClick={onNextPage}
+          accessKey="]"
+          title="Next Page | Alt + ]"
+          aria-label="Next Page"
+        >
+          <ChevronRight />
+        </Button>
       </MenuSection>
 
       {/* Right of Toolbar */}
       <MenuSection className="flex flex-1 items-center justify-end gap-1">
         {/* Zoom Out */}
-        <ButtonElement
-          onClick={onZoomOut!}
-          title="Zoom Out | Alt + -"
-          ariaLabel="Zoom out"
-          accessKey="-"
+        <Button
+          className={ButtonStyle}
           disabled={!canZoomOut}
-          icon={ZoomOut}
-        />
+          onClick={onZoomOut}
+          accessKey="-"
+          title="Zoom Out | Alt + -"
+          aria-label="Zoom Out"
+        >
+          <ZoomOut />
+        </Button>
 
         {/* Zoom Selector */}
         <MenuItem as="div">
@@ -222,7 +195,7 @@ const Toolbar: FC<ToolbarProps> = ({
             value={currentZoom}
             onChange={(e) => onZoomChange?.(parseFloat(e.target.value))}
             disabled={!canZoomIn && !canZoomOut}
-            className={`h-10 w-18 ${!canZoomIn && !canZoomOut ? toolbarInputDisabled + 'cursor-not-allowed' : toolbarInputEnabled + 'cursor-pointer'}`}
+            className={`h-10 w-18 ${InputStyle}`}
           >
             {mergedZoomOptions.map((v) => (
               <option key={v} value={v}>
@@ -233,54 +206,59 @@ const Toolbar: FC<ToolbarProps> = ({
         </MenuItem>
 
         {/* Zoom In */}
-        <ButtonElement
-          onClick={onZoomIn!}
-          title="Zoom In | Alt + ="
-          ariaLabel="Zoom in"
-          accessKey="="
+        <Button
+          className={ButtonStyle}
           disabled={!canZoomIn}
-          icon={ZoomIn}
-        />
+          onClick={onZoomIn}
+          accessKey="="
+          title="Zoom In | Alt + ="
+          aria-label="Zoom In"
+        >
+          <ZoomIn />
+        </Button>
 
         {/* Screen Reader */}
-        <ButtonElement
-          onClick={onSpeak!}
-          title="Screen Reader | Alt + s"
-          ariaLabel="Screen reader enable"
-          accessKey="s"
-          disabled={!filePathSpan}
-          icon={Speech}
-        />
+        <Button
+          onClick={onSpeak}
+          disabled={!onSpeak}
+          className={ButtonStyle}
+          accessKey="r"
+          title="Toggle Read Aloud | Alt + r"
+          aria-label="Toggle Read Aloud"
+        >
+          <Speech />
+        </Button>
 
         {/* Dropdown */}
-        <div className="relative" ref={settingsRef}>
-          {/* Settings */}
-          <ButtonElement
-            onClick={() => setIsSettingsOpen((prev) => !prev)}
-            title="Settings Menu | Alt + s"
-            ariaLabel="Open settings menu"
+        <Popover className="relative">
+          {/* Settings Button */}
+          <PopoverButton
+            className={ButtonStyle}
             accessKey="s"
-            icon={MenuIcon}
-          />
-          <div
-            className={`absolute right-0 z-50 mt-2 flex w-48 origin-top transform flex-col rounded border border-zinc-600 bg-zinc-700 p-2 shadow-lg transition-all duration-200 ${isSettingsOpen ? 'scale-100 opacity-100' : 'pointer-events-none scale-95 opacity-0'} `}
+            title="Toolbar Settings | Alt + s"
+            aria-label="Toolbar Settings"
           >
-            <label className={toolbarSettingsCheckBox}>
-              <input name="dyslexia-mode" type="checkbox" onChange={onToggleDyslexiaMode} />
-              <span>Dyslexia Mode</span>
-            </label>
+            <MenuIcon />
+          </PopoverButton>
 
-            <label className={toolbarSettingsCheckBox}>
-              <input name="half-bold" type="checkbox" onChange={onToggleHalfBold} />
-              <span>Half Bold</span>
-            </label>
+          {/* Settings Panel */}
+          <PopoverPanel
+            transition
+            className="absolute right-0 z-50 mt-2 w-48 origin-top transform rounded border border-zinc-600 bg-zinc-200 p-2 shadow-lg transition duration-200 ease-in-out data-closed:-translate-y-1 data-closed:opacity-0 dark:bg-zinc-700"
+          >
+            <Switch name="dyslexia-mode" onChange={onToggleDyslexiaMode}>
+              <span className={SpanStyle}>Dyslexia Mode</span>
+            </Switch>
 
-            <label className={toolbarSettingsCheckBox}>
-              <input name="accent-letters" type="checkbox" onChange={onToggleAccent} />
-              <span>Accent Letters</span>
-            </label>
-          </div>
-        </div>
+            <Switch name="half-bold" onChange={onToggleHalfBold}>
+              <span className={SpanStyle}>Half Bold</span>
+            </Switch>
+
+            <Switch name="accent-letters" onChange={onToggleAccent}>
+              <span className={SpanStyle}>Accent Letters</span>
+            </Switch>
+          </PopoverPanel>
+        </Popover>
       </MenuSection>
     </Menu>
   );

@@ -165,7 +165,7 @@ const PDFViewer = () => {
 
       if (!page || !viewport) return;
 
-      // Size overlay to viewport BEFORE rendering text
+      // Size overlay to viewport before rendering text
       if (overlayRef.current) {
         overlayRef.current.style.width = `${viewport.width}px`;
         overlayRef.current.style.height = `${viewport.height}px`;
@@ -181,6 +181,8 @@ const PDFViewer = () => {
     };
 
     doRender();
+
+    // Initialize toolbar variables
 
     setCanPreviousPage(pageNum > 1);
     setCanNextPage(pageNum < totalPages);

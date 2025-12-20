@@ -34,6 +34,17 @@
   font-style: italic;
 }
 
+.lucide {
+  display: inline-block;
+  vertical-align: middle;
+  stroke-width: 2;
+  stroke: currentColor;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  color: inherit;
+}
+
 :root {
   font-family: 'OpenDyslexic', Arial, sans-serif;
   line-height: 1.5;

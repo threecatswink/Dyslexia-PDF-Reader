@@ -1,6 +1,7 @@
 import { type FC } from 'react';
 import { Play, Pause, SkipForward, SkipBack } from 'lucide-react';
-import { ButtonElement } from './Presets.tsx';
+import { Button } from '@headlessui/react';
+import { ButtonStyle } from './Presets.tsx';
 
 interface ReaderProps {
   play: boolean;
@@ -11,33 +12,39 @@ interface ReaderProps {
 
 const Reader: FC<ReaderProps> = ({ play, onPlayToggle, onForward, onBackward }) => {
   return (
-    <div className="mx-auto mb-2 flex w-fit items-center justify-center gap-1 rounded-full bg-zinc-800 p-1 shadow-lg">
+    <div className="mx-auto mb-2 flex w-fit items-center justify-center gap-1 rounded-full bg-zinc-200 p-1 text-black shadow-lg dark:bg-zinc-800 dark:text-white">
       {/* Backward */}
-      <ButtonElement
+      <Button
         onClick={onBackward}
-        title="Backward"
-        ariaLabel="Backward the reader"
-        accessKey="B"
-        icon={SkipBack}
-      />
+        className={ButtonStyle}
+        accessKey="b"
+        title="Backward | Alt + b"
+        aria-label="Backward"
+      >
+        <SkipBack />
+      </Button>
 
       {/* Play / Pause */}
-      <ButtonElement
+      <Button
         onClick={onPlayToggle}
-        title={play ? 'Pause' : 'Play'}
-        ariaLabel={play ? 'Pause the reader' : 'Play the reader'}
-        accessKey="P"
-        icon={play ? Pause : Play}
-      />
+        className={ButtonStyle}
+        accessKey="p"
+        title="Play / Pause | Alt + p"
+        aria-label={play ? 'Pause' : 'Play'}
+      >
+        {play ? <Pause /> : <Play />}
+      </Button>
 
       {/* Forward */}
-      <ButtonElement
+      <Button
         onClick={onForward}
-        title="Forward"
-        ariaLabel="Forward the reader"
-        accessKey="F"
-        icon={SkipForward}
-      />
+        className={ButtonStyle}
+        accessKey="f"
+        title="Forward | Alt + f"
+        aria-label="Forward"
+      >
+        <SkipForward />
+      </Button>
     </div>
   );
 };
