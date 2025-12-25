@@ -14,10 +14,11 @@ export const InputStyle = `
     bg-gray-200 dark:bg-zinc-700
     border border-gray-400 dark:border-zinc-600
     rounded
+    [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none
     transition
     focus:outline-none focus:ring-2 focus:ring-zinc-500
     cursor-pointer disabled:cursor-not-allowed
-    disabled:text-gray-400 dark:disabled:text-zinc-500
+    disabled:text-gray-600 dark:disabled:text-zinc-300
 `;
 
 export const SpanStyle = `
