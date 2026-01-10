@@ -42,11 +42,14 @@ type GlobalState = {
    * ! Zoom will not set if outside of minZoom and maxZoom.
    */
   setCurrentZoom: (zoom: number) => void;
+
+  /** Reset current page and zoom. */
+  reset: () => void;
 };
 
 /**
  * @description Stores the global states for the web app.
- * @param set
+ * @param set - Sets values.
  */
 export const useGlobalStates = create<GlobalState>((set) => ({
   dyslexiaEnabled: false,
@@ -75,5 +78,10 @@ export const useGlobalStates = create<GlobalState>((set) => ({
   setCurrentZoom: (zoom: number) => {
     if (zoom > maxZoom || zoom < minZoom) return;
     set({ currentZoom: zoom });
+  },
+
+  reset: () => {
+    set({ currentPage: 1 });
+    set({ currentZoom: 1 });
   },
 }));

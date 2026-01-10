@@ -27,11 +27,29 @@ export const InputStyle = `
 `;
 
 export const SpanStyle = `
-  text-xs sm:text-sm md:text-base
+  text-xs sm:hidden md:text-base
   text-black dark:text-zinc-200
   disabled:text-gray-400 dark:disabled:text-gray-200
   select-text
   truncate
   max-w-[4rem] sm:max-w-xs md:max-w-sm lg:max-w-md
-  hidden xs:inline sm:inline
+  xs:inline sm:inline
+`;
+
+export const SettingsSpanStyle = `
+  text-xs
+  text-black dark:text-zinc-200
+  disabled:text-gray-400 dark:disabled:text-gray-200
+  select-text
+  truncate
+`;
+
+export const SwitchStyle = `
+  group relative flex h-6 w-12 cursor-pointer rounded-full bg-red-700 p-1 ease-in-out 
+  focus:not-data-focus:outline-none data-checked:bg-green-700 data-focus:outline data-focus:outline-white
+`;
+
+export const SwitchKnobStyle = `
+  pointer-events-none inline-block size-4 translate-x-0 rounded-full bg-white 
+  shadow-lg ring-0 transition duration-200 ease-in-out group-data-checked:translate-x-6
 `;

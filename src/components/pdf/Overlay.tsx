@@ -13,26 +13,37 @@ const Overlay = () => {
   const dyslexiaEnabled = useGlobalStates((s) => s.dyslexiaEnabled);
 
   useEffect(() => {
-    if (!overlayRef.current || !page || !viewport || !dyslexiaEnabled) {
-      overlayRef.current?.replaceChildren();
+    const container = overlayRef.current;
+    if (!container || !page || !viewport) return;
+    container.innerHTML = '';
+
+    if (!dyslexiaEnabled) {
+      container.replaceChildren();
       return;
     }
 
-    overlayRef.current.style.width = `${viewport.width}px`;
-    overlayRef.current.style.height = `${viewport.height}px`;
+
+    container.style.width = `${viewport.width}px`;
+    container.style.height = `${viewport.height}px`;
 
     renderTextLayer({
       page,
-      container: overlayRef.current,
+      container,
       viewportHeight: viewport.height,
       zoom: currentZoom,
     });
   }, [page, viewport, currentZoom, dyslexiaEnabled]);
 
+  useEffect(() => {
+    return () => {
+      overlayRef.current?.replaceChildren();
+    };
+  }, []);
+
   return (
     <div
       ref={overlayRef}
-      className="pointer-events-none absolute top-0 left-0 transition-opacity duration-200"
+      className="pointer-events-none absolute top-0 left-0 transition-opacity duration-200 bg-white"
       style={{ opacity: dyslexiaEnabled ? 1 : 0 }}
     />
   );

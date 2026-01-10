@@ -3,10 +3,12 @@ import { useRef } from 'react';
 import { Button } from '@headlessui/react';
 import { FolderOpen } from 'lucide-react';
 import { useFileInformation } from '../../../states/file-information.tsx';
+import { useGlobalStates } from '../../../states/global-states.tsx';
 
 const FileControls = () => {
   const fileName = useFileInformation((s) => s.fileName);
   const setFile = useFileInformation((s) => s.setFile);
+  const reset = useGlobalStates((s) => s.reset);
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -39,6 +41,7 @@ const FileControls = () => {
           const file = e.target.files?.[0];
           if (file) {
             setFile(file);
+            reset();
           }
         }}
       />

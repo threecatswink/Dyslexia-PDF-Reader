@@ -13,7 +13,6 @@ const Viewer = () => {
   const dyslexiaEnabled = useGlobalStates((s) => s.dyslexiaEnabled);
 
   const pdf = useFileInformation((s) => s.pdf);
-  const page = useFileInformation((s) => s.page);
   const viewport = useFileInformation((s) => s.viewport);
   const setPDF = useFileInformation((s) => s.setPDF);
   const setPage = useFileInformation((s) => s.setPage);
@@ -47,14 +46,14 @@ const Viewer = () => {
     <div className="relative h-full w-full overflow-auto">
       {viewport && (
         <div
-          className="page-wrapper relative mx-auto"
+          className="page-wrapper relative mx-auto bg-white"
           style={{
             width: viewport.width,
             height: viewport.height,
           }}
         >
-          <Renderer />
-          {page && dyslexiaEnabled && <Overlay />}
+          { !dyslexiaEnabled && <Renderer /> }
+          <Overlay />
         </div>
       )}
     </div>
