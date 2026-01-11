@@ -1,5 +1,7 @@
 import { create } from 'zustand';
 import { useFileInformation } from './file-information.tsx';
+import type { PDFPageProxy } from 'pdfjs-dist';
+import type { PDFTextItem } from '../components/pdf/TextHelper.tsx';
 
 /** The maximum possible zoom value. */
 export const maxZoom = 6;
@@ -15,10 +17,18 @@ type GlobalState = {
   accentEnabled: boolean;
   /** Enables a screen reader to read words aloud. */
   speakEnabled: boolean;
-  /** Current page number */
+  /** Current page number. */
   currentPage: number;
-  /** Current zoom number (float typically in increments of 0.25) */
+  /** Current zoom number (float typically in increments of 0.25). */
   currentZoom: number;
+  /** Whether the reader is reading. */
+  playEnabled: boolean;
+  /** The text from the page. */
+  extractedText: string;
+  /** List of sentences. */
+  sentences: string[];
+  /** Current sentence number. */
+  currentSentenceIndex: number;
 
   /** Sets dyslexiaEnabled to true/false. */
   setDyslexiaEnabled: (state: boolean) => void;
@@ -28,6 +38,10 @@ type GlobalState = {
   setAccentEnabled: (state: boolean) => void;
   /** Sets speakEnabled to true/false. */
   setSpeakEnabled: (state: boolean) => void;
+  /** Set playEnabled to true/false. */
+  setPlayEnabled: (state: boolean) => void;
+  /** Sets the currentSentenceIndex. */
+  setCurrentSentenceIndex: (index: number) => void;
 
   /**
    * @description Sets the current page to view.
@@ -45,6 +59,8 @@ type GlobalState = {
 
   /** Reset current page and zoom. */
   reset: () => void;
+
+  setExtractedText: (page: PDFPageProxy) => void;
 };
 
 /**
@@ -58,11 +74,17 @@ export const useGlobalStates = create<GlobalState>((set) => ({
   speakEnabled: false,
   currentPage: 1,
   currentZoom: 1,
+  playEnabled: false,
+  extractedText: '',
+  sentences: [],
+  currentSentenceIndex: 0,
 
   setDyslexiaEnabled: (dyslexiaEnabled) => set({ dyslexiaEnabled }),
   setHalfBoldEnabled: (halfBoldEnabled) => set({ halfBoldEnabled }),
   setAccentEnabled: (accentEnabled) => set({ accentEnabled }),
   setSpeakEnabled: (speakEnabled) => set({ speakEnabled }),
+  setPlayEnabled: (playEnabled) => set({ playEnabled }),
+  setCurrentSentenceIndex: (currentSentenceIndex) => set({ currentSentenceIndex }),
 
   setCurrentPage: (page: number) => {
     const totalPages = useFileInformation.getState().totalPages;
@@ -81,7 +103,26 @@ export const useGlobalStates = create<GlobalState>((set) => ({
   },
 
   reset: () => {
-    set({ currentPage: 1 });
-    set({ currentZoom: 1 });
+    set({
+      currentPage: 1,
+      currentZoom: 1,
+      extractedText: '',
+      sentences: [],
+      currentSentenceIndex: 0,
+    });
+  },
+
+  setExtractedText: async (page: PDFPageProxy) => {
+    const content = await page.getTextContent();
+    const text = (content.items as PDFTextItem[]).map((item) => item.str).join(' ');
+
+    // Split text into sentences
+    const sentences = text.match(/[^.!?]+[.!?]+[\])'"`’”]*|.+$/g) || [];
+
+    set({
+      extractedText: text,
+      sentences,
+      currentSentenceIndex: 0,
+    });
   },
 }));

@@ -18,6 +18,9 @@ const Viewer = () => {
   const setPage = useFileInformation((s) => s.setPage);
   const resetPdf = useFileInformation((s) => s.reset);
 
+  const sentences = useGlobalStates((s) => s.sentences);
+  const currentSentenceIndex = useGlobalStates((s) => s.currentSentenceIndex);
+
   // Load PDF
   useEffect(() => {
     if (!file) {
@@ -52,7 +55,7 @@ const Viewer = () => {
             height: viewport.height,
           }}
         >
-          { !dyslexiaEnabled && <Renderer /> }
+          {!dyslexiaEnabled && <Renderer />}
           <Overlay />
         </div>
       )}

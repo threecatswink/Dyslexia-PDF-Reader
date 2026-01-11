@@ -27,12 +27,12 @@ export const InputStyle = `
 `;
 
 export const SpanStyle = `
-  text-xs sm:hidden md:text-base
+  text-xs sm:hidden md:text-xs lg:text-sm
   text-black dark:text-zinc-200
   disabled:text-gray-400 dark:disabled:text-gray-200
   select-text
   truncate
-  max-w-[4rem] sm:max-w-xs md:max-w-sm lg:max-w-md
+  max-w-[4rem] sm:max-w-xxs md:max-w-sm lg:max-w-md
   xs:inline sm:inline
 `;
 

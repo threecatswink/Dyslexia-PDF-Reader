@@ -18,7 +18,10 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #202020;
+  background-color: #a0a0a0;
+  @media (prefers-color-scheme: dark) {
+    background-color: #1e1e20;
+  }
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;

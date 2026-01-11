@@ -8,42 +8,44 @@ const Overlay = () => {
 
   const page = useFileInformation((s) => s.page);
   const viewport = useFileInformation((s) => s.viewport);
+  const zoom = useGlobalStates((s) => s.currentZoom);
 
-  const currentZoom = useGlobalStates((s) => s.currentZoom);
   const dyslexiaEnabled = useGlobalStates((s) => s.dyslexiaEnabled);
+  const halfBoldEnabled = useGlobalStates((s) => s.halfBoldEnabled);
+  const accentEnabled = useGlobalStates((s) => s.accentEnabled);
+
+  const escapeHtml = (s: string) => {
+    const div = document.createElement('div');
+    div.textContent = s;
+    return div.innerHTML;
+  };
 
   useEffect(() => {
     const container = overlayRef.current;
     if (!container || !page || !viewport) return;
-    container.innerHTML = '';
+
+    container.style.width = `${viewport.width}px`;
+    container.style.height = `${viewport.height}px`;
 
     if (!dyslexiaEnabled) {
       container.replaceChildren();
       return;
     }
 
-
-    container.style.width = `${viewport.width}px`;
-    container.style.height = `${viewport.height}px`;
-
     renderTextLayer({
       page,
       container,
-      viewportHeight: viewport.height,
-      zoom: currentZoom,
+      zoom,
+      halfBoldEnabled,
+      accentEnabled,
+      escapeHtml,
     });
-  }, [page, viewport, currentZoom, dyslexiaEnabled]);
-
-  useEffect(() => {
-    return () => {
-      overlayRef.current?.replaceChildren();
-    };
-  }, []);
+  }, [page, viewport, zoom, dyslexiaEnabled, halfBoldEnabled, accentEnabled]);
 
   return (
     <div
       ref={overlayRef}
-      className="pointer-events-none absolute top-0 left-0 transition-opacity duration-200 bg-white"
+      className="pointer-events-none absolute top-0 left-0"
       style={{ opacity: dyslexiaEnabled ? 1 : 0 }}
     />
   );
