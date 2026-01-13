@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useFileInformation } from '../../states/file-information';
 import { useGlobalStates } from '../../states/global-states';
-import { renderTextLayer } from './TextHelper';
+import { renderTextLayer } from './overlay_components/TextHelper';
 
 const Overlay = () => {
   const overlayRef = useRef<HTMLDivElement>(null);

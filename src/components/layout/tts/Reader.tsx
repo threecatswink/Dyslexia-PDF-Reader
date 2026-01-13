@@ -44,7 +44,7 @@ const Reader = () => {
     if (!sentences || sentences.length === 0) return;
 
     if (!playEnabled) {
-      playSentence(currentSentenceIndex);
+      tts.speak(sentences[currentSentenceIndex]);
     } else {
       tts.pause();
     }
@@ -63,9 +63,11 @@ const Reader = () => {
   const onBackward = () => {
     if (!sentences || sentences.length === 0) return;
 
+    tts.stop();
     const prevIndex = Math.max(currentSentenceIndex - 1, 0);
     setCurrentSentenceIndex(prevIndex);
-    if (playEnabled) playSentence(prevIndex);
+    tts.speak(sentences[prevIndex]);
+    setPlayEnabled(true);
   };
 
   return (

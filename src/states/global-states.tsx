@@ -1,7 +1,8 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 import { useFileInformation } from './file-information.tsx';
 import type { PDFPageProxy } from 'pdfjs-dist';
-import type { PDFTextItem } from '../components/pdf/TextHelper.tsx';
+import type { PDFTextItem } from '../components/pdf/overlay_components/TextHelper.tsx';
 
 /** The maximum possible zoom value. */
 export const maxZoom = 6;
@@ -67,62 +68,74 @@ type GlobalState = {
  * @description Stores the global states for the web app.
  * @param set - Sets values.
  */
-export const useGlobalStates = create<GlobalState>((set) => ({
-  dyslexiaEnabled: false,
-  halfBoldEnabled: false,
-  accentEnabled: false,
-  speakEnabled: false,
-  currentPage: 1,
-  currentZoom: 1,
-  playEnabled: false,
-  extractedText: '',
-  sentences: [],
-  currentSentenceIndex: 0,
-
-  setDyslexiaEnabled: (dyslexiaEnabled) => set({ dyslexiaEnabled }),
-  setHalfBoldEnabled: (halfBoldEnabled) => set({ halfBoldEnabled }),
-  setAccentEnabled: (accentEnabled) => set({ accentEnabled }),
-  setSpeakEnabled: (speakEnabled) => set({ speakEnabled }),
-  setPlayEnabled: (playEnabled) => set({ playEnabled }),
-  setCurrentSentenceIndex: (currentSentenceIndex) => set({ currentSentenceIndex }),
-
-  setCurrentPage: (page: number) => {
-    const totalPages = useFileInformation.getState().totalPages;
-    if (page > totalPages) {
-      set({ currentPage: totalPages });
-    } else if (page < 1) {
-      set({ currentPage: 1 });
-    } else {
-      set({ currentPage: page });
-    }
-  },
-
-  setCurrentZoom: (zoom: number) => {
-    if (zoom > maxZoom || zoom < minZoom) return;
-    set({ currentZoom: zoom });
-  },
-
-  reset: () => {
-    set({
+export const useGlobalStates = create<GlobalState>()(
+  persist(
+    (set) => ({
+      dyslexiaEnabled: false,
+      halfBoldEnabled: false,
+      accentEnabled: false,
+      speakEnabled: false,
+      playEnabled: false,
       currentPage: 1,
       currentZoom: 1,
+
       extractedText: '',
       sentences: [],
       currentSentenceIndex: 0,
-    });
-  },
 
-  setExtractedText: async (page: PDFPageProxy) => {
-    const content = await page.getTextContent();
-    const text = (content.items as PDFTextItem[]).map((item) => item.str).join(' ');
+      setDyslexiaEnabled: (dyslexiaEnabled) => set({ dyslexiaEnabled }),
+      setHalfBoldEnabled: (halfBoldEnabled) => set({ halfBoldEnabled }),
+      setAccentEnabled: (accentEnabled) => set({ accentEnabled }),
+      setSpeakEnabled: (speakEnabled) => set({ speakEnabled }),
+      setPlayEnabled: (playEnabled) => set({ playEnabled }),
+      setCurrentSentenceIndex: (currentSentenceIndex) => set({ currentSentenceIndex }),
 
-    // Split text into sentences
-    const sentences = text.match(/[^.!?]+[.!?]+[\])'"`’”]*|.+$/g) || [];
+      setCurrentPage: (page) => {
+        const totalPages = useFileInformation.getState().totalPages;
+        if (page > totalPages) set({ currentPage: totalPages });
+        else if (page < 1) set({ currentPage: 1 });
+        else set({ currentPage: page });
+      },
 
-    set({
-      extractedText: text,
-      sentences,
-      currentSentenceIndex: 0,
-    });
-  },
-}));
+      setCurrentZoom: (zoom) => {
+        if (zoom < minZoom || zoom > maxZoom) return;
+        set({ currentZoom: zoom });
+      },
+
+      reset: () =>
+        set({
+          currentPage: 1,
+          currentZoom: 1,
+          extractedText: '',
+          sentences: [],
+          currentSentenceIndex: 0,
+        }),
+
+      setExtractedText: async (page) => {
+        const content = await page.getTextContent();
+        const text = (content.items as PDFTextItem[])
+          .map((item) => item.str)
+          .join(' ');
+
+        const sentences =
+          text.match(/[^.!?]+[.!?]+[\])'"`’”]*|.+$/g) || [];
+
+        set({
+          extractedText: text,
+          sentences,
+          currentSentenceIndex: 0,
+        });
+      },
+    }),
+    {
+      name: 'global-reader-state',
+      version: 1,
+
+      partialize: (state) => ({
+        dyslexiaEnabled: state.dyslexiaEnabled,
+        halfBoldEnabled: state.halfBoldEnabled,
+        accentEnabled: state.accentEnabled,
+      }),
+    }
+  )
+);

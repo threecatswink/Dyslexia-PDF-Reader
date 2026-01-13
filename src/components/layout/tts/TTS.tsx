@@ -1,11 +1,17 @@
 export const tts = {
-  speak: (text: string, onEnd?: () => void) => {
+  speak: (text: string, onBoundary?: (charIndex: number) => void, onEnd?: () => void) => {
     if (!window.speechSynthesis) return;
 
     const utterance = new SpeechSynthesisUtterance(text);
 
+    utterance.onboundary = (event) => {
+      if (typeof event.charIndex === 'number') {
+        onBoundary?.(event.charIndex);
+      }
+    };
+
     utterance.onend = () => {
-      if (onEnd) onEnd();
+      if (onEnd) onEnd;
     };
 
     window.speechSynthesis.speak(utterance);
