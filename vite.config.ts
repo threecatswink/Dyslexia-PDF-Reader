@@ -14,7 +14,7 @@ export default defineConfig({
       manifest: {
         name: 'Dyslexia PDF Reader',
         short_name: 'Dyslexia Reader',
-        start_url: '/',
+        start_url: '/Dyslexia-PDF-Reader/',
         display: 'standalone',
         background_color: '#ffffff',
         theme_color: '#0f172a',
@@ -23,6 +23,10 @@ export default defineConfig({
           { src: 'pwa-512x512.png', sizes: '512x512', type: 'image/png', purpose: 'any maskable' },
         ],
       },
+      srcDir: 'src',
+      filename: 'sw.js',
+      scope: '/Dyslexia-PDF-Reader/',
+      strategies: 'generateSW',
     }),
   ],
 });
