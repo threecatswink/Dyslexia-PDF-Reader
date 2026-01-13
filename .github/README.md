@@ -35,9 +35,9 @@ These include the following (combination of alt, shift, and option may depend on
 | Alt + a | Toggles _letter accent_ mode |
 
 ## About
-**Why I do this?** I have someone very close to me that struggles with dyslexia.  
+**Why I did this?** I knew someone very close to me that struggled with dyslexia.  
 Extensions that change the browser font only do so much and unfortunately don't affect PDFs.
 Apps that do read PDFs are paywalled. It is disgusting that you have to pay to read like everybody else.
-So I took it upon myself to create a free PDF viewer that would have similar benefits to other paid apps.
+I took it upon myself to create a free PDF viewer that would have similar benefits to other paid apps.
 Running a web app allows for her to access it anywhere with an internet connection without having to download anything.
-It also makes it more available to other people who may need a resource like this.
+It also makes it more available to other people who may need a resource like this as well.
