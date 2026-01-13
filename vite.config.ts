@@ -2,12 +2,16 @@ import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
+import Sitemap from "vite-plugin-sitemap";
 
 export default defineConfig({
   base: '/Dyslexia-PDF-Reader/',
   plugins: [
     react(),
     tailwindcss(),
+    Sitemap({
+      hostname: "https://threecatswink.github.io/Dyslexia-PDF-Reader/",
+    }),
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png'],
