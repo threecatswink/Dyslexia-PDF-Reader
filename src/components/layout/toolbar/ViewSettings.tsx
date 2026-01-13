@@ -48,23 +48,24 @@ const ViewSettings = () => {
         {/* Settings Panel */}
         <PopoverPanel
           transition
-          className="absolute right-0 z-50 mt-2 w-48 origin-top transform rounded border border-zinc-600 bg-zinc-200 p-2 shadow-lg transition duration-200 ease-in-out data-closed:-translate-y-1 data-closed:opacity-0 dark:bg-zinc-700"
+          className="absolute right-0 z-50 mt-2.5 w-48 origin-top transform rounded border border-zinc-600 bg-zinc-200 p-2 shadow-lg transition duration-200 ease-in-out data-closed:-translate-y-1 data-closed:opacity-0 dark:bg-zinc-700"
         >
-          <div className="flex gap-1 px-1 py-2 items-center">
+          <div className="flex items-center gap-1 px-1 py-2">
             <Switch
               name="dyslexia-mode"
               checked={dyslexiaEnabled}
               onChange={(v) => setDyslexiaEnabled(v)}
               className={SwitchStyle}
             >
-                <span aria-hidden="true" className={SwitchKnobStyle} />
+              <span aria-hidden="true" className={SwitchKnobStyle} />
             </Switch>
             <span aria-readonly="true" className={SettingsSpanStyle}>
               OpenDyslexic
             </span>
           </div>
 
-          <div className="flex gap-1 px-1 py-2 items-center">
+          <div className="flex items-center gap-1 px-1 py-2">
+            <span aria-hidden="true" className="px-2" />
             <Switch
               name="half-bold"
               checked={halfBoldEnabled}
@@ -79,7 +80,8 @@ const ViewSettings = () => {
             </span>
           </div>
 
-          <div className="flex gap-1 px-1 py-2 items-center">
+          <div className="flex items-center gap-1 px-1 py-2">
+            <span aria-hidden="true" className="px-2" />
             <Switch
               name="accent-letters"
               checked={accentEnabled}
@@ -93,6 +95,12 @@ const ViewSettings = () => {
               Accent
             </span>
           </div>
+          <span aria-hidden="true" className="flex h-5"/>
+          <iframe
+            src="https://github.com/sponsors/threecatswink/button"
+            title="Sponsor threecatswink"
+            className="flex justify-right px-1 w-42 h-8"
+          />
         </PopoverPanel>
       </Popover>
     </div>
