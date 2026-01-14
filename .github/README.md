@@ -53,6 +53,3 @@ These include the following (combination of alt, shift, and option may depend on
 | Access + = | Presses the _zoom in_ button |
 | Access + r | Toggles Text-to-Speech |
 | Access + s | Presses the _viewer settings_ button |
-I took it upon myself to create a free PDF viewer that would have similar benefits to other paid apps.
-Running a web app allows for her to access it anywhere with an internet connection without having to download anything.
-It also makes it more available to other people who may need a resource like this as well.
