@@ -83,9 +83,14 @@ const Reader = () => {
       >
         <div
           role="group"
+          aria-label="Text-to-speech controls"
           className={`fixed inset-x-0 bottom-10 z-50 mx-auto mb-2 flex w-fit items-center gap-1 rounded-full bg-zinc-200 p-1 shadow-xl duration-500 ease-in-out dark:bg-zinc-800`}
         >
-          <Button onClick={onBackward} className={ButtonStyle}>
+          <Button
+            onClick={onBackward}
+            className={ButtonStyle}
+            aria-label="Skip backward to the last sentence"
+          >
             <SkipBack />
           </Button>
 
@@ -98,7 +103,11 @@ const Reader = () => {
             {playEnabled ? <Pause /> : <Play />}
           </Button>
 
-          <Button onClick={onForward} className={ButtonStyle}>
+          <Button
+            onClick={onForward}
+            className={ButtonStyle}
+            aria-label="Skip forward to the next sentence"
+          >
             <SkipForward />
           </Button>
         </div>
