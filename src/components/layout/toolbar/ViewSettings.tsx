@@ -48,6 +48,7 @@ const ViewSettings = () => {
         {/* Settings Panel */}
         <PopoverPanel
           transition
+          aria-label="Viewer Settings Tab"
           className="absolute right-0 z-50 mt-2.5 w-48 origin-top transform rounded border border-zinc-600 bg-zinc-200 p-2 shadow-lg transition duration-200 ease-in-out data-closed:-translate-y-1 data-closed:opacity-0 dark:bg-zinc-700"
         >
           <div className="flex items-center gap-1 px-1 py-2">
@@ -56,10 +57,15 @@ const ViewSettings = () => {
               checked={dyslexiaEnabled}
               onChange={(v) => setDyslexiaEnabled(v)}
               className={SwitchStyle}
+              aria-label="Enable OpenDyslexic Font"
             >
               <span aria-hidden="true" className={SwitchKnobStyle} />
             </Switch>
-            <span aria-readonly="true" className={SettingsSpanStyle}>
+            <span
+              aria-readonly="true"
+              aria-label="Label for OpenDyslexic option"
+              className={SettingsSpanStyle}
+            >
               OpenDyslexic
             </span>
           </div>
@@ -71,11 +77,16 @@ const ViewSettings = () => {
               checked={halfBoldEnabled}
               onChange={(v) => setHalfBoldEnabled(v)}
               className={SwitchStyle}
+              aria-label="Enable Half Bolding Text"
             >
               <span aria-hidden="true" className={SwitchKnobStyle} />
             </Switch>
 
-            <span aria-readonly="true" className={SettingsSpanStyle}>
+            <span
+              aria-readonly="true"
+              aria-label="Label for half bold"
+              className={SettingsSpanStyle}
+            >
               Half Bold
             </span>
           </div>
@@ -87,19 +98,24 @@ const ViewSettings = () => {
               checked={accentEnabled}
               onChange={(v) => setAccentEnabled(v)}
               className={SwitchStyle}
+              aria-label="Enable Accent Letters"
             >
               <span aria-hidden="true" className={SwitchKnobStyle} />
             </Switch>
 
-            <span aria-readonly="true" className={SettingsSpanStyle}>
+            <span
+              aria-readonly="true"
+              aria-label="Label for accent option"
+              className={SettingsSpanStyle}
+            >
               Accent
             </span>
           </div>
-          <span aria-hidden="true" className="flex h-5"/>
+          <span aria-hidden="true" className="flex h-5" />
           <iframe
             src="https://github.com/sponsors/threecatswink/button"
             title="Sponsor threecatswink"
-            className="flex justify-right px-1 w-42 h-8"
+            className="justify-right flex h-8 w-42 px-1"
           />
         </PopoverPanel>
       </Popover>

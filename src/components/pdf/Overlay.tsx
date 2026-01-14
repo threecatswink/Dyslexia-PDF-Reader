@@ -44,6 +44,8 @@ const Overlay = () => {
 
   return (
     <div
+      aria-label="Overlay for the PDF"
+      aria-hidden={!dyslexiaEnabled}
       ref={overlayRef}
       className="pointer-events-none absolute top-0 left-0"
       style={{ opacity: dyslexiaEnabled ? 1 : 0 }}

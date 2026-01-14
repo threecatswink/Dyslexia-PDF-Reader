@@ -43,9 +43,11 @@ const Viewer = () => {
   }, [pdf, currentPage, currentZoom]);
 
   return (
-    <div className="relative h-full w-full overflow-auto">
+    <div className="relative h-full w-full overflow-auto" aria-labelledby="canvas-element">
       {viewport && (
         <div
+          id="canvas-element"
+          aria-label="Canvas"
           className="page-wrapper relative mx-auto bg-white"
           style={{
             width: viewport.width,

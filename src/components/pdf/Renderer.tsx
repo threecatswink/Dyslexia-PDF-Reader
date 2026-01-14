@@ -46,7 +46,13 @@ const Renderer = () => {
     };
   }, [page, viewport, currentZoom]);
 
-  return <canvas ref={canvasRef} className="block transition-opacity duration-200" />;
+  return (
+    <canvas
+      ref={canvasRef}
+      aria-label="PDF Canvas"
+      className="block transition-opacity duration-200"
+    />
+  );
 };
 
 export default Renderer;

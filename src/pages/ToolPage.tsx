@@ -19,7 +19,10 @@ function ToolPage() {
         <Toolbar />
       </header>
 
-      <main aria-label="Canvas display"className="mt-13 h-[calc(100vh-50px)] overflow-y-auto shadow-2xl">
+      <main
+        aria-label="Canvas area"
+        className="mt-13 h-[calc(100vh-50px)] overflow-y-auto shadow-2xl"
+      >
         <Viewer />
         <Reader />
       </main>

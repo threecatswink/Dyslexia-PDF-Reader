@@ -38,6 +38,7 @@ const ZoomControls = () => {
         title="Zoom Amount"
         id="zoom-selector"
         name="zoom-select"
+        aria-label="Zoom Selector"
         value={currentZoom}
         onChange={(e) => setCurrentZoom?.(parseFloat(e.target.value))}
         disabled={!file}

@@ -71,7 +71,7 @@ const Reader = () => {
   };
 
   return (
-    <footer>
+    <footer aria-labelledby="tts-controls" aria-hidden={!speakEnabled}>
       <Transition
         show={speakEnabled}
         enter="transition-opacity duration-200"
@@ -82,6 +82,7 @@ const Reader = () => {
         leaveTo="opacity-0"
       >
         <div
+          id="tts-controls"
           role="group"
           aria-label="Text-to-speech controls"
           className={`fixed inset-x-0 bottom-10 z-50 mx-auto mb-2 flex w-fit items-center gap-1 rounded-full bg-zinc-200 p-1 shadow-xl duration-500 ease-in-out dark:bg-zinc-800`}
