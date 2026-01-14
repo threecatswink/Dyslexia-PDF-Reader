@@ -1,43 +1,58 @@
 <div align="center">
+  <img src="../docs/assets/social.png" width=600 alt="Dyslexia PDF Reader">  
   
-  # Dyslexia-PDF-Reader  
-  A free, web-based PDF reader that makes reading PDFs less straining for people with reading disabilities.
-  
+  ![License](https://img.shields.io/github/license/threecatswink/dyslexia-pdf-reader)
+  ![Stars](https://img.shields.io/github/stars/threecatswink/dyslexia-pdf-reader)
+  ![Issues](https://img.shields.io/github/issues/threecatswink/dyslexia-pdf-reader)
 </div>
+
+# Dyslexia PDF Reader
+A free, web-based PDF accessibility tool for people with reading disabilities such as dyslexia.
+More can be found at the [about](https://threecatswink.github.io/Dyslexia-PDF-Reader/about) page. 
+The project largely uses React, Vite, Zustand, and PDF.js as dependencies to run.
 
 ## Get Started
 1. Open the [website](https://threecatswink.github.io/Dyslexia-PDF-Reader/)
-2. Press the _file select_ button
+2. Press the folder button
 3. Select the PDF you wish to view
 4. Select your preferred readability settings
 5. Enjoy
 
-## Documentation
-> [!NOTE]
-> How-to-use documentation will be provided below and expanded upon when the features are implimented.
+## Features
+- OpenDyslexic Font Overlay
+- Bolding the first half of every word
+- Making every word's first letter a larger font size (accent)
+- Text-to-Speech
+- Page navigation
+- Zoom navigation
+- Save settings automatically
+- Full ARIA Accessibility
 
-### Hotkeys
+## What It Does
+It loads whatever your PDF document is. After enabling Dyslexia mode, the document will be overlaid with OpenDyslexic Font text. 
+There are other settings to modify the text further, whether you like having bigger letters at the beginning of the word to help track where you are, 
+or maybe you want the first half of the words to be bold to help read faster, this app does all of that, and uses your browser's TTS.
+PWA allows your browser to remember what your preferred settings are so they are right there when you come back.
+
+## Documentation
+
+### Access Keys
 The toolbar uses a variety of `accesskeys` that allow for quick use of the viewer by the user.
 These include the following (combination of alt, shift, and option may depend on device or browser)
 
-#### For Chrome Browser in Windows
+> [!NOTE]
+> Combinations of CTRL, ALT, and SHIFT will depend on what browser you are using.
+
 | Keybind | Description |
 | :------ | :---------- |
-| Alt + Shift + f | Presses the _file select_ button |
-| Alt + [ | Presses the _previous page_ button |
-| Alt + p | Lets you enter a _page number_ to travel to in your document |
-| Alt + ] | Presses the _next page_ button |
-| Alt + - | Presses the _zoom out_ button |
-| Alt + = | Presses the _zoom in_ button |
-| Alt + s | Presses the _viewer settings_ button |
-| Alt + Shift + d | Toggles _dyslexia font_ mode |
-| Alt + b | Toggles _half bold_ mode |
-| Alt + a | Toggles _letter accent_ mode |
-
-## About
-**Why I did this?** I knew someone very close to me that struggled with dyslexia.  
-Extensions that change the browser font only do so much and unfortunately don't affect PDFs.
-Apps that do read PDFs are paywalled. It is disgusting that you have to pay to read like everybody else.
+| Access + o | Requests a PDF file input |
+| Access + [ | Presses the _previous page_ button |
+| Access + p | Lets you enter a _page number_ to travel to in your document |
+| Access + ] | Presses the _next page_ button |
+| Access + - | Presses the _zoom out_ button |
+| Access + = | Presses the _zoom in_ button |
+| Access + r | Toggles Text-to-Speech |
+| Access + s | Presses the _viewer settings_ button |
 I took it upon myself to create a free PDF viewer that would have similar benefits to other paid apps.
 Running a web app allows for her to access it anywhere with an internet connection without having to download anything.
 It also makes it more available to other people who may need a resource like this as well.
