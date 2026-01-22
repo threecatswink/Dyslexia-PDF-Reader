@@ -35,6 +35,7 @@ const FileControls = () => {
         ref={fileInputRef}
         name="file-input"
         className="hidden"
+        aria-hidden="true"
         type="file"
         accept=".pdf"
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
