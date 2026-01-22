@@ -21,6 +21,11 @@ export const ButtonStyle = `
   disabled:opacity-40 disabled:shadow-none disabled:hover:translate-y-0
   cursor-pointer disabled:cursor-not-allowed
   min-w-[2.5rem] max-w-full select-none group
+  forced-colors:bg-[ButtonFace] forced-colors:text-[ButtonText] 
+  forced-colors:border-[ButtonBorder] forced-colors:border-2
+  forced-colors:disabled:text-[GrayText] forced-colors:disabled:border-[GrayText]
+  forced-colors:hover:not-disabled:border-[Highlight] forced-colors:hover:not-disabled:bg-[Highlight] forced-colors:hover:not-disabled:text-[HighlightText]
+  forced-colors:focus-visible:outline forced-colors:focus-visible:outline-2 forced-colors:focus-visible:outline-[Highlight]
 `;
 
 export const SVGStyle = `
@@ -29,6 +34,8 @@ export const SVGStyle = `
   group-hover:invert-0
   dark:group-hover:invert-0
   group-data-[disabled]:opacity-50
+  forced-colors:fill-[ButtonText] forced-colors:stroke-[ButtonText]
+  forced-colors:group-data-[disabled]:fill-[GrayText] forced-colors:group-data-[disabled]:stroke-[GrayText]
 `;
 
 export const InputStyle = `
@@ -51,6 +58,10 @@ export const InputStyle = `
   [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none
   sm:px-2 sm:py-2 sm:min-h-[2.65rem]
   md:px-2 md:py-2 md:min-h-[2.65rem]
+  forced-colors:bg-[Field] forced-colors:text-[FieldText]
+  forced-colors:border-[FieldText] forced-colors:border-2
+  forced-colors:disabled:text-[GrayText] forced-colors:disabled:border-[GrayText]
+  forced-colors:focus-visible:outline forced-colors:focus-visible:outline-2 forced-colors:focus-visible:outline-[Highlight]
 `;
 
 export const SpanStyle = `
@@ -61,6 +72,8 @@ export const SpanStyle = `
   disabled:text-zinc-400 dark:disabled:text-zinc-500
   select-text whitespace-nowrap truncate
   max-w-[8rem] sm:max-w-[10rem] md:max-w-[12rem]
+  forced-colors:text-[CanvasText]
+  forced-colors:disabled:text-[GrayText]
 `;
 
 export const SettingsSpanStyle = `
@@ -69,6 +82,8 @@ export const SettingsSpanStyle = `
   text-zinc-900 dark:text-zinc-100
   disabled:text-zinc-400 dark:disabled:text-zinc-500
   select-text whitespace-nowrap truncate
+  forced-colors:text-[CanvasText]
+  forced-colors:disabled:text-[GrayText]
 `;
 
 export const SwitchStyle = `
@@ -77,9 +92,14 @@ export const SwitchStyle = `
   hover:ring-2 hover:ring-zinc-500 dark:hover:ring-zinc-500
   hover:brightness-105 dark:hover:brightness-110
   focus:not-data-focus:outline-none data-checked:bg-green-700 data-focus:outline data-focus:outline-offset-2 data-focus:outline-zinc-900 dark:data-focus:outline-white
+  forced-colors:bg-[ButtonFace] forced-colors:border-2 forced-colors:border-[ButtonText]
+  forced-colors:data-checked:bg-[Highlight] forced-colors:data-checked:border-[Highlight]
+  forced-colors:data-focus:outline forced-colors:data-focus:outline-2 forced-colors:data-focus:outline-[Highlight]
 `;
 
 export const SwitchKnobStyle = `
   pointer-events-none inline-block size-4 translate-x-0 rounded-full bg-white 
   shadow-lg ring-0 transition duration-200 ease-in-out group-data-checked:translate-x-6
+  forced-colors:bg-[ButtonText] forced-colors:border-2 forced-colors:border-[ButtonText]
+  forced-colors:group-data-checked:bg-[HighlightText]
 `;

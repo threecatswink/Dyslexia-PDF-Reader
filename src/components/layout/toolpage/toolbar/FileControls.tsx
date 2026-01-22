@@ -30,6 +30,7 @@ const FileControls = () => {
       </Button>
 
       {/* File Input */}
+      <span className="sr-only">File Input</span>
       <input
         id="file-input"
         ref={fileInputRef}

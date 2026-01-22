@@ -23,7 +23,6 @@ const PageControls = () => {
     <div
       role="group"
       aria-label="Page navigation"
-      aria-controls="pdf-viewer"
       className="flex flex-1 flex-nowrap items-center justify-center gap-2 sm:gap-3"
     >
       <span id="page-range-hint" className="sr-only">
@@ -51,7 +50,6 @@ const PageControls = () => {
         title="Enter page number | Access: p"
         type="number"
         inputMode="numeric"
-        pattern="[0-9]*"
         min={1}
         max={totalPages || 0}
         disabled={!file || totalPages <= 0}

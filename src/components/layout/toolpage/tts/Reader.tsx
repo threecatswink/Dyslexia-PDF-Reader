@@ -125,7 +125,7 @@ const Reader = () => {
   };
 
   return (
-    <footer aria-labelledby="tts-controls" aria-hidden={!speakEnabled}>
+    <footer role="group" aria-label="Text-to-speech controls" aria-hidden={!speakEnabled}>
       <Transition
         show={speakEnabled}
         enter="transition-opacity duration-200"

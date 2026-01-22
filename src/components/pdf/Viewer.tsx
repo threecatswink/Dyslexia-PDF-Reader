@@ -78,7 +78,8 @@ const Viewer = () => {
     <div
       ref={scrollContainerRef}
       className="relative h-full w-full overflow-auto"
-      aria-labelledby="canvas-element"
+      role="region"
+      aria-label="PDF page container"
     >
       {viewport && (
         <div

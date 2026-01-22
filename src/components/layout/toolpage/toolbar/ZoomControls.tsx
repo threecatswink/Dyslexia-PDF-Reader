@@ -11,9 +11,7 @@ const ZoomControls = () => {
   const setCurrentZoom = useGlobalStates((s) => s.setCurrentZoom);
 
   const zoomOptions = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 2, 2.5, 3, 3.5, 4, 5, 6];
-  const mergedZoomOptions = zoomOptions.includes(currentZoom!)
-    ? zoomOptions
-    : [...zoomOptions, currentZoom!].sort((a, b) => a - b);
+  const hasCustomZoom = !zoomOptions.includes(currentZoom!);
 
   return (
     <div
@@ -51,11 +49,18 @@ const ZoomControls = () => {
         disabled={!file}
         className={`h-10 w-18 ${InputStyle}`}
       >
-        {mergedZoomOptions.map((v) => (
-          <option key={v} value={v}>
-            {Math.round(v * 100)}%
-          </option>
-        ))}
+        <optgroup label="Preset zoom levels">
+          {zoomOptions.map((v) => (
+            <option key={v} value={v}>
+              {Math.round(v * 100)}%
+            </option>
+          ))}
+        </optgroup>
+        {hasCustomZoom && (
+          <optgroup label="Current zoom">
+            <option value={currentZoom}>{Math.round(currentZoom * 100)}% </option>
+          </optgroup>
+        )}
       </select>
 
       {/* Zoom In */}
