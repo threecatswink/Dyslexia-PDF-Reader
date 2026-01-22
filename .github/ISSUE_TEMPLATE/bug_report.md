@@ -1,10 +1,9 @@
 ---
 name: Bug report
 about: Report a Bug to me
-title: "[BUG REPORT]"
+title: '[BUG REPORT]'
 labels: bug
 assignees: threecatswink
-
 ---
 
 **Describe the bug**

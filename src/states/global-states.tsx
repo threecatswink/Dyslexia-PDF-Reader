@@ -1,8 +1,8 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { useFileInformation } from './file-information.tsx';
-import type { PDFPageProxy } from 'pdfjs-dist';
-import type { PDFTextItem } from '../components/pdf/overlay_components/TextHelper.tsx';
+import type { PDFPageProxy } from 'pdfjs-dist/types/src/display/api';
+import type { PDFTextItem } from '../components/pdf/TextHelper.tsx';
 
 /** The maximum possible zoom value. */
 export const maxZoom = 6;
@@ -30,6 +30,22 @@ type GlobalState = {
   sentences: string[];
   /** Current sentence number. */
   currentSentenceIndex: number;
+  /** Global word index currently highlighted by TTS (-1 when idle). */
+  currentWordIndex: number;
+  /** Word range (start/end indices) for the active sentence; -1 when idle. */
+  sentenceWordStart: number;
+  sentenceWordEnd: number;
+  /** Per-sentence word counts to map sentences to global indices. */
+  sentenceWordCounts: number[];
+
+  /** Accent size in px applied to first letter when accent is enabled. */
+  accentSize: number;
+
+  /** Multiplier applied to overlay text sizing for alignment tuning. */
+  overlayFontScale: number;
+
+  /** Incremented when any visual setting changes to force overlay rerenders */
+  settingsVersion: number;
 
   /** Sets dyslexiaEnabled to true/false. */
   setDyslexiaEnabled: (state: boolean) => void;
@@ -43,6 +59,16 @@ type GlobalState = {
   setPlayEnabled: (state: boolean) => void;
   /** Sets the currentSentenceIndex. */
   setCurrentSentenceIndex: (index: number) => void;
+  /** Sets the current highlighted word index. */
+  setCurrentWordIndex: (index: number) => void;
+  /** Sets the active sentence word range. */
+  setSentenceWordRange: (start: number, end: number) => void;
+  /** Bumps settingsVersion to trigger overlay rerender */
+  bumpSettingsVersion: () => void;
+  /** Sets overlayFontScale and triggers overlay rerender */
+  setOverlayFontScale: (scale: number) => void;
+  /** Sets accentSize and triggers overlay rerender */
+  setAccentSize: (size: number) => void;
 
   /**
    * @description Sets the current page to view.
@@ -81,14 +107,38 @@ export const useGlobalStates = create<GlobalState>()(
 
       extractedText: '',
       sentences: [],
+      sentenceWordCounts: [],
       currentSentenceIndex: 0,
+      currentWordIndex: -1,
+      sentenceWordStart: -1,
+      sentenceWordEnd: -1,
+      overlayFontScale: 1,
+      accentSize: 4,
+      settingsVersion: 0,
 
-      setDyslexiaEnabled: (dyslexiaEnabled) => set({ dyslexiaEnabled }),
-      setHalfBoldEnabled: (halfBoldEnabled) => set({ halfBoldEnabled }),
-      setAccentEnabled: (accentEnabled) => set({ accentEnabled }),
+      setDyslexiaEnabled: (dyslexiaEnabled) =>
+        set((s) => ({ dyslexiaEnabled, settingsVersion: s.settingsVersion + 1 })),
+      setHalfBoldEnabled: (halfBoldEnabled) =>
+        set((s) => ({ halfBoldEnabled, settingsVersion: s.settingsVersion + 1 })),
+      setAccentEnabled: (accentEnabled) =>
+        set((s) => ({ accentEnabled, settingsVersion: s.settingsVersion + 1 })),
       setSpeakEnabled: (speakEnabled) => set({ speakEnabled }),
       setPlayEnabled: (playEnabled) => set({ playEnabled }),
       setCurrentSentenceIndex: (currentSentenceIndex) => set({ currentSentenceIndex }),
+      setCurrentWordIndex: (currentWordIndex) => set({ currentWordIndex }),
+      setSentenceWordRange: (sentenceWordStart, sentenceWordEnd) =>
+        set({ sentenceWordStart, sentenceWordEnd }),
+      bumpSettingsVersion: () => set((s) => ({ settingsVersion: s.settingsVersion + 1 })),
+      setOverlayFontScale: (overlayFontScale) =>
+        set((s) => ({
+          overlayFontScale: Math.min(Math.max(overlayFontScale, 0.5), 1.8),
+          settingsVersion: s.settingsVersion + 1,
+        })),
+      setAccentSize: (accentSize) =>
+        set((s) => ({
+          accentSize: Math.min(Math.max(accentSize, 0), 12),
+          settingsVersion: s.settingsVersion + 1,
+        })),
 
       setCurrentPage: (page) => {
         const totalPages = useFileInformation.getState().totalPages;
@@ -109,32 +159,50 @@ export const useGlobalStates = create<GlobalState>()(
           extractedText: '',
           sentences: [],
           currentSentenceIndex: 0,
+          currentWordIndex: -1,
+          sentenceWordStart: -1,
+          sentenceWordEnd: -1,
         }),
 
       setExtractedText: async (page) => {
         const content = await page.getTextContent();
-        const text = (content.items as PDFTextItem[])
-          .map((item) => item.str)
-          .join(' ');
+        const items = content.items as PDFTextItem[];
+        const seen = new Set<string>();
+        const round = (value: number) => Math.round(value * 1000) / 1000;
+        const parts: string[] = [];
 
-        const sentences =
-          text.match(/[^.!?]+[.!?]+[\])'"`’”]*|.+$/g) || [];
+        items.forEach((item) => {
+          if (!item.str || item.str.trim() === '') return;
+          const roundedTransform = item.transform.map((value) => round(value));
+          const key = `${item.str}|${roundedTransform.join(',')}|${round(item.width)}|${round(item.height)}|${item.fontName ?? ''}|${item.dir ?? ''}`;
+          if (seen.has(key)) return;
+          seen.add(key);
+          parts.push(item.str);
+        });
+
+        const text = parts.join(' ');
+
+        const sentences = text.match(/[^.!?]+[.!?]+[\])'"`’”]*|.+$/g) || [];
+        const wordCounts = sentences.map((s) => (s.match(/\S+/g) || []).length);
 
         set({
           extractedText: text,
           sentences,
+          sentenceWordCounts: wordCounts,
           currentSentenceIndex: 0,
         });
       },
     }),
     {
       name: 'global-reader-state',
-      version: 1,
+      version: 2,
 
       partialize: (state) => ({
         dyslexiaEnabled: state.dyslexiaEnabled,
         halfBoldEnabled: state.halfBoldEnabled,
         accentEnabled: state.accentEnabled,
+        overlayFontScale: state.overlayFontScale,
+        accentSize: state.accentSize,
       }),
     }
   )

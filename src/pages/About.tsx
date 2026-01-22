@@ -1,17 +1,6 @@
-import { Helmet } from 'react-helmet-async';
-
 function About() {
   return (
     <main className="mx-auto max-w-3xl space-y-6 overflow-y-auto p-6">
-      <Helmet>
-        <title>About | Dyslexia PDF Reader - Free Open-Source</title>
-        <meta
-          name="description"
-          content="Learn about Dyslexia PDF Reader, a free and open-source web app designed to help people with dyslexia and reading disabilities read PDF documents more comfortably."
-        />
-        <link rel="canonical" href="https://threecatswink.github.io/Dyslexia-PDF-Reader/about" />
-      </Helmet>
-
       <h1>About Dyslexia PDF Reader:</h1>
 
       <p>
@@ -44,9 +33,12 @@ function About() {
         file uploads to third-party servers. All processing happens locally in your browser.
       </p>
 
-      <button>
-        <a href="/Dyslexia-PDF-Reader/">Launch Dyslexia PDF Reader</a>
-      </button>
+      <a
+        href="/Dyslexia-PDF-Reader/"
+        className="inline-block rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+      >
+        Launch Dyslexia PDF Reader
+      </a>
     </main>
   );
 }

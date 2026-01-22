@@ -1,8 +1,8 @@
 import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
-import react from '@vitejs/plugin-react';
+import react from '@vitejs/plugin-react-swc';
 import tailwindcss from '@tailwindcss/vite';
-import Sitemap from "vite-plugin-sitemap";
+import Sitemap from 'vite-plugin-sitemap';
 
 export default defineConfig({
   base: '/Dyslexia-PDF-Reader/',
@@ -10,7 +10,7 @@ export default defineConfig({
     react(),
     tailwindcss(),
     Sitemap({
-      hostname: "https://threecatswink.github.io/Dyslexia-PDF-Reader/",
+      hostname: 'https://threecatswink.github.io/Dyslexia-PDF-Reader/',
     }),
     VitePWA({
       registerType: 'autoUpdate',
@@ -33,4 +33,14 @@ export default defineConfig({
       strategies: 'generateSW',
     }),
   ],
+  build: {
+    chunkSizeWarningLimit: 1000,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'pdf-lib': ['pdfjs-dist'],
+        },
+      },
+    },
+  },
 });

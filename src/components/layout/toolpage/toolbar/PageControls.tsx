@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Button } from '@headlessui/react';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
-import { useGlobalStates } from '../../../states/global-states.tsx';
-import { useFileInformation } from '../../../states/file-information.tsx';
-import { ButtonStyle, InputStyle, SpanStyle } from '../../ui/Presets.tsx';
+import { useGlobalStates } from '../../../../states/global-states.tsx';
+import { useFileInformation } from '../../../../states/file-information.tsx';
+import { ButtonStyle, InputStyle, SpanStyle, SVGStyle } from '../../../../styles/StylePresets.tsx';
 
 const PageControls = () => {
   const file = useFileInformation((s) => s.file);
@@ -22,9 +22,16 @@ const PageControls = () => {
   return (
     <div
       role="group"
-      aria-label="Page Selector Options"
-      className="flex flex-1 items-center justify-center gap-2"
+      aria-label="Page navigation"
+      aria-controls="pdf-viewer"
+      className="flex flex-1 flex-nowrap items-center justify-center gap-2 sm:gap-3"
     >
+      <span id="page-range-hint" className="sr-only">
+        Enter a page number between 1 and {totalPages || 0}
+      </span>
+      <label htmlFor="page-selector" className="sr-only">
+        Page number
+      </label>
       {/* Previous Page */}
       <Button
         className={ButtonStyle}
@@ -34,21 +41,24 @@ const PageControls = () => {
         title="Previous Page | Access: ["
         aria-label="Previous Page"
       >
-        <ChevronLeft />
+        <ChevronLeft className={SVGStyle} />
       </Button>
 
       {/* Page Selector */}
       <input
-        name="page-selector"
         id="page-selector"
-        type="number"
+        name="page-selector"
         title="Enter page number | Access: p"
+        type="number"
+        inputMode="numeric"
+        pattern="[0-9]*"
         min={1}
         max={totalPages || 0}
-        accessKey="p"
-        disabled={totalPages <= 0}
+        disabled={!file || totalPages <= 0}
         value={pageInput}
-        aria-label="Page number select"
+        accessKey="p"
+        aria-label={`Page number input, 1 to ${totalPages || 0}`}
+        aria-describedby="page-range-hint"
         onChange={(e) => {
           if (/^\d*$/.test(e.target.value)) {
             setPageInput(e.target.value);
@@ -99,7 +109,7 @@ const PageControls = () => {
         title="Next Page | Access: ]"
         aria-label="Next Page"
       >
-        <ChevronRight />
+        <ChevronRight className={SVGStyle} />
       </Button>
     </div>
   );

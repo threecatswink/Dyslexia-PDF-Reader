@@ -15,8 +15,6 @@ type FileInformationState = {
   /** The page viewport. */
   viewport: { width: number; height: number; scale: number } | null;
 
-
-
   /**
    * @description Sets the file to be viewed.
    * @param {File} file - The file to be set.
@@ -44,7 +42,6 @@ type FileInformationState = {
 
   /** Resets the PDF values. */
   reset: () => void;
-
 };
 
 /**
@@ -64,13 +61,6 @@ export const useFileInformation = create<FileInformationState>((set) => ({
       file,
       fileName: file.name,
     });
-    try {
-      await new Promise(resolve => setTimeout(resolve, 100));
-    } catch (error) {
-      console.log("Problem setting file:", error);
-    } finally {
-      console.log("Loaded PDF");
-    }
   },
 
   setTotalPages: (totalPages) => set({ totalPages }),
@@ -85,5 +75,5 @@ export const useFileInformation = create<FileInformationState>((set) => ({
     });
   },
 
-  reset: () => set({ pdf: null, page: null, viewport: null}),
+  reset: () => set({ pdf: null, page: null, viewport: null }),
 }));

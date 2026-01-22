@@ -1,10 +1,10 @@
 import { Play, Pause, SkipForward, SkipBack } from 'lucide-react';
 import { Button, Transition } from '@headlessui/react';
-import { ButtonStyle } from '../../ui/Presets.tsx';
-import { useGlobalStates } from '../../../states/global-states';
+import { useCallback, useEffect, useRef } from 'react';
+import { ButtonStyle, SVGStyle } from '../../../../styles/StylePresets.tsx';
+import { useGlobalStates } from '../../../../states/global-states';
 import { tts } from './TTS.tsx';
-import { useFileInformation } from '../../../states/file-information.tsx';
-import { useEffect } from 'react';
+import { useFileInformation } from '../../../../states/file-information.tsx';
 
 const Reader = () => {
   const playEnabled = useGlobalStates((s) => s.playEnabled);
@@ -14,22 +14,60 @@ const Reader = () => {
   const setExtractedText = useGlobalStates((s) => s.setExtractedText);
 
   const speakEnabled = useGlobalStates((s) => s.speakEnabled);
+  const isPlayingRef = useRef(false);
+  const playTokenRef = useRef(0);
+
+  useEffect(() => {
+    isPlayingRef.current = playEnabled;
+  }, [playEnabled]);
 
   const sentences = useGlobalStates((s) => s.sentences);
   const currentSentenceIndex = useGlobalStates((s) => s.currentSentenceIndex);
   const setCurrentSentenceIndex = useGlobalStates((s) => s.setCurrentSentenceIndex);
+  const setCurrentWordIndex = useGlobalStates((s) => s.setCurrentWordIndex);
+  const setSentenceWordRange = useGlobalStates((s) => s.setSentenceWordRange);
+
+  const clearHighlight = useCallback(() => {
+    setCurrentWordIndex(-1);
+    setSentenceWordRange(-1, -1);
+  }, [setCurrentWordIndex, setSentenceWordRange]);
 
   useEffect(() => {
     if (!page) return;
     setExtractedText(page);
-  }, [page]);
+  }, [page, setExtractedText]);
+
+  useEffect(() => {
+    if (speakEnabled) return;
+    tts.stop();
+    setPlayEnabled(false);
+    clearHighlight();
+  }, [speakEnabled, setPlayEnabled, clearHighlight]);
+
+  useEffect(() => {
+    return () => {
+      tts.stop();
+      setPlayEnabled(false);
+      clearHighlight();
+    };
+  }, [setPlayEnabled, clearHighlight]);
 
   const playSentence = (index: number) => {
     if (!sentences || sentences.length === 0) return;
     if (!sentences[index]) return;
 
     tts.stop();
-    tts.speak(sentences[index], () => {
+    playTokenRef.current += 1;
+    const token = playTokenRef.current;
+    const sentenceText = sentences[index];
+
+    clearHighlight();
+
+    tts.speak(sentenceText, undefined, () => {
+      if (playTokenRef.current !== token) return;
+      if (!isPlayingRef.current) {
+        return;
+      }
       const nextIndex = index + 1;
       if (nextIndex < sentences.length) {
         setCurrentSentenceIndex(nextIndex);
@@ -43,21 +81,35 @@ const Reader = () => {
   const onPlayPause = () => {
     if (!sentences || sentences.length === 0) return;
 
-    if (!playEnabled) {
-      tts.speak(sentences[currentSentenceIndex]);
-    } else {
+    // If currently speaking, pause
+    if (playEnabled && tts.isSpeaking()) {
       tts.pause();
+      setPlayEnabled(false);
+      return;
     }
 
-    setPlayEnabled(!playEnabled);
+    // If paused, resume current utterance
+    if (!playEnabled && tts.isPaused()) {
+      tts.resume();
+      setPlayEnabled(true);
+      return;
+    }
+
+    // Otherwise start fresh and chain sentences
+    playSentence(currentSentenceIndex);
+    setPlayEnabled(true);
   };
 
   const onForward = () => {
     if (!sentences || sentences.length === 0) return;
 
+    tts.stop();
     const nextIndex = Math.min(currentSentenceIndex + 1, sentences.length - 1);
     setCurrentSentenceIndex(nextIndex);
-    if (playEnabled) playSentence(nextIndex);
+    clearHighlight();
+    if (playEnabled) {
+      playSentence(nextIndex);
+    }
   };
 
   const onBackward = () => {
@@ -66,8 +118,10 @@ const Reader = () => {
     tts.stop();
     const prevIndex = Math.max(currentSentenceIndex - 1, 0);
     setCurrentSentenceIndex(prevIndex);
-    tts.speak(sentences[prevIndex]);
-    setPlayEnabled(true);
+    clearHighlight();
+    if (playEnabled) {
+      playSentence(prevIndex);
+    }
   };
 
   return (
@@ -85,14 +139,14 @@ const Reader = () => {
           id="tts-controls"
           role="group"
           aria-label="Text-to-speech controls"
-          className={`fixed inset-x-0 bottom-10 z-50 mx-auto mb-2 flex w-fit items-center gap-1 rounded-full bg-zinc-200 p-1 shadow-xl duration-500 ease-in-out dark:bg-zinc-800`}
+          className="fixed inset-x-0 bottom-10 z-50 mx-auto mb-2 flex w-fit items-center gap-2 rounded-lg border border-zinc-300/80 bg-zinc-200 p-2 shadow-md duration-500 ease-in-out dark:border-zinc-600 dark:bg-zinc-800"
         >
           <Button
             onClick={onBackward}
             className={ButtonStyle}
             aria-label="Skip backward to the last sentence"
           >
-            <SkipBack />
+            <SkipBack className={SVGStyle} />
           </Button>
 
           <Button
@@ -101,7 +155,7 @@ const Reader = () => {
             aria-pressed={playEnabled}
             aria-label={playEnabled ? 'Pause reading' : 'Start reading'}
           >
-            {playEnabled ? <Pause /> : <Play />}
+            {playEnabled ? <Pause className={SVGStyle} /> : <Play className={SVGStyle} />}
           </Button>
 
           <Button
@@ -109,7 +163,7 @@ const Reader = () => {
             className={ButtonStyle}
             aria-label="Skip forward to the next sentence"
           >
-            <SkipForward />
+            <SkipForward className={SVGStyle} />
           </Button>
         </div>
       </Transition>

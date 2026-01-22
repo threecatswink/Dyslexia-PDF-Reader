@@ -1,8 +1,8 @@
 import { Button } from '@headlessui/react';
 import { ZoomOut, ZoomIn } from 'lucide-react';
-import { useGlobalStates, minZoom, maxZoom } from '../../../states/global-states.tsx';
-import { useFileInformation } from '../../../states/file-information.tsx';
-import { ButtonStyle, InputStyle } from '../../ui/Presets.tsx';
+import { useGlobalStates, minZoom, maxZoom } from '../../../../states/global-states.tsx';
+import { useFileInformation } from '../../../../states/file-information.tsx';
+import { ButtonStyle, InputStyle, SVGStyle } from '../../../../styles/StylePresets.tsx';
 
 const ZoomControls = () => {
   const file = useFileInformation((s) => s.file);
@@ -19,8 +19,14 @@ const ZoomControls = () => {
     <div
       role="group"
       aria-label="Zoom Options"
-      className="flex flex-1 items-center justify-end gap-1"
+      className="flex flex-1 flex-nowrap items-center justify-end gap-2 sm:gap-3"
     >
+      <span id="zoom-percent-desc" className="sr-only">
+        Select zoom percentage
+      </span>
+      <label htmlFor="zoom-selector" className="sr-only">
+        Zoom level
+      </label>
       {/* Zoom Out */}
       <Button
         className={ButtonStyle}
@@ -30,7 +36,7 @@ const ZoomControls = () => {
         title="Zoom Out | Access: -"
         aria-label="Zoom Out"
       >
-        <ZoomOut />
+        <ZoomOut className={SVGStyle} />
       </Button>
 
       {/* Zoom Selector */}
@@ -39,6 +45,7 @@ const ZoomControls = () => {
         id="zoom-selector"
         name="zoom-select"
         aria-label="Zoom Selector"
+        aria-describedby="zoom-percent-desc"
         value={currentZoom}
         onChange={(e) => setCurrentZoom?.(parseFloat(e.target.value))}
         disabled={!file}
@@ -60,7 +67,7 @@ const ZoomControls = () => {
         title="Zoom In | Access: ="
         aria-label="Zoom In"
       >
-        <ZoomIn />
+        <ZoomIn className={SVGStyle} />
       </Button>
     </div>
   );

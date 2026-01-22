@@ -8,7 +8,7 @@ const Toolbar = () => {
       id="toolbar"
       role="toolbar"
       aria-label="PDF document controls"
-      className="flex w-full items-center bg-zinc-200 px-4 py-1 text-black shadow-md dark:bg-zinc-800 dark:text-white"
+      className="flex w-full flex-nowrap items-center gap-2 overflow-visible bg-zinc-200 px-4 py-1.5 text-black shadow-md sm:gap-3 dark:bg-zinc-800 dark:text-white"
     >
       {/* Left of Toolbar */}
       <FileControls />
@@ -20,7 +20,7 @@ const Toolbar = () => {
       <div
         role="group"
         aria-label="Zoom and Misc Options"
-        className="flex flex-1 items-center justify-end gap-1"
+        className="flex flex-1 items-center justify-end gap-3"
       >
         <ZoomControls />
         <ViewSettings />
