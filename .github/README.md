@@ -54,6 +54,7 @@ My philosophy/principles as a solo developer is that accessibility tools should 
 
 | Keybind    | Description                                                  |
 | :--------- | :----------------------------------------------------------- |
+| Access + l | Toggle the outline sidebar                                   |
 | Access + o | Requests a PDF file input                                    |
 | Access + [ | Presses the _previous page_ button                           |
 | Access + p | Lets you enter a _page number_ to travel to in your document |

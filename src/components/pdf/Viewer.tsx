@@ -1,12 +1,56 @@
 import { useEffect, useRef } from 'react';
-import { useFileInformation } from '../../states/file-information';
+import type { PDFDocumentProxy } from 'pdfjs-dist';
+import { useFileInformation, type OutlineItem } from '../../states/file-information';
 import { useGlobalStates } from '../../states/global-states';
 import Renderer from './Renderer';
 import Overlay from './Overlay';
 
+/**
+ * Recursively processes PDF.js outline items and resolves page numbers
+ */
+const processOutlineItems = async (
+  items: Record<string, unknown>[],
+  pdfDoc: PDFDocumentProxy
+): Promise<OutlineItem[]> => {
+  const processed: OutlineItem[] = [];
+
+  for (const item of items) {
+    let pageNumber = 1; // Default fallback
+
+    // Try to resolve the page number from the destination
+    const itemDest = item.dest;
+    if (itemDest && typeof itemDest === 'string') {
+      const pageRef = await pdfDoc.getDestination(itemDest);
+      if (pageRef && pageRef[0] !== undefined) {
+        const pageIndex = await pdfDoc.getPageIndex(pageRef[0]);
+        pageNumber = pageIndex + 1;
+      }
+    } else if (itemDest && Array.isArray(itemDest)) {
+      const pageIndex = await pdfDoc.getPageIndex(itemDest[0]);
+      pageNumber = pageIndex + 1;
+    }
+
+    const outlineItem: OutlineItem = {
+      title: (item.title as string) || 'Untitled',
+      page: pageNumber,
+    };
+
+    // Recursively process children
+    const itemChildren = item.items as Record<string, unknown>[] | undefined;
+    if (itemChildren && itemChildren.length > 0) {
+      outlineItem.children = await processOutlineItems(itemChildren, pdfDoc);
+    }
+
+    processed.push(outlineItem);
+  }
+
+  return processed;
+};
+
 const Viewer = () => {
   const file = useFileInformation((s) => s.file);
   const setTotalPages = useFileInformation((s) => s.setTotalPages);
+  const setOutline = useFileInformation((s) => s.setOutline);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const previousZoomRef = useRef<number>(1);
 
@@ -37,8 +81,20 @@ const Viewer = () => {
       const pdfDoc = await getDocument(buffer).promise;
       setPDF(pdfDoc);
       setTotalPages(pdfDoc.numPages);
+
+      // Extract outline/bookmarks
+      try {
+        const outline = await pdfDoc.getOutline();
+        if (outline && outline.length > 0) {
+          const processedOutline = await processOutlineItems(outline, pdfDoc);
+          setOutline(processedOutline);
+        }
+      } catch {
+        // Some PDFs don't have an outline, which is fine
+        setOutline([]);
+      }
     })();
-  }, [file, resetPdf, setPDF, setTotalPages]);
+  }, [file, resetPdf, setPDF, setTotalPages, setOutline]);
 
   // Load page
   useEffect(() => {
@@ -84,7 +140,6 @@ const Viewer = () => {
       {viewport && (
         <div
           id="canvas-element"
-          aria-label="Canvas"
           className="page-wrapper relative mx-auto bg-white"
           style={{
             width: viewport.width,

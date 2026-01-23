@@ -78,6 +78,7 @@ const Renderer = ({ hidden }: RendererProps) => {
   return (
     <div
       className="absolute inset-0"
+      role="img"
       aria-label="PDF Renderer"
       aria-hidden={hidden}
       style={{ visibility: hidden ? 'hidden' : 'visible', pointerEvents: hidden ? 'none' : 'auto' }}

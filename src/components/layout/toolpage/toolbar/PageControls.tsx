@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { Button } from '@headlessui/react';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
 import { useGlobalStates } from '../../../../states/global-states.tsx';
 import { useFileInformation } from '../../../../states/file-information.tsx';
@@ -32,7 +31,7 @@ const PageControls = () => {
         Page number
       </label>
       {/* Previous Page */}
-      <Button
+      <button
         className={ButtonStyle}
         disabled={currentPage <= 1 || !file}
         onClick={() => setCurrentPage(currentPage - 1)}
@@ -41,7 +40,7 @@ const PageControls = () => {
         aria-label="Previous Page"
       >
         <ChevronLeft className={SVGStyle} />
-      </Button>
+      </button>
 
       {/* Page Selector */}
       <input
@@ -99,7 +98,7 @@ const PageControls = () => {
       </span>
 
       {/* Next Page */}
-      <Button
+      <button
         className={ButtonStyle}
         disabled={currentPage == totalPages || !file}
         onClick={() => setCurrentPage(currentPage + 1)}
@@ -108,7 +107,7 @@ const PageControls = () => {
         aria-label="Next Page"
       >
         <ChevronRight className={SVGStyle} />
-      </Button>
+      </button>
     </div>
   );
 };

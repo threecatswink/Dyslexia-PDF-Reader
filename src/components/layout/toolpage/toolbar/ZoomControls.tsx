@@ -1,4 +1,3 @@
-import { Button } from '@headlessui/react';
 import { ZoomOut, ZoomIn } from 'lucide-react';
 import { useGlobalStates, minZoom, maxZoom } from '../../../../states/global-states.tsx';
 import { useFileInformation } from '../../../../states/file-information.tsx';
@@ -26,7 +25,7 @@ const ZoomControls = () => {
         Zoom level
       </label>
       {/* Zoom Out */}
-      <Button
+      <button
         className={ButtonStyle}
         disabled={currentZoom <= minZoom || !file}
         onClick={() => setCurrentZoom(currentZoom - 0.25)}
@@ -35,7 +34,7 @@ const ZoomControls = () => {
         aria-label="Zoom Out"
       >
         <ZoomOut className={SVGStyle} />
-      </Button>
+      </button>
 
       {/* Zoom Selector */}
       <select
@@ -64,7 +63,7 @@ const ZoomControls = () => {
       </select>
 
       {/* Zoom In */}
-      <Button
+      <button
         className={ButtonStyle}
         disabled={currentZoom >= maxZoom || !file}
         onClick={() => setCurrentZoom(currentZoom + 0.25)}
@@ -73,7 +72,7 @@ const ZoomControls = () => {
         aria-label="Zoom In"
       >
         <ZoomIn className={SVGStyle} />
-      </Button>
+      </button>
     </div>
   );
 };

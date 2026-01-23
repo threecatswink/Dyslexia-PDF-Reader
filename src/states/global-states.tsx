@@ -18,6 +18,10 @@ type GlobalState = {
   accentEnabled: boolean;
   /** Enables a screen reader to read words aloud. */
   speakEnabled: boolean;
+  /** Enables the PDF outline/bookmark sidebar. */
+  outlineEnabled: boolean;
+  /** Width of the PDF outline sidebar in pixels. */
+  sidebarWidth: number;
   /** Current page number. */
   currentPage: number;
   /** Current zoom number (float typically in increments of 0.25). */
@@ -55,6 +59,10 @@ type GlobalState = {
   setAccentEnabled: (state: boolean) => void;
   /** Sets speakEnabled to true/false. */
   setSpeakEnabled: (state: boolean) => void;
+  /** Sets outlineEnabled to true/false. */
+  setOutlineEnabled: (state: boolean) => void;
+  /** Sets sidebarWidth in pixels. */
+  setSidebarWidth: (width: number) => void;
   /** Set playEnabled to true/false. */
   setPlayEnabled: (state: boolean) => void;
   /** Sets the currentSentenceIndex. */
@@ -101,6 +109,8 @@ export const useGlobalStates = create<GlobalState>()(
       halfBoldEnabled: false,
       accentEnabled: false,
       speakEnabled: false,
+      outlineEnabled: true,
+      sidebarWidth: 256,
       playEnabled: false,
       currentPage: 1,
       currentZoom: 1,
@@ -123,6 +133,8 @@ export const useGlobalStates = create<GlobalState>()(
       setAccentEnabled: (accentEnabled) =>
         set((s) => ({ accentEnabled, settingsVersion: s.settingsVersion + 1 })),
       setSpeakEnabled: (speakEnabled) => set({ speakEnabled }),
+      setOutlineEnabled: (outlineEnabled) => set({ outlineEnabled }),
+      setSidebarWidth: (sidebarWidth) => set({ sidebarWidth }),
       setPlayEnabled: (playEnabled) => set({ playEnabled }),
       setCurrentSentenceIndex: (currentSentenceIndex) => set({ currentSentenceIndex }),
       setCurrentWordIndex: (currentWordIndex) => set({ currentWordIndex }),
@@ -201,6 +213,8 @@ export const useGlobalStates = create<GlobalState>()(
         dyslexiaEnabled: state.dyslexiaEnabled,
         halfBoldEnabled: state.halfBoldEnabled,
         accentEnabled: state.accentEnabled,
+        outlineEnabled: state.outlineEnabled,
+        sidebarWidth: state.sidebarWidth,
         overlayFontScale: state.overlayFontScale,
         accentSize: state.accentSize,
       }),

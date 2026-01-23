@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Button, Popover, PopoverButton, PopoverPanel, Switch } from '@headlessui/react';
+import { Popover, PopoverButton, PopoverPanel, Switch } from '@headlessui/react';
 import { Speech, MenuIcon, Heart } from 'lucide-react';
 import {
   ButtonStyle,
@@ -61,7 +61,7 @@ const ViewSettings = () => {
       className="flex flex-nowrap items-center justify-end gap-2 sm:gap-3"
     >
       {/* Screen Reader */}
-      <Button
+      <button
         onClick={() => setSpeakEnabled(!speakEnabled)}
         aria-pressed={speakEnabled}
         disabled={!file}
@@ -71,7 +71,7 @@ const ViewSettings = () => {
         aria-label="Toggle Read Aloud"
       >
         <Speech className={SVGStyle} />
-      </Button>
+      </button>
 
       {/* Dropdown */}
       <Popover className="relative" role="dialog" aria-label="Settings menu">
@@ -145,6 +145,7 @@ const ViewSettings = () => {
               Accent
             </span>
           </div>
+
           <span className={`${SettingsSpanStyle} mt-4! flex! justify-center! text-sm!`}>
             Advanced Settings
           </span>
@@ -241,7 +242,7 @@ const ViewSettings = () => {
           </div>
           <span aria-hidden="true" className="flex h-5" />
           <div className="flex items-center justify-center gap-1 px-1 py-1">
-            <Button
+            <button
               onClick={() => {
                 window.open(
                   'https://github.com/sponsors/threecatswink',
@@ -257,7 +258,7 @@ const ViewSettings = () => {
               <span aria-label="Label for sponsor button" className={SettingsSpanStyle}>
                 Sponsor
               </span>
-            </Button>
+            </button>
           </div>
         </PopoverPanel>
       </Popover>

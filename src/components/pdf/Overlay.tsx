@@ -98,6 +98,7 @@ const Overlay = () => {
 
   return (
     <div
+      role="img"
       aria-label="Overlay for the PDF"
       aria-hidden={!shouldRenderOverlay}
       ref={overlayRef}

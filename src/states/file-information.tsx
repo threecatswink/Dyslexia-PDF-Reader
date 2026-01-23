@@ -1,6 +1,12 @@
 import { create } from 'zustand';
 import type { PDFDocumentProxy, PDFPageProxy } from 'pdfjs-dist';
 
+export type OutlineItem = {
+  title: string;
+  page: number;
+  children?: OutlineItem[];
+};
+
 type FileInformationState = {
   /** The file that the user selected. */
   file: File | null;
@@ -14,6 +20,8 @@ type FileInformationState = {
   page: PDFPageProxy | null;
   /** The page viewport. */
   viewport: { width: number; height: number; scale: number } | null;
+  /** The PDF document outline/bookmarks. */
+  outline: OutlineItem[] | null;
 
   /**
    * @description Sets the file to be viewed.
@@ -40,6 +48,12 @@ type FileInformationState = {
    */
   setPage: (page: PDFPageProxy, zoom: number) => void;
 
+  /**
+   * @description Sets the PDF document outline/bookmarks.
+   * @param outline - The outline structure to be set.
+   */
+  setOutline: (outline: OutlineItem[]) => void;
+
   /** Resets the PDF values. */
   reset: () => void;
 };
@@ -55,6 +69,7 @@ export const useFileInformation = create<FileInformationState>((set) => ({
   pdf: null,
   page: null,
   viewport: null,
+  outline: null,
 
   setFile: async (file) => {
     set({
@@ -75,5 +90,7 @@ export const useFileInformation = create<FileInformationState>((set) => ({
     });
   },
 
-  reset: () => set({ pdf: null, page: null, viewport: null }),
+  setOutline: (outline) => set({ outline }),
+
+  reset: () => set({ pdf: null, page: null, viewport: null, outline: null }),
 }));
