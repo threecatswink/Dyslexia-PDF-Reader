@@ -4,49 +4,53 @@
   ![License](https://img.shields.io/github/license/threecatswink/dyslexia-pdf-reader)
   ![Stars](https://img.shields.io/github/stars/threecatswink/dyslexia-pdf-reader)
   ![Issues](https://img.shields.io/github/issues/threecatswink/dyslexia-pdf-reader)
+  
+  A free, PWA PDF accessibility tool for people with reading disabilities. The project is based in React + Vite, using Zustand for state storing, and PDF.js for PDF processing. 
 </div>
 
-# Dyslexia PDF Reader
+<br />
 
-A free, web-based PDF accessibility tool for people with reading disabilities such as dyslexia.
-More can be found at the [about](https://threecatswink.github.io/Dyslexia-PDF-Reader/about) page.
-The project largely uses React, Vite, Zustand, and PDF.js as dependencies to run.
+---
 
-## Get Started
+## ⭐ Getting Started
 
-1. Open the [website](https://threecatswink.github.io/Dyslexia-PDF-Reader/)
-2. Press the folder button
-3. Select the PDF you wish to view
-4. Select your preferred readability settings
-5. Enjoy
+1. **Open** the [website](https://threecatswink.github.io/Dyslexia-PDF-Reader/)
+2. **Press** the **folder button**
+3. **Select** the **PDF** you wish to view
+4. **Press** the **menu button**
+5. **Set** your **preferred readability settings**
+6. **Enjoy** easier reading
 
-## Features
+---
 
-- OpenDyslexic Font Overlay
-- Bolding the first half of every word
-- Making every word's first letter a larger font size (accent)
-- Text-to-Speech
-- Page navigation
-- Zoom navigation
-- Save settings automatically
-- Full ARIA Accessibility
+## 🔍 Demo
+Shown **below** is an **example** of the **different settings** that can be applied to the text.
+<div align="center">
+  <img src="../docs/assets/Example.png" width=950 alt="Example of a text overlay using the quick brown fox jumps over the lazy dog">
+  
+  From top down: Original, OpenDyslexic, OpenDyslexic w/ Half Bold, OpenDyslexic w/ Accent, OpenDyslexic w/ Accent & Half Bold
+</div>
 
-## What It Does
+---
 
-It loads whatever your PDF document is. After enabling Dyslexia mode, the document will be overlaid with OpenDyslexic Font text.
-There are other settings to modify the text further, whether you like having bigger letters at the beginning of the word to help track where you are,
-or maybe you want the first half of the words to be bold to help read faster, this app does all of that, and uses your browser's TTS.
-PWA allows your browser to remember what your preferred settings are so they are right there when you come back.
+## 📜 Principle
 
-## Documentation
+My philosophy/principles as a solo developer is that accessibility tools should be **easily available** to **all people** for **free**.
+- PWA **saves your user settings locally** on your device. 
+- There is **no telemetry or tracking** software used.
+- Your PDF's are **processed on device**.
+- **Nothing is uploaded** to a **third-party**.
+- All open-source and transparent.
+- **No ads**.
+- **No logins**.
+- **No free trials**.
 
-### Access Keys
+---
 
-The toolbar uses a variety of `accesskeys` that allow for quick use of the viewer by the user.
-These include the following (combination of alt, shift, and option may depend on device or browser)
+## 🗝️ Access Keys
 
 > [!NOTE]
-> Combinations of CTRL, ALT, and SHIFT will depend on what browser you are using.
+> Combinations of CTRL, ALT, SHIFT, etc. will depend on what browser you are using.
 
 | Keybind    | Description                                                  |
 | :--------- | :----------------------------------------------------------- |
@@ -54,7 +58,10 @@ These include the following (combination of alt, shift, and option may depend on
 | Access + [ | Presses the _previous page_ button                           |
 | Access + p | Lets you enter a _page number_ to travel to in your document |
 | Access + ] | Presses the _next page_ button                               |
+| Access + r | Toggles Text-To-Speech                                       |
 | Access + - | Presses the _zoom out_ button                                |
 | Access + = | Presses the _zoom in_ button                                 |
 | Access + r | Toggles Text-to-Speech                                       |
 | Access + s | Presses the _viewer settings_ button                         |
+
+---
