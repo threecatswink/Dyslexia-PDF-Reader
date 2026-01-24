@@ -19,15 +19,18 @@ const Overlay = () => {
 
   const textContentCache = useRef<{ page: PDFPageProxy | null; content: TextContent } | null>(null);
 
-  const dyslexiaEnabled = useGlobalStates((s) => s.dyslexiaEnabled);
+  const fontFamily = useGlobalStates((s) => s.fontFamily);
   const halfBoldEnabled = useGlobalStates((s) => s.halfBoldEnabled);
   const accentEnabled = useGlobalStates((s) => s.accentEnabled);
   const settingsVersion = useGlobalStates((s) => s.settingsVersion);
 
+  // Check if dyslexia font is enabled
+  const dyslexiaFontEnabled = fontFamily !== 'default';
+
   // Overlay should render if any feature is enabled or TTS highlight is active
   const ttsHighlightActive = currentWordIndex >= 0 || sentenceWordStart >= 0;
   const shouldRenderOverlay =
-    dyslexiaEnabled || halfBoldEnabled || accentEnabled || ttsHighlightActive;
+    dyslexiaFontEnabled || halfBoldEnabled || accentEnabled || ttsHighlightActive;
 
   const escapeHtml = (s: string) => {
     const div = document.createElement('div');
@@ -70,7 +73,7 @@ const Overlay = () => {
           sentenceWordEnd,
           halfBoldEnabled,
           accentEnabled,
-          openDyslexicEnabled: dyslexiaEnabled,
+          fontFamily,
           escapeHtml,
           textContent: content,
         });
@@ -89,7 +92,7 @@ const Overlay = () => {
     currentWordIndex,
     sentenceWordStart,
     sentenceWordEnd,
-    dyslexiaEnabled,
+    fontFamily,
     halfBoldEnabled,
     accentEnabled,
     shouldRenderOverlay,

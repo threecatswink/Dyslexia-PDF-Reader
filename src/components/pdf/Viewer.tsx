@@ -56,7 +56,7 @@ const Viewer = () => {
 
   const currentPage = useGlobalStates((s) => s.currentPage);
   const currentZoom = useGlobalStates((s) => s.currentZoom);
-  const dyslexiaEnabled = useGlobalStates((s) => s.dyslexiaEnabled);
+  const fontFamily = useGlobalStates((s) => s.fontFamily);
   const halfBoldEnabled = useGlobalStates((s) => s.halfBoldEnabled);
   const accentEnabled = useGlobalStates((s) => s.accentEnabled);
 
@@ -67,7 +67,8 @@ const Viewer = () => {
   const resetPdf = useFileInformation((s) => s.reset);
 
   // Canvas should be hidden when any overlay feature is enabled
-  const overlayActive = dyslexiaEnabled || halfBoldEnabled || accentEnabled;
+  const dyslexiaFontEnabled = fontFamily !== 'default';
+  const overlayActive = dyslexiaFontEnabled || halfBoldEnabled || accentEnabled;
 
   // Load PDF
   useEffect(() => {

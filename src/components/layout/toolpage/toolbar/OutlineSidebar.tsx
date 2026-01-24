@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { ChevronDown, GripVertical } from 'lucide-react';
-import { useFileInformation, type OutlineItem } from '../../states/file-information';
-import { useGlobalStates } from '../../states/global-states';
+import { useFileInformation, type OutlineItem } from '../../../../states/file-information';
+import { useGlobalStates } from '../../../../states/global-states';
 
 type OutlineNodeProps = {
   item: OutlineItem;

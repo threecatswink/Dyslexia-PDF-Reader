@@ -22,7 +22,7 @@ export type RenderOptions = {
   sentenceWordEnd: number;
   halfBoldEnabled: boolean;
   accentEnabled: boolean;
-  openDyslexicEnabled: boolean;
+  fontFamily: 'default' | 'opendyslexic' | 'lexend';
   escapeHtml: (s: string) => string;
   textContent?: TextContent;
 };
@@ -38,7 +38,7 @@ export const renderTextLayer = async ({
   sentenceWordEnd,
   halfBoldEnabled,
   accentEnabled,
-  openDyslexicEnabled,
+  fontFamily,
   escapeHtml,
   textContent,
 }: RenderOptions): Promise<void> => {
@@ -75,7 +75,7 @@ export const renderTextLayer = async ({
     const [x, y] = viewport.convertToViewportPoint(textItem.transform[4], textItem.transform[5]);
 
     const rawSize = Math.abs(textItem.transform[3]) * zoom;
-    const baseScale = openDyslexicEnabled ? 0.53 : 0.83; // preserves prior visual tuning
+    const baseScale = fontFamily !== 'default' ? 0.53 : 0.83; // preserves prior visual tuning
     const fontSize = rawSize * baseScale * overlayFontScale;
 
     span.style.position = 'absolute';
@@ -85,10 +85,12 @@ export const renderTextLayer = async ({
     span.style.lineHeight = '1.5';
     span.style.color = '#000';
     span.style.whiteSpace = 'pre';
-    if (openDyslexicEnabled) {
+    if (fontFamily === 'opendyslexic') {
       span.style.fontFamily = 'OpenDyslexic';
+    } else if (fontFamily === 'lexend') {
+      span.style.fontFamily = 'Lexend';
     } else {
-      // Use a readable sans-serif font when OpenDyslexic is disabled
+      // Use a readable sans-serif font when no dyslexia font is selected
       span.style.fontFamily = 'Arial, sans-serif';
     }
 

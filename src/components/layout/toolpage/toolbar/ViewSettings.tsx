@@ -1,6 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
-import { Popover, PopoverButton, PopoverPanel, Switch } from '@headlessui/react';
-import { Speech, MenuIcon, Heart } from 'lucide-react';
+import {
+  Popover,
+  PopoverButton,
+  PopoverPanel,
+  Switch,
+  Listbox,
+  ListboxButton,
+  ListboxOptions,
+  ListboxOption,
+} from '@headlessui/react';
+import { Speech, MenuIcon, Heart, Check } from 'lucide-react';
 import {
   ButtonStyle,
   SwitchStyle,
@@ -15,8 +24,19 @@ import { useGlobalStates } from '../../../../states/global-states.tsx';
 const ViewSettings = () => {
   const file = useFileInformation((s) => s.file);
 
-  const dyslexiaEnabled = useGlobalStates((s) => s.dyslexiaEnabled);
-  const setDyslexiaEnabled = useGlobalStates((s) => s.setDyslexiaEnabled);
+  const fontFamily = useGlobalStates((s) => s.fontFamily);
+  const setFontFamily = useGlobalStates((s) => s.setFontFamily);
+
+  const fontOptions = [
+    { value: 'default' as const, label: 'Standard', fontFamily: 'inherit' },
+    { value: 'opendyslexic' as const, label: 'OpenDyslexic', fontFamily: 'OpenDyslexic' },
+    { value: 'lexend' as const, label: 'Lexend', fontFamily: 'Lexend' },
+  ];
+
+  const getCurrentFontLabel = () =>
+    fontOptions.find((opt) => opt.value === fontFamily)?.label || 'Standard';
+  const getCurrentFontFamily = () =>
+    fontOptions.find((opt) => opt.value === fontFamily)?.fontFamily || 'inherit';
 
   const halfBoldEnabled = useGlobalStates((s) => s.halfBoldEnabled);
   const setHalfBoldEnabled = useGlobalStates((s) => s.setHalfBoldEnabled);
@@ -26,8 +46,10 @@ const ViewSettings = () => {
 
   const speakEnabled = useGlobalStates((s) => s.speakEnabled);
   const setSpeakEnabled = useGlobalStates((s) => s.setSpeakEnabled);
+
   const overlayFontScale = useGlobalStates((s) => s.overlayFontScale);
   const setOverlayFontScale = useGlobalStates((s) => s.setOverlayFontScale);
+
   const accentSize = useGlobalStates((s) => s.accentSize);
   const setAccentSize = useGlobalStates((s) => s.setAccentSize);
 
@@ -92,26 +114,49 @@ const ViewSettings = () => {
           aria-modal="true"
           aria-labelledby={viewerSettingsLabelId}
           transition
-          className="absolute top-full right-0 z-50 mt-2.5 w-48 origin-top transform rounded border border-zinc-600 bg-zinc-200 p-2 shadow-lg transition duration-200 ease-in-out data-closed:-translate-y-1 data-closed:opacity-0 dark:bg-zinc-700"
+          className="absolute top-full right-0 z-50 mt-2.5 w-48 origin-top transform rounded border border-zinc-700 bg-zinc-200 p-2 shadow-lg transition duration-200 ease-in-out data-closed:-translate-y-1 data-closed:opacity-0 dark:bg-zinc-800"
         >
           <span id={viewerSettingsLabelId} className={`${SettingsSpanStyle} text-sm!`}>
             Viewer Settings
           </span>
           <div aria-hidden="true" className="my-2 h-px bg-zinc-300/80 dark:bg-zinc-600" />
 
+          <span id={openDyslexicLabelId} className={`${SettingsSpanStyle} items-center px-1`}>
+            Font Family
+          </span>
           <div className="flex items-center gap-1 px-1 py-2">
-            <Switch
-              name="dyslexia-mode"
-              checked={dyslexiaEnabled}
-              onChange={(v) => setDyslexiaEnabled(v)}
-              className={SwitchStyle}
-              aria-labelledby={openDyslexicLabelId}
-            >
-              <span aria-hidden="true" className={SwitchKnobStyle} />
-            </Switch>
-            <span id={openDyslexicLabelId} className={SettingsSpanStyle}>
-              OpenDyslexic
-            </span>
+            <Listbox value={fontFamily} onChange={setFontFamily}>
+              <div className="relative">
+                <ListboxButton
+                  className="w-40 rounded border border-zinc-400 bg-zinc-100 px-2 py-1 text-left text-sm dark:border-zinc-600 dark:bg-zinc-700 dark:text-zinc-100"
+                  aria-labelledby={openDyslexicLabelId}
+                  style={{ fontFamily: getCurrentFontFamily() }}
+                >
+                  {getCurrentFontLabel()}
+                </ListboxButton>
+                <ListboxOptions
+                  className="absolute top-full right-0 left-0 z-9999 mt-1 rounded border border-zinc-400 bg-zinc-100 shadow-lg dark:border-zinc-600 dark:bg-zinc-700"
+                  portal={false}
+                >
+                  {fontOptions.map((option) => (
+                    <ListboxOption
+                      key={option.value}
+                      value={option.value}
+                      className="flex cursor-pointer items-center gap-2 px-2 py-1.5 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-600"
+                      style={{ fontFamily: option.fontFamily }}
+                    >
+                      {({ selected }) => (
+                        <>
+                          {selected && <Check className="h-4 w-4" />}
+                          {!selected && <span className="w-4" />}
+                          <span>{option.label}</span>
+                        </>
+                      )}
+                    </ListboxOption>
+                  ))}
+                </ListboxOptions>
+              </div>
+            </Listbox>
           </div>
 
           <div className="flex items-center gap-1 px-1 py-2">
@@ -121,6 +166,7 @@ const ViewSettings = () => {
               onChange={(v) => setHalfBoldEnabled(v)}
               className={SwitchStyle}
               aria-labelledby={halfBoldLabelId}
+              aria-label="Half Bold"
             >
               <span aria-hidden="true" className={SwitchKnobStyle} />
             </Switch>
@@ -137,6 +183,7 @@ const ViewSettings = () => {
               onChange={(v) => setAccentEnabled(v)}
               className={SwitchStyle}
               aria-labelledby={accentLabelId}
+              aria-label="Accent Letters"
             >
               <span aria-hidden="true" className={SwitchKnobStyle} />
             </Switch>
@@ -255,9 +302,7 @@ const ViewSettings = () => {
               aria-label="Sponsor threecatswink"
             >
               <Heart className={SVGStyle} />
-              <span aria-label="Label for sponsor button" className={SettingsSpanStyle}>
-                Sponsor
-              </span>
+              <span className={SettingsSpanStyle}>Sponsor</span>
             </button>
           </div>
         </PopoverPanel>

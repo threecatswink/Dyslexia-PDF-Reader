@@ -10,8 +10,8 @@ export const maxZoom = 6;
 export const minZoom = 0.25;
 
 type GlobalState = {
-  /** Enables the OpenDyslexic font overlay */
-  dyslexiaEnabled: boolean;
+  /** Selected font family for overlay: 'default' | 'opendyslexic' | 'lexend' */
+  fontFamily: 'default' | 'opendyslexic' | 'lexend';
   /** Enables half bolded words */
   halfBoldEnabled: boolean;
   /** Enables increasing font size for the first letter of words. */
@@ -51,8 +51,8 @@ type GlobalState = {
   /** Incremented when any visual setting changes to force overlay rerenders */
   settingsVersion: number;
 
-  /** Sets dyslexiaEnabled to true/false. */
-  setDyslexiaEnabled: (state: boolean) => void;
+  /** Sets fontFamily to selected option. */
+  setFontFamily: (family: 'default' | 'opendyslexic' | 'lexend') => void;
   /** Sets halfBoldEnabled to true/false. */
   setHalfBoldEnabled: (state: boolean) => void;
   /** Sets accentEnabled to true/false. */
@@ -105,7 +105,7 @@ type GlobalState = {
 export const useGlobalStates = create<GlobalState>()(
   persist(
     (set) => ({
-      dyslexiaEnabled: false,
+      fontFamily: 'default',
       halfBoldEnabled: false,
       accentEnabled: false,
       speakEnabled: false,
@@ -126,8 +126,8 @@ export const useGlobalStates = create<GlobalState>()(
       accentSize: 4,
       settingsVersion: 0,
 
-      setDyslexiaEnabled: (dyslexiaEnabled) =>
-        set((s) => ({ dyslexiaEnabled, settingsVersion: s.settingsVersion + 1 })),
+      setFontFamily: (fontFamily) =>
+        set((s) => ({ fontFamily, settingsVersion: s.settingsVersion + 1 })),
       setHalfBoldEnabled: (halfBoldEnabled) =>
         set((s) => ({ halfBoldEnabled, settingsVersion: s.settingsVersion + 1 })),
       setAccentEnabled: (accentEnabled) =>
@@ -207,10 +207,10 @@ export const useGlobalStates = create<GlobalState>()(
     }),
     {
       name: 'global-reader-state',
-      version: 2,
+      version: 3,
 
       partialize: (state) => ({
-        dyslexiaEnabled: state.dyslexiaEnabled,
+        fontFamily: state.fontFamily,
         halfBoldEnabled: state.halfBoldEnabled,
         accentEnabled: state.accentEnabled,
         outlineEnabled: state.outlineEnabled,

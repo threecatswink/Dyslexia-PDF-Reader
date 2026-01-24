@@ -1,7 +1,7 @@
 import Viewer from '../components/pdf/Viewer.tsx';
 import Toolbar from '../components/layout/toolpage/toolbar/Toolbar.tsx';
 import Reader from '../components/layout/toolpage/tts/Reader.tsx';
-import PDFOutlineSidebar from '../components/pdf/PDFOutlineSidebar.tsx';
+import PDFOutlineSidebar from '../components/layout/toolpage/toolbar/OutlineSidebar.tsx';
 import { useGlobalStates } from '../states/global-states.tsx';
 
 function ToolPage() {
@@ -21,9 +21,8 @@ function ToolPage() {
         <div
           style={{
             width: outlineEnabled ? `${sidebarWidth}px` : '0px',
-            overflow: 'hidden',
-            transition: 'width 0.3s ease-in-out',
           }}
+          className="overflow-hidden transition-[width] duration-300 ease-in-out"
         >
           <PDFOutlineSidebar />
         </div>
