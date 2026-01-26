@@ -15,7 +15,7 @@
   "dependencies": {
     "@headlessui/react": "^2.2.9",
     "@tailwindcss/vite": "^4.1.16",
-    "lucide-react": "^0.555.0",
+    "lucide-react": "^0.563.0",
     "pdfjs-dist": "^5.4.530",
     "react": "^19.2.3",
     "react-dom": "^19.1.1",
