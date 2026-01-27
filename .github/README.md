@@ -13,6 +13,11 @@
 ---
 
 ## ⭐ Getting Started
+<div align="center">
+  <img src="../docs/assets/Toolbar-screenshot.png" width=1050 alt="The toolbar of website">
+  
+  | Outline | Folder Button | PDF Title | -------------------- | Last Page | Select | Next Page | --------------------- | Z-Out | Select | Z-In | TTS | Menu |
+</div>
 
 1. **Open** the [website](https://threecatswink.github.io/Dyslexia-PDF-Reader/)
 2. **Press** the **folder button**
