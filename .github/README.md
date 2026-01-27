@@ -32,6 +32,21 @@ Shown **below** is an **example** of the **different settings** that can be appl
 </div>
 
 ---
+## ✨Features
+Despite the AI looking sparkle emoji, **no AI** is involved in this project. Here is a list of features for you.
+- **Standard PDF Viewability** - Has all of the features to browse a PDF, with accessibility in mind.
+- **UI Feedback** - All interactive elements have feedback when you use them/can't use them.
+- **ARIA** - Structured to optimize ARIA compliance for all users.
+- **Multiple Fonts** - Lets the user select between Standard, OpenDyslexic, and Lexend.
+- **Half Bold** - Bolds the first half of each word.
+- **Accent Letter** - Increases the font size of the first letter in a word.
+- **Ruler** - Adds a focus on where your cursor is pointing.
+- **Text-to-Speech** - Allows you to use the in-built TTS in your browser.
+- **Advanced Settings** - Lets you to tweak various settings to your liking.
+- **Saved Settings** - PWA allows your user preferences to be saved on your device so everything stays how you like.
+
+
+---
 
 ## 📜 Principle
 
