@@ -24,11 +24,15 @@
 ---
 
 ## 🔍 Demo
-Shown **below** is an **example** of the **different settings** that can be applied to the text.
+Shown **below** is an **example** of the **different settings** that can be applied to the text. Going from original text, to text overlay, to half bold, to accent, to half bold and accent
 <div align="center">
-  <img src="../docs/assets/Example.png" width=950 alt="Example of a text overlay using the quick brown fox jumps over the lazy dog">
-  
-  From top down: Original, OpenDyslexic, OpenDyslexic w/ Half Bold, OpenDyslexic w/ Accent, OpenDyslexic w/ Accent & Half Bold
+  <img src="../docs/assets/opendyslexic-example.png" width=950 alt="Example of the OpenDyslexic text overlay using the quick brown fox jumps over the lazy dog">
+  Example with OpenDyslexic Font
+
+  <br><br>
+
+  <img src="../docs/assets/lexend-example.png" width=950 alt="Example of the Lexend text overlay using the quick brown fox jumps over the lazy dog">
+  Example with Lexend Font
 </div>
 
 ---
