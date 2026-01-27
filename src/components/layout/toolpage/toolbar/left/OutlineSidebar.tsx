@@ -1,7 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
 import { ChevronDown, GripVertical } from 'lucide-react';
-import { useFileInformation, type OutlineItem } from '../../../../states/file-information';
-import { useGlobalStates } from '../../../../states/global-states';
+import { IconWrapper } from '../../../../icons/IconWrapper.tsx';
+import { useFileInformation, type OutlineItem } from '../../../../../states/file-information.tsx';
+import { useGlobalStates } from '../../../../../states/global-states.tsx';
 
 type OutlineNodeProps = {
   item: OutlineItem;
@@ -35,7 +36,11 @@ const OutlineNode = ({ item, onNavigate, level = 0 }: OutlineNodeProps) => {
             aria-label={isExpanded ? 'Collapse section' : 'Expand section'}
             style={{ transform: isExpanded ? 'rotate(0deg)' : 'rotate(-90deg)' }}
           >
-            <ChevronDown className="h-3 w-3" />
+            <IconWrapper
+              lucideIcon={<ChevronDown />}
+              fallbackName="chevron-down"
+              className="h-3 w-3"
+            />
           </button>
         )}
         {!hasChildren && <div className="w-4" />}
@@ -172,11 +177,15 @@ const PDFOutlineSidebar = () => {
       {/* Resize handle */}
       <div
         ref={resizeHandleRef}
-        className="group pointer-events-auto absolute top-0 right-0 z-50 h-full w-2 cursor-col-resize bg-transparent transition-colors hover:bg-blue-400/40"
+        className="group pointer-events-auto absolute top-0 right-0 z-18 h-full w-2 cursor-col-resize bg-transparent transition-colors hover:bg-blue-400/40"
         title="Drag to resize sidebar"
       >
         <div className="absolute top-1/2 right-1/2 flex h-10 w-6 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded bg-blue-500/60 opacity-0 transition-opacity group-hover:opacity-100 dark:bg-blue-600/60">
-          <GripVertical className="h-3 w-3 text-white" />
+          <IconWrapper
+            lucideIcon={<GripVertical />}
+            fallbackName="grip-vertical"
+            className="h-1 w-1 text-white"
+          />
         </div>
       </div>
     </aside>

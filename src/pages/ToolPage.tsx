@@ -1,7 +1,8 @@
 import Viewer from '../components/pdf/Viewer.tsx';
 import Toolbar from '../components/layout/toolpage/toolbar/Toolbar.tsx';
 import Reader from '../components/layout/toolpage/tts/Reader.tsx';
-import PDFOutlineSidebar from '../components/layout/toolpage/toolbar/OutlineSidebar.tsx';
+import PDFOutlineSidebar from '../components/layout/toolpage/toolbar/left/OutlineSidebar.tsx';
+import RulerOverlay from '../components/layout/toolpage/RulerOverlay.tsx';
 import { useGlobalStates } from '../states/global-states.tsx';
 
 function ToolPage() {
@@ -10,7 +11,7 @@ function ToolPage() {
 
   return (
     <div role="application" aria-label="PDF Reader">
-      <header aria-label="PDF document controls" className="fixed top-0 right-0 left-0 z-50">
+      <header aria-label="PDF document controls" className="fixed top-0 right-0 left-0 z-20">
         <Toolbar />
       </header>
 
@@ -22,7 +23,7 @@ function ToolPage() {
           style={{
             width: outlineEnabled ? `${sidebarWidth}px` : '0px',
           }}
-          className="overflow-hidden transition-[width] duration-300 ease-in-out"
+          className="z-18 overflow-hidden transition-[width] duration-300 ease-in-out"
         >
           <PDFOutlineSidebar />
         </div>
@@ -35,6 +36,8 @@ function ToolPage() {
           <Reader />
         </div>
       </main>
+
+      <RulerOverlay />
     </div>
   );
 }

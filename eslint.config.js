@@ -1,34 +1,37 @@
-import js from '@eslint/js';
 import globals from 'globals';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import tseslint from 'typescript-eslint';
 import prettier from 'eslint-plugin-prettier';
-import prettierConfig from 'eslint-config-prettier';
-import { defineConfig, globalIgnores } from 'eslint/config';
 
-export default defineConfig([
-  globalIgnores(['dist']),
+export default [
+  { ignores: ['dist', 'node_modules', '.vite'] },
 
   {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      js.configs.recommended,
-      tseslint.configs.recommended,
-      reactHooks.configs['recommended-latest'],
-      reactRefresh.configs.vite,
-
-      prettierConfig,
-    ],
+    files: ['**/*.{js,jsx,ts,tsx}'],
+    languageOptions: {
+      ecmaVersion: 2020,
+      sourceType: 'module',
+      globals: globals.browser,
+      parser: tseslint.parser,
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+    },
     plugins: {
+      'react-hooks': reactHooks,
+      'react-refresh': reactRefresh,
+      '@typescript-eslint': tseslint.plugin,
       prettier,
     },
     rules: {
+      ...tseslint.configs.recommended.rules,
+      ...reactHooks.configs.recommended.rules,
+      ...reactRefresh.configs.vite.rules,
       'prettier/prettier': 'error',
-    },
-    languageOptions: {
-      ecmaVersion: 2020,
-      globals: globals.browser,
+      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
     },
   },
-]);
+];

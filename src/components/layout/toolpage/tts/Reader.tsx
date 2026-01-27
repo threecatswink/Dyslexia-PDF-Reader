@@ -1,6 +1,7 @@
 import { Play, Pause, SkipForward, SkipBack } from 'lucide-react';
 import { Button, Transition } from '@headlessui/react';
 import { useCallback, useEffect, useRef } from 'react';
+import { IconWrapper } from '../../../icons/IconWrapper.tsx';
 import { ButtonStyle, SVGStyle } from '../../../../styles/StylePresets.tsx';
 import { useGlobalStates } from '../../../../states/global-states';
 import { tts } from './TTS.tsx';
@@ -146,7 +147,7 @@ const Reader = () => {
             className={ButtonStyle}
             aria-label="Skip backward to the last sentence"
           >
-            <SkipBack className={SVGStyle} />
+            <IconWrapper lucideIcon={<SkipBack />} fallbackName="skip-back" className={SVGStyle} />
           </Button>
 
           <Button
@@ -155,7 +156,11 @@ const Reader = () => {
             aria-pressed={playEnabled}
             aria-label={playEnabled ? 'Pause reading' : 'Start reading'}
           >
-            {playEnabled ? <Pause className={SVGStyle} /> : <Play className={SVGStyle} />}
+            {playEnabled ? (
+              <IconWrapper lucideIcon={<Pause />} fallbackName="pause" className={SVGStyle} />
+            ) : (
+              <IconWrapper lucideIcon={<Play />} fallbackName="play" className={SVGStyle} />
+            )}
           </Button>
 
           <Button
@@ -163,7 +168,11 @@ const Reader = () => {
             className={ButtonStyle}
             aria-label="Skip forward to the next sentence"
           >
-            <SkipForward className={SVGStyle} />
+            <IconWrapper
+              lucideIcon={<SkipForward />}
+              fallbackName="skip-forward"
+              className={SVGStyle}
+            />
           </Button>
         </div>
       </Transition>

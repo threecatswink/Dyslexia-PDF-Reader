@@ -1,8 +1,14 @@
 import { useEffect, useState } from 'react';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
-import { useGlobalStates } from '../../../../states/global-states.tsx';
-import { useFileInformation } from '../../../../states/file-information.tsx';
-import { ButtonStyle, InputStyle, SpanStyle, SVGStyle } from '../../../../styles/StylePresets.tsx';
+import { IconWrapper } from '../../../../icons/IconWrapper.tsx';
+import { useGlobalStates } from '../../../../../states/global-states.tsx';
+import { useFileInformation } from '../../../../../states/file-information.tsx';
+import {
+  ButtonStyle,
+  InputStyle,
+  SpanStyle,
+  SVGStyle,
+} from '../../../../../styles/StylePresets.tsx';
 
 const PageControls = () => {
   const file = useFileInformation((s) => s.file);
@@ -16,7 +22,7 @@ const PageControls = () => {
 
   useEffect(() => {
     setPageInput(currentPage.toString());
-  }, [currentPage, setPageInput]);
+  }, [currentPage]);
 
   return (
     <div
@@ -39,7 +45,11 @@ const PageControls = () => {
         title="Previous Page | Access: ["
         aria-label="Previous Page"
       >
-        <ChevronLeft className={SVGStyle} />
+        <IconWrapper
+          lucideIcon={<ChevronLeft />}
+          fallbackName="chevron-left"
+          className={SVGStyle}
+        />
       </button>
 
       {/* Page Selector */}
@@ -106,7 +116,11 @@ const PageControls = () => {
         title="Next Page | Access: ]"
         aria-label="Next Page"
       >
-        <ChevronRight className={SVGStyle} />
+        <IconWrapper
+          lucideIcon={<ChevronRight />}
+          fallbackName="chevron-right"
+          className={SVGStyle}
+        />
       </button>
     </div>
   );

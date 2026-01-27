@@ -1,8 +1,9 @@
-import { ButtonStyle, SpanStyle, SVGStyle } from '../../../../styles/StylePresets.tsx';
+import { ButtonStyle, SpanStyle, SVGStyle } from '../../../../../styles/StylePresets.tsx';
 import { useRef } from 'react';
 import { FolderOpen, PanelLeft } from 'lucide-react';
-import { useFileInformation } from '../../../../states/file-information.tsx';
-import { useGlobalStates } from '../../../../states/global-states.tsx';
+import { IconWrapper } from '../../../../icons/IconWrapper.tsx';
+import { useFileInformation } from '../../../../../states/file-information.tsx';
+import { useGlobalStates } from '../../../../../states/global-states.tsx';
 
 const FileControls = () => {
   const fileName = useFileInformation((s) => s.fileName);
@@ -30,7 +31,7 @@ const FileControls = () => {
           setOutlineEnabled(!outlineEnabled);
         }}
       >
-        <PanelLeft className={SVGStyle} />
+        <IconWrapper lucideIcon={<PanelLeft />} fallbackName="panel-left" className={SVGStyle} />
       </button>
       {/* Open File */}
       <button
@@ -40,7 +41,7 @@ const FileControls = () => {
         className={ButtonStyle}
         onClick={() => fileInputRef.current?.click()}
       >
-        <FolderOpen className={SVGStyle} />
+        <IconWrapper lucideIcon={<FolderOpen />} fallbackName="folder-open" className={SVGStyle} />
       </button>
 
       {/* File Input */}

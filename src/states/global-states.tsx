@@ -22,6 +22,8 @@ type GlobalState = {
   outlineEnabled: boolean;
   /** Width of the PDF outline sidebar in pixels. */
   sidebarWidth: number;
+  /** Enables the reading ruler guide. */
+  rulerEnabled: boolean;
   /** Current page number. */
   currentPage: number;
   /** Current zoom number (float typically in increments of 0.25). */
@@ -63,6 +65,8 @@ type GlobalState = {
   setOutlineEnabled: (state: boolean) => void;
   /** Sets sidebarWidth in pixels. */
   setSidebarWidth: (width: number) => void;
+  /** Sets rulerEnabled to true/false. */
+  setRulerEnabled: (state: boolean) => void;
   /** Set playEnabled to true/false. */
   setPlayEnabled: (state: boolean) => void;
   /** Sets the currentSentenceIndex. */
@@ -111,6 +115,7 @@ export const useGlobalStates = create<GlobalState>()(
       speakEnabled: false,
       outlineEnabled: true,
       sidebarWidth: 256,
+      rulerEnabled: false,
       playEnabled: false,
       currentPage: 1,
       currentZoom: 1,
@@ -135,6 +140,7 @@ export const useGlobalStates = create<GlobalState>()(
       setSpeakEnabled: (speakEnabled) => set({ speakEnabled }),
       setOutlineEnabled: (outlineEnabled) => set({ outlineEnabled }),
       setSidebarWidth: (sidebarWidth) => set({ sidebarWidth }),
+      setRulerEnabled: (rulerEnabled) => set({ rulerEnabled }),
       setPlayEnabled: (playEnabled) => set({ playEnabled }),
       setCurrentSentenceIndex: (currentSentenceIndex) => set({ currentSentenceIndex }),
       setCurrentWordIndex: (currentWordIndex) => set({ currentWordIndex }),
@@ -213,6 +219,7 @@ export const useGlobalStates = create<GlobalState>()(
         fontFamily: state.fontFamily,
         halfBoldEnabled: state.halfBoldEnabled,
         accentEnabled: state.accentEnabled,
+        rulerEnabled: state.rulerEnabled,
         outlineEnabled: state.outlineEnabled,
         sidebarWidth: state.sidebarWidth,
         overlayFontScale: state.overlayFontScale,

@@ -1,7 +1,7 @@
-import FileControls from './FileControls.tsx';
-import PageControls from './PageControls.tsx';
-import ZoomControls from './ZoomControls.tsx';
-import ViewSettings from './ViewSettings.tsx';
+import FileControls from './left/FileControls.tsx';
+import PageControls from './center/PageControls.tsx';
+import ZoomControls from './right/ZoomControls.tsx';
+import ViewSettings from './right/ViewSettings.tsx';
 const Toolbar = () => {
   return (
     <div

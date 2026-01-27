@@ -1,7 +1,8 @@
 import { ZoomOut, ZoomIn } from 'lucide-react';
-import { useGlobalStates, minZoom, maxZoom } from '../../../../states/global-states.tsx';
-import { useFileInformation } from '../../../../states/file-information.tsx';
-import { ButtonStyle, InputStyle, SVGStyle } from '../../../../styles/StylePresets.tsx';
+import { IconWrapper } from '../../../../icons/IconWrapper.tsx';
+import { useGlobalStates, minZoom, maxZoom } from '../../../../../states/global-states.tsx';
+import { useFileInformation } from '../../../../../states/file-information.tsx';
+import { ButtonStyle, InputStyle, SVGStyle } from '../../../../../styles/StylePresets.tsx';
 
 const ZoomControls = () => {
   const file = useFileInformation((s) => s.file);
@@ -33,7 +34,7 @@ const ZoomControls = () => {
         title="Zoom Out | Access: -"
         aria-label="Zoom Out"
       >
-        <ZoomOut className={SVGStyle} />
+        <IconWrapper lucideIcon={<ZoomOut />} fallbackName="zoom-out" className={SVGStyle} />
       </button>
 
       {/* Zoom Selector */}
@@ -71,7 +72,7 @@ const ZoomControls = () => {
         title="Zoom In | Access: ="
         aria-label="Zoom In"
       >
-        <ZoomIn className={SVGStyle} />
+        <IconWrapper lucideIcon={<ZoomIn />} fallbackName="zoom-in" className={SVGStyle} />
       </button>
     </div>
   );
