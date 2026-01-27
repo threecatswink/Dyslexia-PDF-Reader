@@ -49,6 +49,7 @@ const processOutlineItems = async (
 
 const Viewer = () => {
   const file = useFileInformation((s) => s.file);
+  const setFile = useFileInformation((s) => s.setFile);
   const setTotalPages = useFileInformation((s) => s.setTotalPages);
   const setOutline = useFileInformation((s) => s.setOutline);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -56,6 +57,7 @@ const Viewer = () => {
 
   const currentPage = useGlobalStates((s) => s.currentPage);
   const currentZoom = useGlobalStates((s) => s.currentZoom);
+  const reset = useGlobalStates((s) => s.reset);
   const fontFamily = useGlobalStates((s) => s.fontFamily);
   const halfBoldEnabled = useGlobalStates((s) => s.halfBoldEnabled);
   const accentEnabled = useGlobalStates((s) => s.accentEnabled);
@@ -131,12 +133,48 @@ const Viewer = () => {
     });
   }, [currentZoom, viewport]);
 
+  // Handle drag and drop
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    e.dataTransfer.dropEffect = 'copy';
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const droppedFile = e.dataTransfer.files?.[0];
+    if (droppedFile && droppedFile.type === 'application/pdf') {
+      setFile(droppedFile);
+      reset();
+    }
+  };
+
+  // Prevent browser default file handling at document level
+  useEffect(() => {
+    const preventDefaults = (e: DragEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+    };
+
+    document.addEventListener('dragover', preventDefaults);
+    document.addEventListener('drop', preventDefaults);
+
+    return () => {
+      document.removeEventListener('dragover', preventDefaults);
+      document.removeEventListener('drop', preventDefaults);
+    };
+  }, []);
+
   return (
     <div
       ref={scrollContainerRef}
       className="relative h-full w-full overflow-auto"
       role="region"
       aria-label="PDF page container"
+      onDragOver={handleDragOver}
+      onDrop={handleDrop}
     >
       {viewport && (
         <div
