@@ -1,8 +1,8 @@
 import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/react';
 import { Check } from 'lucide-react';
-import { IconWrapper } from '../../../../../icons/IconWrapper.tsx';
-import { SettingsSpanStyle } from '../../../../../../styles/StylePresets.tsx';
-import { useGlobalStates } from '../../../../../../states/global-states.tsx';
+import { IconWrapper } from '../../../../../icons/IconWrapper';
+import { SettingsSpanStyle } from '../../../../../../styles/StylePresets';
+import { useGlobalStates } from '../../../../../../states/global-states';
 
 const FontList = () => {
   const fontFamily = useGlobalStates((s) => s.fontFamily);

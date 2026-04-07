@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useGlobalStates } from '../../../states/global-states.tsx';
+import { useGlobalStates } from '../../../states/global-states';
 
 const RulerOverlay = () => {
   const rulerEnabled = useGlobalStates((s) => s.rulerEnabled);

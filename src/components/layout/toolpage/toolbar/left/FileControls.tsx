@@ -1,9 +1,9 @@
-import { ButtonStyle, SpanStyle, SVGStyle } from '../../../../../styles/StylePresets.tsx';
+import { ButtonStyle, SpanStyle, SVGStyle } from '../../../../../styles/StylePresets';
 import { useRef } from 'react';
 import { FolderOpen, PanelLeft } from 'lucide-react';
-import { IconWrapper } from '../../../../icons/IconWrapper.tsx';
-import { useFileInformation } from '../../../../../states/file-information.tsx';
-import { useGlobalStates } from '../../../../../states/global-states.tsx';
+import { IconWrapper } from '../../../../icons/IconWrapper';
+import { useFileInformation } from '../../../../../states/file-information';
+import { useGlobalStates } from '../../../../../states/global-states';
 
 const FileControls = () => {
   const fileName = useFileInformation((s) => s.fileName);

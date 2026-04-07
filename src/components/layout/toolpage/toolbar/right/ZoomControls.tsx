@@ -1,8 +1,8 @@
 import { ZoomOut, ZoomIn } from 'lucide-react';
-import { IconWrapper } from '../../../../icons/IconWrapper.tsx';
-import { useGlobalStates, minZoom, maxZoom } from '../../../../../states/global-states.tsx';
-import { useFileInformation } from '../../../../../states/file-information.tsx';
-import { ButtonStyle, InputStyle, SVGStyle } from '../../../../../styles/StylePresets.tsx';
+import { IconWrapper } from '../../../../icons/IconWrapper';
+import { useGlobalStates, minZoom, maxZoom } from '../../../../../states/global-states';
+import { useFileInformation } from '../../../../../states/file-information';
+import { ButtonStyle, InputStyle, SVGStyle } from '../../../../../styles/StylePresets';
 
 const ZoomControls = () => {
   const file = useFileInformation((s) => s.file);

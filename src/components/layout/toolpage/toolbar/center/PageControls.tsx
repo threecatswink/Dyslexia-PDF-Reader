@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
-import { IconWrapper } from '../../../../icons/IconWrapper.tsx';
-import { useGlobalStates } from '../../../../../states/global-states.tsx';
-import { useFileInformation } from '../../../../../states/file-information.tsx';
+import { IconWrapper } from '../../../../icons/IconWrapper';
+import { useGlobalStates } from '../../../../../states/global-states';
+import { useFileInformation } from '../../../../../states/file-information';
 import {
   ButtonStyle,
   InputStyle,

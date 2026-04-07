@@ -3,8 +3,8 @@ import {
   SwitchStyle,
   SwitchKnobStyle,
   SettingsSpanStyle,
-} from '../../../../../../styles/StylePresets.tsx';
-import { useGlobalStates } from '../../../../../../states/global-states.tsx';
+} from '../../../../../../styles/StylePresets';
+import { useGlobalStates } from '../../../../../../states/global-states';
 
 const RulerToggle = () => {
   const rulerEnabled = useGlobalStates((s) => s.rulerEnabled);

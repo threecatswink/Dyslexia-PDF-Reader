@@ -1,16 +1,16 @@
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/react';
 import { Speech, MenuIcon } from 'lucide-react';
-import { IconWrapper } from '../../../../icons/IconWrapper.tsx';
-import { ButtonStyle, SettingsSpanStyle, SVGStyle } from '../../../../../styles/StylePresets.tsx';
-import { useFileInformation } from '../../../../../states/file-information.tsx';
-import { useGlobalStates } from '../../../../../states/global-states.tsx';
+import { IconWrapper } from '../../../../icons/IconWrapper';
+import { ButtonStyle, SettingsSpanStyle, SVGStyle } from '../../../../../styles/StylePresets';
+import { useFileInformation } from '../../../../../states/file-information';
+import { useGlobalStates } from '../../../../../states/global-states';
 
-import FontList from '../settings/viewer/FontListBox.tsx';
-import HalfBoldToggle from '../settings/viewer/HalfBoldSwitch.tsx';
-import AccentLetterToggle from '../settings/viewer/AccentLetterSwitch.tsx';
-import TextSettings from '../settings/advanced/TextSettings.tsx';
-import Ruler from '../settings/viewer/RulerSwitch.tsx';
-import SponsorButton from '../settings/SponsorButton.tsx';
+import FontList from '../settings/viewer/FontListBox';
+import HalfBoldToggle from '../settings/viewer/HalfBoldSwitch';
+import AccentLetterToggle from '../settings/viewer/AccentLetterSwitch';
+import TextSettings from '../settings/advanced/TextSettings';
+import Ruler from '../settings/viewer/RulerSwitch';
+import SponsorButton from '../settings/SponsorButton';
 
 const ViewSettings = () => {
   const file = useFileInformation((s) => s.file);

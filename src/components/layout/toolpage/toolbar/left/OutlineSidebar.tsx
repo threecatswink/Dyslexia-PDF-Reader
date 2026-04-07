@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
 import { ChevronDown, GripVertical } from 'lucide-react';
-import { IconWrapper } from '../../../../icons/IconWrapper.tsx';
-import { useFileInformation, type OutlineItem } from '../../../../../states/file-information.tsx';
-import { useGlobalStates } from '../../../../../states/global-states.tsx';
+import { IconWrapper } from '../../../../icons/IconWrapper';
+import { useFileInformation, type OutlineItem } from '../../../../../states/file-information';
+import { useGlobalStates } from '../../../../../states/global-states';
 
 type OutlineNodeProps = {
   item: OutlineItem;

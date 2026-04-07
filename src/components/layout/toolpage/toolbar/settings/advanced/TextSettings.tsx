@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { SettingsSpanStyle, InputStyle } from '../../../../../../styles/StylePresets.tsx';
-import { useGlobalStates } from '../../../../../../states/global-states.tsx';
+import { SettingsSpanStyle, InputStyle } from '../../../../../../styles/StylePresets';
+import { useGlobalStates } from '../../../../../../states/global-states';
 
 const TextSettings = () => {
   const overlayFontScale = useGlobalStates((s) => s.overlayFontScale);

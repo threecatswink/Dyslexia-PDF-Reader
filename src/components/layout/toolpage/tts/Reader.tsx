@@ -1,11 +1,11 @@
 import { Play, Pause, SkipForward, SkipBack } from 'lucide-react';
 import { Button, Transition } from '@headlessui/react';
 import { useCallback, useEffect, useRef } from 'react';
-import { IconWrapper } from '../../../icons/IconWrapper.tsx';
-import { ButtonStyle, SVGStyle } from '../../../../styles/StylePresets.tsx';
+import { IconWrapper } from '../../../icons/IconWrapper';
+import { ButtonStyle, SVGStyle } from '../../../../styles/StylePresets';
 import { useGlobalStates } from '../../../../states/global-states';
 import { tts } from './TTS.tsx';
-import { useFileInformation } from '../../../../states/file-information.tsx';
+import { useFileInformation } from '../../../../states/file-information';
 
 const Reader = () => {
   const playEnabled = useGlobalStates((s) => s.playEnabled);

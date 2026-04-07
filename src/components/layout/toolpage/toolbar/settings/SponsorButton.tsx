@@ -1,6 +1,6 @@
-import { ButtonStyle } from '../../../../../styles/StylePresets.tsx';
-import { SettingsSpanStyle, SVGStyle } from '../../../../../styles/StylePresets.tsx';
-import { IconWrapper } from '../../../../icons/IconWrapper.tsx';
+import { ButtonStyle } from '../../../../../styles/StylePresets';
+import { SettingsSpanStyle, SVGStyle } from '../../../../../styles/StylePresets';
+import { IconWrapper } from '../../../../icons/IconWrapper';
 import { Heart } from 'lucide-react';
 
 const SponsorButton = () => {

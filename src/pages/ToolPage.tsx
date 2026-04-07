@@ -1,9 +1,9 @@
-import Viewer from '../components/pdf/Viewer.tsx';
-import Toolbar from '../components/layout/toolpage/toolbar/Toolbar.tsx';
-import Reader from '../components/layout/toolpage/tts/Reader.tsx';
-import PDFOutlineSidebar from '../components/layout/toolpage/toolbar/left/OutlineSidebar.tsx';
-import RulerOverlay from '../components/layout/toolpage/RulerOverlay.tsx';
-import { useGlobalStates } from '../states/global-states.tsx';
+import Viewer from '../components/pdf/Viewer';
+import Toolbar from '../components/layout/toolpage/toolbar/Toolbar';
+import Reader from '../components/layout/toolpage/tts/Reader';
+import PDFOutlineSidebar from '../components/layout/toolpage/toolbar/left/OutlineSidebar';
+import RulerOverlay from '../components/layout/toolpage/RulerOverlay';
+import { useGlobalStates } from '../states/global-states';
 
 function ToolPage() {
   const outlineEnabled = useGlobalStates((s) => s.outlineEnabled);

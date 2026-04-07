@@ -1,8 +1,8 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { useFileInformation } from './file-information.tsx';
+import { useFileInformation } from './file-information';
 import type { PDFPageProxy } from 'pdfjs-dist/types/src/display/api';
-import type { PDFTextItem } from '../components/pdf/TextHelper.tsx';
+import type { PDFTextItem } from '../components/pdf/TextHelper';
 
 /** The maximum possible zoom value. */
 export const maxZoom = 6;
